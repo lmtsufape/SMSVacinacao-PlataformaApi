@@ -14,8 +14,9 @@ class AgentesTableSeeder extends Seeder
         //
 
         DB::table('agentes')->insert([  // 1
-            'cpf' => 10818110481,
-            'senha' => '12345678',
+            'email' => 'luancsl95@gmail.com',
+            'cpf' => '10818110481',
+            'password' => bcrypt('12345678'),
             'nome' => 'Fulando',
             'cidade' => 'garanhuns',
             'uf' => 'PE',

@@ -9,10 +9,11 @@ class Unidade extends Model
     //
 
     protected $fillable = [
-        'id', 'nome', 'rua', 'num', 'bairro', 'cidade', 'uf', 'cep', 'lat', 'lng',
+        'id', 'nome', 'rua', 'num', 'bairro', 'cidade', 'uf', 'cep', 'complemento', 'lat', 'lng',
     ];
 
-    public function campanhas(){
+    public function campanhas()
+    {
         return $this->belongsToMany('App\Campanha')->withTimestamps();
     }
 }

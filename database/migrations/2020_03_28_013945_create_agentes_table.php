@@ -14,12 +14,15 @@ class CreateAgentesTable extends Migration
     public function up()
     {
         Schema::create('agentes', function (Blueprint $table) {
-            $table->unsignedBigInteger('cpf')->unique();
+            $table->id();
+            $table->string('cpf')->unique();
+            $table->string('email')->unique();
             $table->string('nome');
-            $table->string('senha');
+            $table->string('password');
             $table->string('cidade');
             $table->string('uf');
             $table->rememberToken();
+            $table->timestamp('email_verified_at')->nullable();
             $table->timestamps();
         });
     }

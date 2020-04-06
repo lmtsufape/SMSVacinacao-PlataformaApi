@@ -28,7 +28,9 @@
 </footer>
 
 <script>
-    feather.replace()
+    feather.replace({
+        stroke: '#808080'
+    })
 </script>
 
 </html>

@@ -15,8 +15,8 @@ class CampanhasPacientesTableSeeder extends Seeder
 
         DB::table('campanhas_pacientes')->insert([  // 1
             'campanha_id' => 2,
-            'paciente_cns' => 1231231232,
-            'agente_cpf' => '10818110481',
+            'paciente_cns' => '1231231232',
+            'agente_id' => 1,
             'vacinado' => false,
             'data_time' => new DateTime('now'),
         ]);

@@ -23,6 +23,7 @@ class CreateUnidadesTable extends Migration
             $table->string('cidade');
             $table->string('uf');
             $table->string('cep');
+            $table->string('complemento');
             $table->float('lat');
             $table->float('lng');
         });

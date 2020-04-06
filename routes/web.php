@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -27,6 +29,7 @@ Route::delete('paciente/{cns?}', 'PacienteController@delete');
 /* CRUD Unidade */
 
 Route::get('unidade/teste', 'UnidadeController@teste');
+Route::get('unidade/add', 'UnidadeController@add');
 Route::get('unidade/editform/{id}', 'UnidadeController@editForm');
 Route::get('unidade/{id?}', 'UnidadeController@list');
 Route::post('unidade', 'UnidadeController@create');
@@ -47,3 +50,6 @@ Route::get('campanha/{cpf?}', 'CampanhaController@list');
 Route::post('campanha', 'CampanhaController@create');
 Route::put('campanha', 'CampanhaController@edit');
 Route::delete('campanha/{cpf?}', 'CampanhaController@delete');
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

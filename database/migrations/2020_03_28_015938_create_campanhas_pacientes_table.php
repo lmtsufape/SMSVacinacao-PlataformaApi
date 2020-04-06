@@ -16,14 +16,14 @@ class CreateCampanhasPacientesTable extends Migration
         Schema::create('campanhas_pacientes', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('campanha_id');
-            $table->unsignedBigInteger('paciente_cns');
-            $table->unsignedBigInteger('agente_cpf')->nullable();
+            $table->string('paciente_cns');
+            $table->unsignedBigInteger('agente_id')->nullable();
             $table->boolean('vacinado')->nullable();
             $table->dateTime('data_time')->nullable();
 
             $table->foreign('campanha_id')->references('id')->on('campanhas');
             $table->foreign('paciente_cns')->references('cns')->on('pacientes');
-            $table->foreign('agente_cpf')->references('cpf')->on('agentes');
+            $table->foreign('agente_id')->references('id')->on('agentes');
 
             $table->timestamps();
         });

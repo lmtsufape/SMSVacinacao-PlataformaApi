@@ -1,66 +1,97 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Http\Request;
 
 class PacienteController extends Controller
 {
     //
 
-    public function list(Request $request, $cns = false){
-       
-        if($cns !== false){
+    public function list(Request $request, $cns = false)
+    {
+
+        if ($cns !== false) {
             $paciente = \App\Paciente::find($cns);
 
-            return $paciente; 
+            return $paciente;
         }
 
         $paciente = \App\Paciente::all();
 
-        return $paciente; 
-        
+        if ($request->json === 'true') {
+            return $paciente;
+        }
+
+        return view('paciente.list')->with('objs', $paciente);
     }
 
-    public function create(Request $request){
+    public function add()
+    {
+        return view('paciente.add');
+    }
 
-        $dadosPaciente = $request->only(['cns', 'nome', 'nasc', 'rua', 'num', 'bairro', 'cidade', 'uf', 'cep', 'lat', 'lon']);
+    public function create(Request $request)
+    {
+
+        $dadosPaciente = $request->only(['cns', 'nome', 'nasc', 'tel', 'rua', 'num', 'complemento', 'bairro', 'cidade', 'uf', 'cep', 'lat', 'lng']);
         $paciente = \App\Paciente::create($dadosPaciente);
-        
-        return $dadosPaciente; 
+
+        if ($request->json === 'true') {
+            return $paciente;
+        }
+
+        return redirect()->action('PacienteController@list');
     }
 
-    public function edit(Request $request){
+    public function editForm($cns)
+    {
 
-        $dadosPaciente = $request->only(['cns', 'nome', 'nasc', 'rua', 'num', 'bairro', 'cidade', 'uf', 'cep', 'lat', 'lon']);
+        $pacienteEdit = \App\Paciente::find($cns);
+
+        return view('paciente.edit')->with('obj', $pacienteEdit);
+    }
+
+    public function edit(Request $request)
+    {
+        $updatingPaciente = '';
+        $dadosPaciente = $request->only(['cns', 'nome', 'nasc', 'tel', 'rua', 'num', 'complemento', 'bairro', 'cidade', 'uf', 'cep', 'lat', 'lng']);
         $paciente = \App\Paciente::find($dadosPaciente['cns']);
 
-        if($paciente !== null){
+        if ($paciente !== null) {
             $updatingPaciente = \App\Paciente::updateOrCreate(['cns' => $dadosPaciente['cns']], $dadosPaciente);
+        } else {
+            $updatingPaciente = 'not found';
+        }
+
+        if ($request->json === 'true') {
             return $updatingPaciente;
         }
 
-        return 'not found';
+        return redirect()->action('PacienteController@list');
     }
 
-    public function delete(Request $request, $cns = false){
+    public function delete(Request $request, $cns = false)
+    {
         $paciente = '';
-        
-        if($cns !== false){
+
+        if ($cns !== false) {
             $paciente = \App\Paciente::find($cns);
-        }else{
+        } else {
             $dadosPaciente = $request->only(['cns']);
             $paciente = \App\Paciente::find($dadosPaciente['cns']);
         }
-        
-        if($paciente !== null){
+
+        if ($paciente !== null) {
             $paciente->delete();
-            return 'success';
+        } else {
+            $paciente = 'not found';
         }
 
-        return 'not found';
-        
+        if ($request->json === 'true') {
+            return $paciente;
+        }
+
+        return redirect()->action('PacienteController@list');
     }
-        
-        
-        
 }

@@ -1,5 +1,21 @@
 @extends('layouts.app')
 
+
+@push('scripts')
+<script>
+    $(document).ready(function($) {
+
+        $("#cep").mask('99999-999', {
+            placeholder: "_____-___"
+        });
+
+        $('#form').submit(function() {
+            $('.unmask').unmask();
+        });
+    });
+</script>
+@endpush
+
 @section('content')
 
 <div>
@@ -19,7 +35,7 @@
                 <div class="form-row">
                     <div class="form-group col-md-2">
                         <label for="cep">CEP</label>
-                        <input type="text" class="form-control" id="cep" placeholder="CEP" name="cep" value="{{$und->cep}}">
+                        <input type="text" class="form-control unmask" id="cep" placeholder="CEP" name="cep" value="{{$und->cep}}">
                     </div>
                     <div class="form-group col-md-4">
                         <label for="bairro">Bairro</label>
@@ -70,7 +86,7 @@
                     </div>
                     <div class="form-group col-md-2">
                         <label for="num">Número</label>
-                        <input type="text" class="form-control" id="num" placeholder="Numero" name="num" value="{{$und->num}}">
+                        <input type="number" class="form-control" id="num" placeholder="Numero" name="num" value="{{$und->num}}">
                     </div>
                     <div class="form-group col-md-3">
                         <label for="complemento">Complemento</label>
@@ -84,11 +100,11 @@
                 <div class="form-row">
                     <div class="form-group col-md-2">
                         <label for="lat">Latitude</label>
-                        <input type="text" class="form-control" id="lat" placeholder="Latitude" name="lat" value="{{$und->lat}}">
+                        <input type="number" class="form-control" id="lat" placeholder="Latitude" name="lat" value="{{$und->lat}}">
                     </div>
                     <div class="form-group col-md-2">
                         <label for="lng">Longitude</label>
-                        <input type="text" class="form-control" id="lng" placeholder="Longitude" name="lng" value="{{$und->lng}}">
+                        <input type="number" class="form-control" id="lng" placeholder="Longitude" name="lng" value="{{$und->lng}}">
                     </div>
                 </div>
             </div>
@@ -97,4 +113,5 @@
         </form>
     </div>
 </div>
+@stack('scripts')
 @stop

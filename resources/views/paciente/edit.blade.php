@@ -1,10 +1,15 @@
 @extends('layouts.app')
 
-
 @push('scripts')
 <script>
     $(document).ready(function($) {
-
+        $("#tel").mask('(99)99999-9999', {
+            reverse: false,
+            placeholder: "(__)_____-____"
+        });
+        $('#cns').mask('999 9999 9999 9999', {
+            placeholder: "___ ____ ____ ____"
+        })
         $("#cep").mask('99999-999', {
             placeholder: "_____-___"
         });
@@ -19,35 +24,41 @@
 @section('content')
 
 <div>
-    <h1 class="d-flex justify-content-center h2 pt-4">Cadastrar Nova Unidade</h1>
+    <h1 class="d-flex justify-content-center h2 pt-4">Editar Paciente</h1>
     <div class="d-flex justify-content-center flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <form method="POST" action="{{action('UnidadeController@create')}}">
-            @method('post')
+        <form method="POST" action="{{action('PacienteController@edit')}}">
+            @method('put')
             @csrf
             <div class="form-group">
                 <div class="form-row">
+                    <label for="cns">CNS</label>
+                    <input type="text" class="form-control unmask" id="cns" placeholder="cns" name="cns" value="{{$obj->cns}}">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="form-row">
                     <label for="nome">Nome</label>
-                    <input type="text" class="form-control" id="nome" placeholder="Nome" name="nome">
+                    <input type="text" class="form-control" id="nome" placeholder="Nome" name="nome" value="{{$obj->nome}}">
                 </div>
             </div>
             <div class="form-group">
                 <div class="form-row">
                     <div class="form-group col-md-2">
                         <label for="cep">CEP</label>
-                        <input type="text" class="form-control unmask" id="cep" placeholder="CEP" name="cep">
+                        <input type="text" class="form-control unmask" id="cep" placeholder="CEP" name="cep" value="{{$obj->cep}}">
                     </div>
                     <div class="form-group col-md-4">
                         <label for="bairro">Bairro</label>
-                        <input type="text" class="form-control" id="bairro" placeholder="Bairro" name="bairro">
+                        <input type="text" class="form-control" id="bairro" placeholder="Bairro" name="bairro" value="{{$obj->bairro}}">
                     </div>
                     <div class="form-group col-md-3">
                         <label for="cidade">Cidade</label>
-                        <input type="text" class="form-control" id="cidade" placeholder="Cidade" name="cidade">
+                        <input type="text" class="form-control" id="cidade" placeholder="Cidade" name="cidade" value="{{$obj->cidade}}">
                     </div>
                     <div class="form-group col-md-2">
                         <label for="uf">UF</label>
                         <select id="uf" class="form-control" name="uf">
-                            <option @if(old('uf')=='PE' ) selected @endif value="PE">PE</option>
+                            <option selected="selected" value="{{$obj->uf}}">{{$obj->uf}}</option>
                             <option @if(old('uf')=='AC' ) selected @endif value="AC">AC</option>
                             <option @if(old('uf')=='AL' ) selected @endif value="AL">AL</option>
                             <option @if(old('uf')=='AP' ) selected @endif value="AP">AP</option>
@@ -81,34 +92,44 @@
                 <div class="form-row">
                     <div class="form-group col-md-5">
                         <label for="rua">Rua</label>
-                        <input type="text" class="form-control" id="rua" placeholder="Rua" name="rua">
+                        <input type="text" class="form-control" id="rua" placeholder="Rua" name="rua" value="{{$obj->rua}}">
                     </div>
                     <div class="form-group col-md-2">
                         <label for="num">Número</label>
-                        <input type="text" class="form-control" id="num" placeholder="Numero" name="num">
+                        <input type="number" class="form-control" id="num" placeholder="Numero" name="num" value="{{$obj->num}}">
                     </div>
                     <div class="form-group col-md-3">
                         <label for="complemento">Complemento</label>
-                        @if(isset($und->complemento))
-                        <input type="text" class="form-control" id="complemento" placeholder="Complemento" name="complemento">
+                        @if(isset($obj->complemento))
+                        <input type="text" class="form-control" id="complemento" placeholder="Complemento" name="complemento" value="{{$obj->complemento}}">
                         @else
                         <input type="text" class="form-control" id="complemento" placeholder="Complemento" name="complemento" value="">
                         @endif
                     </div>
                 </div>
                 <div class="form-row">
-                    <div class="form-group col-md-2">
-                        <label for="lat">Latitude</label>
-                        <input type="text" class="form-control" id="lat" placeholder="Latitude" name="lat">
+                    <div class="form-group col-md-3">
+                        <label for="nasc">Data de Nascimento</label>
+                        <input type="date" class="form-control" id="nasc" placeholder="Data de Nascimento" name="nasc" value="{{$obj->nasc}}">
                     </div>
-                    <div class="form-group col-md-2">
+                    <div class="form-group col-md-4">
+                        <label for="tel">Telefone</label>
+                        <input type="text" class="form-control unmask" id="tel" placeholder="Telefone" name="tel" value="{{$obj->tel}}">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                        <label for="lat">Latitude</label>
+                        <input type="number" class="form-control" id="lat" placeholder="Latitude" name="lat" value="{{$obj->lat}}">
+                    </div>
+                    <div class="form-group col-md-3">
                         <label for="lng">Longitude</label>
-                        <input type="text" class="form-control" id="lng" placeholder="Longitude" name="lng">
+                        <input type="number" class="form-control" id="lng" placeholder="Longitude" name="lng" value="{{$obj->lng}}">
                     </div>
                 </div>
             </div>
-            <a href="{{action('UnidadeController@list')}}" class="btn btn-dark">Cancelar</a>
-            <button type="submit" class="btn btn-success">Cadastrar</button>
+            <a href="{{action('PacienteController@list')}}" class="btn btn-dark">Cancelar</a>
+            <button type="submit" class="btn btn-success">Salvar</button>
         </form>
     </div>
 </div>

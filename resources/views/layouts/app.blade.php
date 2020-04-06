@@ -13,10 +13,11 @@
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
     <script type="text/javascript" src="{{ asset('js/jquery-3.4.1.min.js') }}" charset="UTF-8"></script>
-    <script type="text/javascript" src="{{ asset('js/jquery-mask-plugin.js') }}" charset="UTF-8"></script>
+    <script type="text/javascript" src="{{ asset('js/jquery.mask.min.js') }}" charset="UTF-8"></script>
     <script type="text/javascript" src="{{ asset('dataTable/jquery.dataTables.min.js') }}" charset="UTF-8"></script>
     <script type="text/javascript" src="{{ asset('dataTable/dataTables.bootstrap4.min.js') }}" charset="UTF-8"></script>
-    <script src="/js/feather.js"></script>
+    <script src="{{ asset('js/feather.js') }}"></script>
+    <script src="{{ asset('js/fontawesome-all.min.js') }}"></script>
 
     <script type="text/javascript" class="init">
         $(document).ready(function($) {
@@ -29,9 +30,10 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     @section('style')
-        <!-- Styles -->
-        <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-        <link href="{{ asset('dataTable/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+    <!-- Styles -->
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/fontawesome-all.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('dataTable/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
     @show
 </head>
 
@@ -43,7 +45,7 @@
                     {{ config('app.name', 'Laravel') }}
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon"></span>
+                    <i class="navbar-toggler-icon"></i>
                 </button>
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -66,32 +68,38 @@
 
                         <li class="nav-item d-md-none">
                             <a class="nav-link active" href="dashboard">
-                                <span data-feather="home"></span>
-                                Dashboard <span class="sr-only">(current)</span>
+                                <i class="fas fa-chart-bar  fa-lg "></i>
+                                Relatórios
                             </a>
                         </li>
                         <li class="nav-item d-md-none">
                             <a class="nav-link" href="{{action('UnidadeController@list')}}">
-                                <span data-feather="users"></span>
-                                Adms
+                                <i class="fas fa-hospital fa-lg"></i>
+                                Unidades
+                            </a>
+                        </li>
+                        <li class="nav-item d-md-none">
+                            <a class="nav-link" href="{{action('UnidadeController@list')}}">
+                                <i class="fas fa-notes-medical fa-lg"></i>
+                                Capanhas
                             </a>
                         </li>
                         <li class="nav-item d-md-none">
                             <a class="nav-link">
-                                <span data-feather="users"></span>
-                                Users
+                                <i class="fas fa-syringe fa-lg"></i>
+                                Solicitações
+                            </a>
+                        </li>
+                        <li class="nav-item d-md-none">
+                            <a class="nav-link" href="{{action('PacienteController@list')}}">
+                                <i class="fas fa-procedures fa-lg"></i>
+                                Pacientes
                             </a>
                         </li>
                         <li class="nav-item d-md-none">
                             <a class="nav-link">
-                                <span data-feather="alert-triangle"></span>
-                                Denuncias
-                            </a>
-                        </li>
-                        <li class="d-block d-md-none">
-                            <a class="nav-link">
-                                <span data-feather="check-square"></span>
-                                Ativaçao
+                                <i class="fas fa-user-nurse fa-lg"></i>
+                                Agentes
                             </a>
                         </li>
 
@@ -101,7 +109,7 @@
 
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                {{ Auth::user()->name }} <span class="caret"></span>
+                                {{ Auth::user()->name }} <i class="caret"></i>
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
@@ -126,47 +134,53 @@
                     <ul class="nav flex-column pt-3">
                         <li class="nav-item">
                             <a class="nav-link active" href="dashboard">
-                                <i data-feather="home"></i>
-                                Dashboard <span class="sr-only">(current)</span>
+                                <i class="fas fa-chart-bar  fa-lg "></i>
+                                Relatórios
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{action('UnidadeController@list')}}">
-                                <span data-feather="users"></span>
-                                Adms
+                                <i class="fas fa-hospital fa-lg"></i>
+                                Unidades
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{action('UnidadeController@list')}}">
+                                <i class="fas fa-notes-medical fa-lg"></i>
+                                Capanhas
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link">
-                                <span data-feather="users"></span>
-                                Users
+                                <i class="fas fa-syringe fa-lg"></i>
+                                Solicitações
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{action('PacienteController@list')}}">
+                                <i class="fas fa-procedures fa-lg"></i>
+                                Pacientes
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link">
-                                <span data-feather="alert-triangle"></span>
-                                Denuncias
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link">
-                                <span data-feather="check-square"></span>
-                                Ativaçao
+                                <i class="fas fa-user-nurse fa-lg"></i>
+                                Agentes
                             </a>
                         </li>
                     </ul>
 
                     <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-                        <span>Administraçao</span>
+                        <i>Administração</i>
                         <a class="d-flex align-items-center text-muted" href="">
-                            <span data-feather="plus-circle"></span>
+                            <i data-feather="plus-circle"></i>
                         </a>
                     </h6>
                     <ul class="nav flex-column mb-2">
                         <li class="nav-item">
                             <a class="nav-link" href="#">
-                                <span data-feather="settings"></span>
-                                Configuraçao
+                                <i class="fas fa-cog fa-lg "></i>
+                                Conta
                             </a>
                         </li>
                     </ul>

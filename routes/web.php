@@ -21,6 +21,8 @@ Route::get('/', function () {
 
 /* CRUD Paciente */
 
+Route::get('paciente/add', 'PacienteController@add');
+Route::get('paciente/editform/{cns}', 'PacienteController@editForm');
 Route::get('paciente/{cns?}', 'PacienteController@list');
 Route::post('paciente', 'PacienteController@create');
 Route::put('paciente', 'PacienteController@edit');
@@ -38,6 +40,8 @@ Route::delete('unidade/{id?}', 'UnidadeController@delete');
 
 /* CRUD Agente */
 
+Route::get('agente/add', 'AgenteController@add');
+Route::get('agente/editform/{cpf}', 'AgenteController@editForm');
 Route::get('agente/{cpf?}', 'AgenteController@list');
 Route::post('agente', 'AgenteController@create');
 Route::put('agente', 'AgenteController@edit');
@@ -45,11 +49,13 @@ Route::delete('agente/{cpf?}', 'AgenteController@delete');
 
 /* CRUD Campanha */
 
+Route::get('campanha/add', 'CampanhaController@add');
+Route::get('campanha/editform/{id}', 'CampanhaController@editForm');
 Route::get('campanha/teste', 'CampanhaController@teste');
-Route::get('campanha/{cpf?}', 'CampanhaController@list');
+Route::get('campanha/{id?}', 'CampanhaController@list');
 Route::post('campanha', 'CampanhaController@create');
 Route::put('campanha', 'CampanhaController@edit');
-Route::delete('campanha/{cpf?}', 'CampanhaController@delete');
+Route::delete('campanha/{id?}', 'CampanhaController@delete');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');

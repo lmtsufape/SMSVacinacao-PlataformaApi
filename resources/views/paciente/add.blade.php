@@ -4,7 +4,13 @@
 @push('scripts')
 <script>
     $(document).ready(function($) {
-
+        $("#tel").mask('(99)99999-9999', {
+            reverse: false,
+            placeholder: "(__)_____-____"
+        });
+        $('#cns').mask('999 9999 9999 9999', {
+            placeholder: "___ ____ ____ ____"
+        })
         $("#cep").mask('99999-999', {
             placeholder: "_____-___"
         });
@@ -19,11 +25,17 @@
 @section('content')
 
 <div>
-    <h1 class="d-flex justify-content-center h2 pt-4">Cadastrar Nova Unidade</h1>
+    <h1 class="d-flex justify-content-center h2 pt-4">Cadastrar Novo Paciente</h1>
     <div class="d-flex justify-content-center flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <form method="POST" action="{{action('UnidadeController@create')}}">
+        <form id="form" method="POST" action="{{action('PacienteController@create')}}">
             @method('post')
             @csrf
+            <div class="form-group">
+                <div class="form-row">
+                    <label for="cns">CNS</label>
+                    <input type="text" class="form-control .unmask" id="cns" placeholder="cns" name="cns">
+                </div>
+            </div>
             <div class="form-group">
                 <div class="form-row">
                     <label for="nome">Nome</label>
@@ -85,7 +97,7 @@
                     </div>
                     <div class="form-group col-md-2">
                         <label for="num">Número</label>
-                        <input type="text" class="form-control" id="num" placeholder="Numero" name="num">
+                        <input type="number" class="form-control" id="num" placeholder="Numero" name="num">
                     </div>
                     <div class="form-group col-md-3">
                         <label for="complemento">Complemento</label>
@@ -97,18 +109,28 @@
                     </div>
                 </div>
                 <div class="form-row">
-                    <div class="form-group col-md-2">
-                        <label for="lat">Latitude</label>
-                        <input type="text" class="form-control" id="lat" placeholder="Latitude" name="lat">
+                    <div class="form-group col-md-3">
+                        <label for="nasc">Data de Nascimento</label>
+                        <input type="date" class="form-control" id="nasc" placeholder="Data de Nascimento" name="nasc">
                     </div>
-                    <div class="form-group col-md-2">
-                        <label for="lng">Longitude</label>
-                        <input type="text" class="form-control" id="lng" placeholder="Longitude" name="lng">
+                    <div class=" form-group col-md-4">
+                        <label for="tel">Telefone</label>
+                        <input type="text" class="form-control unmask" id="tel" placeholder="Telefone" name="tel" ">
                     </div>
                 </div>
-            </div>
-            <a href="{{action('UnidadeController@list')}}" class="btn btn-dark">Cancelar</a>
-            <button type="submit" class="btn btn-success">Cadastrar</button>
+                <div class=" form-row">
+                        <div class="form-group col-md-2">
+                            <label for="lat">Latitude</label>
+                            <input type="number" class="form-control" id="lat" placeholder="Latitude" name="lat">
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label for="lng">Longitude</label>
+                            <input type="number" class="form-control" id="lng" placeholder="Longitude" name="lng">
+                        </div>
+                    </div>
+                </div>
+                <a href="{{action('PacienteController@list')}}" class="btn btn-dark">Cancelar</a>
+                <button id="submit" type="submit" class="btn btn-success">Cadastrar</button>
         </form>
     </div>
 </div>

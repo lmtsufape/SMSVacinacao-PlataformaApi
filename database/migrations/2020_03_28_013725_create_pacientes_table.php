@@ -17,10 +17,11 @@ class CreatePacientesTable extends Migration
             $table->string('cns')->unique();
             $table->timestamps();
             $table->string('nome');
-            $table->dateTime('nasc');
+            $table->date('nasc');
             $table->string('tel');
             $table->string('rua');
             $table->string('num');
+            $table->string('complemento')->nullable();
             $table->string('bairro');
             $table->string('cidade');
             $table->string('uf');

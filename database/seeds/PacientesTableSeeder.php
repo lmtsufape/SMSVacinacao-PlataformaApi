@@ -16,7 +16,7 @@ class PacientesTableSeeder extends Seeder
         \App\Paciente::create([
             'cns' => 1231231232,
             'nome' => 'Luiz caldas',
-            'nasc' => new DateTime('now'),
+            'nasc' => date('Y-m-d'),
             'tel' => '87981486931',
             'rua' => 'luiz mendes',
             'num' => '126',
@@ -31,7 +31,7 @@ class PacientesTableSeeder extends Seeder
         \App\Paciente::create([
             'cns' => 1231231233,
             'nome' => 'Pararatimbun',
-            'nasc' => new DateTime('now'),
+            'nasc' => date('Y-m-d'),
             'tel' => '87981486931',
             'rua' => 'luiz mendes',
             'num' => '126',
@@ -46,10 +46,11 @@ class PacientesTableSeeder extends Seeder
         \App\Paciente::create([
             'cns' => 1231231234,
             'nome' => 'fiurino',
-            'nasc' => new DateTime('now'),
+            'nasc' => date('Y-m-d'),
             'tel' => '87981486931',
             'rua' => 'luiz mendes',
             'num' => '126',
+            'complemento' => 'casa',
             'bairro' => 'Aloisio Souto Pinto',
             'cidade' => 'garanhuns',
             'uf' => 'PE',

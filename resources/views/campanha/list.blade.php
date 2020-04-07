@@ -12,12 +12,12 @@
 
 <div>
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Pacientes</h1>
+        <h1 class="h2">Campanhas</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
-            <a id="add" href="{{action('PacienteController@add')}}" class="btn btn-sm btn-outline-primary pt-2 ml-2">
+            <a id="add" href="{{action('CampanhaController@add')}}" class="btn btn-sm btn-outline-primary pt-2 ml-2">
                 <span data-feather="plus"></span> Cadastrar
             </a>
-            <a href="{{action('PacienteController@list')}}" class="btn btn-sm btn-outline-primary pt-2 ml-2">
+            <a href="{{action('CampanhaController@list')}}" class="btn btn-sm btn-outline-primary pt-2 ml-2">
                 <span data-feather="rotate-ccw"></span> Atualizar
             </a>
         </div>
@@ -26,9 +26,12 @@
     <table id="unidadetable" class="table table-striped table-sm">
         <thead>
             <tr>
-                <th>Paciente</th>
-                <th>Localização</th>
-                <th>Opcões</th>
+                <th>Campanha</th>
+                <th>Descrição</th>
+                <th>Faixa Etária</th>
+                <th>Validade da Campanha</th>
+                <th>Atend. Domic</th>
+                <th>Opções</th>
             </tr>
         </thead>
 
@@ -36,15 +39,17 @@
             @foreach ($objs as $obj)
             <tr>
                 <td data-toggle="modal" data-target="#modal{{$loop->iteration}}">{{$obj->nome}}</td>
-                <td data-toggle="modal" data-target="#modal{{$loop->iteration}}">{{$obj->rua}}, Nº{{$obj->num}}, {{$obj->bairro}}, {{$obj->cidade}}-{{$obj->uf}}</td>
+                <td data-toggle="modal" data-target="#modal{{$loop->iteration}}">{{$obj->desc}}</td>
+                <td data-toggle="modal" data-target="#modal{{$loop->iteration}}">{{$obj->idade_ini}} à {{$obj->idade_end}} anos</td>
+                <td data-toggle="modal" data-target="#modal{{$loop->iteration}}">{{$obj->data_ini}} - {{$obj->data_end}}</td>
+                <td data-toggle="modal" data-target="#modal{{$loop->iteration}}">{{$obj->atend_domic? 'Sim' : 'Não'}}</td>
                 <td>
                     <div class="d-flex justify-content-around flex-wrap">
-                        <button data-toggle="modal" data-target="#modal{{$loop->iteration}}" class="btn btn-info btn-sm">Detalhes</button>
-                        <a href="{{action('PacienteController@editForm', $obj->cns)}}">
+                        <a href="{{action('CampanhaController@editForm', $obj->id)}}">
                             <i data-feather="edit"></i>
                             Editar
                         </a>
-                        <form class="form-soft" action="{{action('PacienteController@delete', $obj->cns)}}" method="post">
+                        <form class="form-soft" action="{{action('CampanhaController@delete', $obj->id)}}" method="post">
                             @method('delete')
                             @csrf
                             <a href="" onclick="if(confirm('Deseja realmente excluir {{$obj->nome}}?')){this.closest('form').submit(); return false;}else{return false}">

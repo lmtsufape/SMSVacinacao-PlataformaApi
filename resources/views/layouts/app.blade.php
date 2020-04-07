@@ -67,7 +67,7 @@
                         </li>
 
                         <li class="nav-item d-md-none">
-                            <a class="nav-link active" href="dashboard">
+                            <a class="nav-link active" href="#">
                                 <i class="fas fa-chart-bar  fa-lg "></i>
                                 Relatórios
                             </a>
@@ -79,9 +79,9 @@
                             </a>
                         </li>
                         <li class="nav-item d-md-none">
-                            <a class="nav-link" href="{{action('UnidadeController@list')}}">
+                            <a class="nav-link" href="{{action('CampanhaController@list')}}">
                                 <i class="fas fa-notes-medical fa-lg"></i>
-                                Capanhas
+                                Campanhas
                             </a>
                         </li>
                         <li class="nav-item d-md-none">
@@ -97,8 +97,8 @@
                             </a>
                         </li>
                         <li class="nav-item d-md-none">
-                            <a class="nav-link">
-                                <i class="fas fa-user-nurse fa-lg"></i>
+                            <a class="nav-link" href="{{action('AgenteController@list')}}">
+                                <i class=" fas fa-user-nurse fa-lg"></i>
                                 Agentes
                             </a>
                         </li>
@@ -133,7 +133,7 @@
                 <div class="sidebar-sticky">
                     <ul class="nav flex-column pt-3">
                         <li class="nav-item">
-                            <a class="nav-link active" href="dashboard">
+                            <a class="nav-link active" href="#">
                                 <i class="fas fa-chart-bar  fa-lg "></i>
                                 Relatórios
                             </a>
@@ -145,9 +145,9 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{action('UnidadeController@list')}}">
+                            <a class="nav-link" href="{{action('CampanhaController@list')}}">
                                 <i class="fas fa-notes-medical fa-lg"></i>
-                                Capanhas
+                                Campanhas
                             </a>
                         </li>
                         <li class="nav-item">
@@ -163,7 +163,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link">
+                            <a class="nav-link" href="{{action('AgenteController@list')}}">
                                 <i class="fas fa-user-nurse fa-lg"></i>
                                 Agentes
                             </a>

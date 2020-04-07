@@ -18,7 +18,9 @@ class CampanhasTableSeeder extends Seeder
             'desc' => 'bleu bleu',
             'idade_ini' => 20,
             'idade_end' => 30,
-            'atend_domic' => true,
+            'data_ini' => date('Y-m-d'),
+            'data_end' => date('Y-m-d'),
+            'atend_domic' => false,
         ]);
 
         \App\Campanha::create([
@@ -26,6 +28,8 @@ class CampanhasTableSeeder extends Seeder
             'desc' => 'bleu bleu',
             'idade_ini' => 50,
             'idade_end' => 80,
+            'data_ini' => date('Y-m-d'),
+            'data_end' => date('Y-m-d'),
             'atend_domic' => true,
         ]);
     }

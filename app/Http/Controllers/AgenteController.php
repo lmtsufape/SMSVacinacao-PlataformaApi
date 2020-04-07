@@ -8,57 +8,95 @@ class AgenteController extends Controller
 {
     //
 
-    public function list(Request $request, $cpf = false){
-       
-        if($cpf !== false){
-            $agente = \App\Agente::find($cpf);
+    public function list(Request $request, $id = false)
+    {
 
-            return $agente; 
+        if ($id !== false) {
+            $agente = \App\Agente::find($id);
+
+            return $agente;
         }
 
         $agente = \App\Agente::all();
 
-        return $agente; 
-        
+        if ($request->json === 'true') {
+            return $agente;
+        }
+
+        return view('agente.list')->with('objs', $agente);
     }
 
-    public function create(Request $request){
+    public function add()
+    {
+        return view('agente.add');
+    }
 
-        $dadosAgente = $request->only(['cpf', 'senha', 'nome', 'cidade', 'uf']);
+    public function create(Request $request)
+    {
+
+        $dadosAgente = $request->only(['cpf', 'password', 'nome', 'email', 'cidade', 'uf']);
         $agente = \App\Agente::create($dadosAgente);
-        
-        return $dadosAgente; 
+
+        if ($request->json === 'true') {
+            return $agente;
+        }
+
+        return redirect()->action('AgenteController@list');
     }
 
-    public function edit(Request $request){
+    public function editForm($id)
+    {
 
-        $dadosAgente = $request->only(['cpf', 'senha', 'nome', 'cidade', 'uf']);
-        $agente = \App\Agente::find($dadosAgente['cpf']);
+        $agenteEdit = \App\Agente::find($id);
 
-        if($agente !== null){
-            $updatingAgente = \App\Agente::updateOrCreate(['cpf' => $dadosAgente['cpf']], $dadosAgente);
+        return view('agente.edit')->with('obj', $agenteEdit);
+    }
+
+    public function edit(Request $request)
+    {
+
+        $updatingAgente = '';
+        $dadosAgente = $request->only(['id', 'cpf', 'password', 'nome', 'email', 'cidade', 'uf']);
+        $agente = \App\Agente::find($dadosAgente['id']);
+
+        if ($dadosAgente['password'] == NULL) {
+            unset($dadosAgente['password']);
+        };
+
+        if ($agente !== null) {
+            $updatingAgente = \App\Agente::updateOrCreate(['id' => $dadosAgente['id']], $dadosAgente);
+        } else {
+            $updatingAgente = 'not found';
+        }
+
+        if ($request->json === 'true') {
             return $updatingAgente;
         }
 
-        return 'not found';
+        return redirect()->action('AgenteController@list');
     }
 
-    public function delete(Request $request, $cpf = false){
+    public function delete(Request $request, $id = false)
+    {
         $agente = '';
-        
-        if($cpf !== false){
-            $agente = \App\Agente::find($cpf);
-        }else{
-            $dadosAgente = $request->only(['cpf']);
-            $agente = \App\Agente::find($dadosAgente['cpf']);
-        }
-        
-        if($agente !== null){
-            $agente->delete();
-            return 'success';
+
+        if ($id !== false) {
+            $agente = \App\Agente::find($id);
+        } else {
+            $dadosAgente = $request->only(['id']);
+            $agente = \App\Agente::find($dadosAgente['id']);
         }
 
-        return 'not found';
-        
+        if ($agente !== null) {
+            $agente->delete();
+        } else {
+            $agente = 'not found';
+        }
+
+        if ($request->json === 'true') {
+            return $agente;
+        }
+
+        return redirect()->action('AgenteController@list');
     }
 }

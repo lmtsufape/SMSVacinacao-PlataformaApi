@@ -13,11 +13,11 @@ class Agente extends Authenticatable
     //
 
     use Notifiable;
-    
+
     protected $table = "agentes";
 
     protected $fillable = [
-        'email', 'nome', 'cpf', 'password', 'cidade', 'uf',
+        'id', 'email', 'nome', 'cpf', 'password', 'cidade', 'uf',
     ];
 
     protected $hidden = [

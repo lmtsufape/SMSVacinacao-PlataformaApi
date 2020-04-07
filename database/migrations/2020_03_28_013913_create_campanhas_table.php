@@ -20,6 +20,8 @@ class CreateCampanhasTable extends Migration
             $table->text('desc');
             $table->integer('idade_ini');
             $table->integer('idade_end');
+            $table->date('data_ini');
+            $table->date('data_end');
             $table->boolean('atend_domic');
         });
     }

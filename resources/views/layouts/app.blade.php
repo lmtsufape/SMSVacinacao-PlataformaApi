@@ -34,6 +34,19 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/fontawesome-all.min.css') }}" rel="stylesheet">
     <link href="{{ asset('dataTable/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+    <style type="text/css">
+        .nav-link {
+            color: rgb(0, 0, 0, 0.5);
+        }
+
+        .navbar-nav>.nav-item>.nav-link.active {
+            color: dodgerblue;
+        }
+
+        .nav-link:hover {
+            color: rgb(0, 0, 0, 0.9);
+        }
+    </style>
     @show
 </head>
 
@@ -67,37 +80,37 @@
                         </li>
 
                         <li class="nav-item d-md-none">
-                            <a class="nav-link active" href="#">
+                            <a class="nav-link " href="#">
                                 <i class="fas fa-chart-bar  fa-lg "></i>
                                 Relatórios
                             </a>
                         </li>
                         <li class="nav-item d-md-none">
-                            <a class="nav-link" href="{{action('UnidadeController@list')}}">
+                            <a class="nav-link {{ Request::segment(1) === 'unidade' ? 'active' : null }}" href="{{action('UnidadeController@list')}}">
                                 <i class="fas fa-hospital fa-lg"></i>
                                 Unidades
                             </a>
                         </li>
                         <li class="nav-item d-md-none">
-                            <a class="nav-link" href="{{action('CampanhaController@list')}}">
+                            <a class="nav-link {{ Request::segment(1) === 'campanha' ? 'active' : null }}" href="{{action('CampanhaController@list')}}">
                                 <i class="fas fa-notes-medical fa-lg"></i>
                                 Campanhas
                             </a>
                         </li>
                         <li class="nav-item d-md-none">
-                            <a class="nav-link">
+                            <a class="nav-link" href="#">
                                 <i class="fas fa-syringe fa-lg"></i>
                                 Solicitações
                             </a>
                         </li>
                         <li class="nav-item d-md-none">
-                            <a class="nav-link" href="{{action('PacienteController@list')}}">
+                            <a class="nav-link {{ Request::segment(1) === 'paciente' ? 'active' : null }}" href="{{action('PacienteController@list')}}">
                                 <i class="fas fa-procedures fa-lg"></i>
                                 Pacientes
                             </a>
                         </li>
                         <li class="nav-item d-md-none">
-                            <a class="nav-link" href="{{action('AgenteController@list')}}">
+                            <a class="nav-link {{ Request::segment(1) === 'agente' ? 'active' : null }}" href="{{action('AgenteController@list')}}">
                                 <i class=" fas fa-user-nurse fa-lg"></i>
                                 Agentes
                             </a>
@@ -131,39 +144,39 @@
         <div class="row m-0 ">
             <nav class="col-xl-2 col-md-2 d-none d-md-block bg-light sidebar">
                 <div class="sidebar-sticky">
-                    <ul class="nav flex-column pt-3">
+                    <ul class="navbar-nav flex-column pt-3 pl-3">
                         <li class="nav-item">
-                            <a class="nav-link active" href="#">
+                            <a class="nav-link {{ Request::segment(1) === 'relatorio' ? 'active' : null }}" href="#">
                                 <i class="fas fa-chart-bar  fa-lg "></i>
                                 Relatórios
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{action('UnidadeController@list')}}">
+                            <a class="nav-link {{ Request::segment(1) === 'unidade' ? 'active' : null }}" href="{{action('UnidadeController@list')}}">
                                 <i class="fas fa-hospital fa-lg"></i>
                                 Unidades
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{action('CampanhaController@list')}}">
+                            <a class="nav-link {{ Request::segment(1) === 'campanha' ? 'active' : null }}" href="{{action('CampanhaController@list')}}">
                                 <i class="fas fa-notes-medical fa-lg"></i>
                                 Campanhas
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link">
+                            <a class="nav-link" href="#">
                                 <i class="fas fa-syringe fa-lg"></i>
                                 Solicitações
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{action('PacienteController@list')}}">
+                            <a class="nav-link {{ Request::segment(1) === 'paciente' ? 'active' : null }}" href="{{action('PacienteController@list')}}">
                                 <i class="fas fa-procedures fa-lg"></i>
                                 Pacientes
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{action('AgenteController@list')}}">
+                            <a class="nav-link {{ Request::segment(1) === 'agente' ? 'active' : null }}" href="{{action('AgenteController@list')}}">
                                 <i class="fas fa-user-nurse fa-lg"></i>
                                 Agentes
                             </a>
@@ -176,7 +189,7 @@
                             <i data-feather="plus-circle"></i>
                         </a>
                     </h6>
-                    <ul class="nav flex-column mb-2">
+                    <ul class="navbar-nav flex-column mb-2 pl-3">
                         <li class="nav-item">
                             <a class="nav-link" href="#">
                                 <i class="fas fa-cog fa-lg "></i>

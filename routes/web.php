@@ -30,10 +30,10 @@ Route::delete('paciente/{cns?}', 'PacienteController@delete');
 
 /* CRUD Unidade */
 
-Route::get('unidade/teste', 'UnidadeController@teste');
+Route::get('unidade/near', 'UnidadeController@near');
 Route::get('unidade/add', 'UnidadeController@add');
 Route::get('unidade/editform/{id}', 'UnidadeController@editForm');
-Route::get('unidade/{id?}', 'UnidadeController@list');
+Route::get('unidade/{id?}', ['uses' => 'UnidadeController@list', 'https' => true]);
 Route::post('unidade', 'UnidadeController@create');
 Route::put('unidade', 'UnidadeController@edit');
 Route::delete('unidade/{id?}', 'UnidadeController@delete');
@@ -56,6 +56,11 @@ Route::get('campanha/{id?}', 'CampanhaController@list');
 Route::post('campanha', 'CampanhaController@create');
 Route::put('campanha', 'CampanhaController@edit');
 Route::delete('campanha/{id?}', 'CampanhaController@delete');
+
+/* CRUD Solicitacao */
+
+Route::get('solicitacao/{id?}', 'SolicitacaoController@list');
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');

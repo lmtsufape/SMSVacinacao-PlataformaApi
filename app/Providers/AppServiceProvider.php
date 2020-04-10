@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\URL;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -26,5 +27,7 @@ class AppServiceProvider extends ServiceProvider
     {
         //
         Validator::extend('cpf', '\App\Utils\CpfValidation@validate');
+        /* URL::forceScheme('https'); */
+        /* $this->app['request']->server->set('HTTPS', 'on'); */
     }
 }

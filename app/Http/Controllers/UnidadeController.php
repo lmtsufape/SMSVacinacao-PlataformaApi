@@ -103,7 +103,7 @@ class UnidadeController extends Controller
         return redirect()->action('UnidadeController@list');
     }
 
-    public function teste(Request $request)
+    public function near(Request $request)
     {
 
         $lat = floatval($request->lat);

@@ -1,20 +1,5 @@
 @extends('layouts.app')
 
-@push('scripts')
-<script>
-    $(document).ready(function() {
-        $(".location").click(function() {
-            console.log($(this).data("lat"));
-            let lat = $(this).data("lat");
-            let lng = $(this).data("lng");
-            navigator.geolocation.getCurrentPosition(function(position) {
-                window.location.href = `https://www.google.com/maps/dir/?api=1&origin=${position.coords.latitude},${position.coords.longitude}&destination=${lat},${lng}`;
-            });
-        });
-    });
-</script>
-@endpush
-
 @section('style')
 @parent
 <style type="text/css">
@@ -27,12 +12,9 @@
 
 <div>
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Pacientes</h1>
+        <h1 class="h2">Solicitações</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
-            <a id="add" href="{{action('PacienteController@add')}}" class="btn btn-sm btn-outline-primary pt-2 ml-2">
-                <span data-feather="plus"></span> Cadastrar
-            </a>
-            <a href="{{action('PacienteController@list')}}" class="btn btn-sm btn-outline-primary pt-2 ml-2">
+            <a href="{{action('SolicitacaoController@list')}}" class="btn btn-sm btn-outline-primary pt-2 ml-2">
                 <span data-feather="rotate-ccw"></span> Atualizar
             </a>
         </div>
@@ -42,32 +24,25 @@
         <thead>
             <tr>
                 <th>Paciente</th>
-                <th>Localização</th>
-                <th>Opcões</th>
+                <th>Campanha</th>
+                <th>Vacinado</th>
+                <th>Agente</th>
+                <th>Aplicação</th>
+                <th>Opções</th>
             </tr>
         </thead>
 
         <tbody>
             @foreach ($objs as $obj)
             <tr>
-                <td data-toggle="modal" data-target="#modal{{$loop->iteration}}">{{$obj->nome}}</td>
-                <td data-toggle="modal" data-target="#modal{{$loop->iteration}}">{{$obj->rua}}, Nº{{$obj->num}}, {{$obj->bairro}}, {{$obj->cidade}}-{{$obj->uf}}</td>
+                <td data-toggle="modal" data-target="#modal{{$loop->iteration}}">{{$obj->paciente}}</td>
+                <td data-toggle="modal" data-target="#modal{{$loop->iteration}}">{{$obj->campanha}}</td>
+                <td data-toggle="modal" data-target="#modal{{$loop->iteration}}">{{$obj->vacinado? 'Sim' : 'Não'}}</td>
+                <td data-toggle="modal" data-target="#modal{{$loop->iteration}}">{{$obj->agente}}</td>
+                <td data-toggle="modal" data-target="#modal{{$loop->iteration}}">{{$obj->data_time}}</td>
                 <td>
                     <div class="d-flex justify-content-around flex-wrap">
-                        <button data-lat="{{$obj->lat}}" data-lng="{{$obj->lng}}" class="btn btn-info btn-sm location">Ir até</button>
-                        <button data-toggle="modal" data-target="#modal{{$loop->iteration}}" class="btn btn-info btn-sm">Detalhes</button>
-                        <a href="{{action('PacienteController@editForm', $obj->cns)}}">
-                            <i data-feather="edit"></i>
-                            Editar
-                        </a>
-                        <form class="form-soft" action="{{action('PacienteController@delete', $obj->cns)}}" method="post">
-                            @method('delete')
-                            @csrf
-                            <a href="" onclick="if(confirm('Deseja realmente excluir {{$obj->nome}}?')){this.closest('form').submit(); return false;}else{return false}">
-                                <i data-feather="trash-2"></i>
-                                deletar
-                            </a>
-                        </form>
+
                     </div>
                 </td>
             </tr>
@@ -83,7 +58,7 @@
                         <div class="modal-body">
                             <dl class="row mt-3 pt-3 pl-2 ">
                                 <dt class="h4 col-sm-3">Nome:</dt>
-                                <dd class="h4 col-sm-9">{{$obj->nome}}</dd>
+                                <dd class="h4 col-sm-9">{{$obj->paciente}}</dd>
                                 <dt class="h4 col-sm-3">Sobrenome:</dt>
                                 <dd class="h4 col-sm-9">{{$obj->lat}}</dd>
                                 <dt class="h4 col-sm-3">CPF:</dt>
@@ -101,5 +76,6 @@
         </tbody>
     </table>
 </div>
-@stack('scripts')
+
+
 @stop

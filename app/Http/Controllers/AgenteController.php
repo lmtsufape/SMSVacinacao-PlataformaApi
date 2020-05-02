@@ -34,7 +34,7 @@ class AgenteController extends Controller
     public function create(Request $request)
     {
 
-        $dadosAgente = $request->only(['cpf', 'password', 'nome', 'email', 'cidade', 'uf']);
+        $dadosAgente = $request->only(['id', 'cpf', 'password', 'nome', 'email', 'cidade', 'uf']);
         $agente = \App\Agente::create($dadosAgente);
 
         if ($request->json === 'true') {
@@ -98,5 +98,52 @@ class AgenteController extends Controller
         }
 
         return redirect()->action('AgenteController@list');
+    }
+
+
+    /* public function teste(Request $request)
+    {
+        $agente = \App\Agente::find(1);
+
+        return $agente->pacientesAtendidos;
+    }
+
+    public function teste(Request $request)
+    {
+        $agente = \App\Agente::find(1);
+
+        return $agente->pacientesRecusados;
+    }
+
+    public function teste(Request $request)
+    {
+        $agente = \App\Agente::find(2);
+
+        return $agente->solicitacoesAtribuidas;
+    }
+
+    public function teste(Request $request)
+    {
+        $agente = \App\Agente::find(2);
+
+        return $agente->solicitacoesDelegadas;
+    } */
+
+    public function teste(Request $request)
+    {
+        /* $agente = \App\Agente::with('solicitacoesAtribuidas', 'solicitacoesAtribuidas.campanha')->get(); */
+        $agente = \App\Agente::find(2);
+
+
+        /* return $agente->with('solicitacoesAtribuidas', 'solicitacoesAtribuidas.campanha')->get(); */
+        return $agente->solicitacoesAtribuidas()->with(
+            'campanha',
+            'campanha.vacina',
+            'campanha.publico',
+            'campanha.segmento',
+            'campanha.segmento.idade',
+            'campanha.segmento.idade.grupo',
+            'campanha.segmento.periodo'
+        )->get();
     }
 }

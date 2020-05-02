@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class PacientesTableSeeder extends Seeder
+class PacienteSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -30,7 +30,7 @@ class PacientesTableSeeder extends Seeder
 
         \App\Paciente::create([
             'cns' => 1231231233,
-            'nome' => 'Pararatimbun',
+            'nome' => 'Tiringa',
             'nasc' => date('Y-m-d'),
             'tel' => '87981486931',
             'rua' => 'luiz mendes',
@@ -45,7 +45,7 @@ class PacientesTableSeeder extends Seeder
 
         \App\Paciente::create([
             'cns' => 1231231234,
-            'nome' => 'fiurino',
+            'nome' => 'Seu lunga',
             'nasc' => date('Y-m-d'),
             'tel' => '87981486931',
             'rua' => 'luiz mendes',

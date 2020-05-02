@@ -20,7 +20,12 @@ class CampanhaController extends Controller
         $campanha = \App\Campanha::all();
 
         if ($request->json === 'true') {
-            return $campanha;
+
+            $result = $campanha->map(function ($item) {
+                return $item->with('vacina', 'publico', 'segmento', 'segmento.idade', 'segmento.idade.grupo', 'segmento.periodo')->get();
+            });
+
+            return $result;
         }
 
         return view('campanha.list')->with('objs', $campanha);
@@ -34,12 +39,7 @@ class CampanhaController extends Controller
     public function create(Request $request)
     {
 
-        $dadosCampanha = $request->only(['id', 'nome',  'desc', 'idade_ini', 'idade_end', 'data_ini', 'data_end', 'atend_domic']);
-        if ($request->has('atend_domic')) {
-            $dadosCampanha['atend_domic'] = true;
-        } else {
-            $dadosCampanha['atend_domic'] = false;
-        }
+        $dadosCampanha = $request->only(['id', 'vacina_id', 'publico_id',  'segmento_id']);
 
         $campanha = \App\Campanha::create($dadosCampanha);
 
@@ -61,14 +61,8 @@ class CampanhaController extends Controller
     public function edit(Request $request)
     {
         $updatingCampanha = '';
-        $dadosCampanha = $request->only(['id', 'nome',  'desc', 'idade_ini', 'idade_end', 'data_ini', 'data_end', 'atend_domic']);
+        $dadosCampanha = $request->only(['id', 'vacina_id', 'publico_id',  'segmento_id']);
         $campanha = \App\Campanha::find($dadosCampanha['id']);
-
-        if ($request->has('atend_domic')) {
-            $dadosCampanha['atend_domic'] = true;
-        } else {
-            $dadosCampanha['atend_domic'] = false;
-        }
 
         if ($campanha !== null) {
             $updatingCampanha = \App\Campanha::updateOrCreate(['id' => $dadosCampanha['id']], $dadosCampanha);
@@ -108,16 +102,16 @@ class CampanhaController extends Controller
         return redirect()->action('CampanhaController@list');
     }
 
-    public function teste()
+    /*  public function teste()
     {
 
 
         $campanhaResults = \App\Campanha::all()->reject(function ($campanha) {
-            $result = $campanha->idade_end - $campanha->idade_ini;
+            $result = $campanha->campanha_end - $campanha->campanha_ini;
             $campanha->result = $result;
             return $result > 50;
         });
 
         return $campanhaResults;
-    }
+    } */
 }

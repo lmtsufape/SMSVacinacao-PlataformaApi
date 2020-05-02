@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCampanhasTable extends Migration
+class CreateIdadesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,15 @@ class CreateCampanhasTable extends Migration
      */
     public function up()
     {
-        Schema::create('campanhas', function (Blueprint $table) {
+        Schema::create('idades', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('nome');
-            $table->text('desc');
+            $table->unsignedBigInteger('grupo_id');
             $table->integer('idade_ini');
             $table->integer('idade_end');
-            $table->date('data_ini');
-            $table->date('data_end');
-            $table->boolean('atend_domic');
+            $table->boolean('mes');
+
+            $table->foreign('grupo_id')->references('id')->on('grupos')->onDelete('cascade');
         });
     }
 
@@ -33,6 +32,6 @@ class CreateCampanhasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('campanhas');
+        Schema::dropIfExists('idades');
     }
 }

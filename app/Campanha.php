@@ -3,22 +3,30 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Campanha extends Model
 {
     //
 
+    protected $table = "campanhas";
+
     protected $fillable = [
-        'id', 'nome', 'desc', 'idade_ini', 'idade_end', 'data_ini', 'data_end', 'atend_domic',
+        'id', 'vacina_id', 'publico_id', 'segmento_id',
     ];
 
-    public function unidades()
+    public function vacina()
     {
-        return $this->belongsToMany('App\Unidade')->withTimestamps();
+        return $this->belongsTo('App\Vacina');
     }
 
-    public function pacientes()
+    public function publico()
     {
-        return $this->belongsToMany('App\Paciente')->withPivot('agente_cpf', 'vacinado', 'data', 'horario')->withTimestamps();
+        return $this->belongsTo('App\Publico');
+    }
+
+    public function segmento()
+    {
+        return $this->belongsTo('App\Segmento');
     }
 }

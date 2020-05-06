@@ -15,13 +15,12 @@ class CreateCampanhasUnidadesTable extends Migration
     {
         Schema::create('campanhas_unidades', function (Blueprint $table) {
             $table->id();
+            $table->timestamps();
             $table->unsignedBigInteger('campanha_id');
             $table->unsignedBigInteger('unidade_id');
 
-            $table->foreign('campanha_id')->references('id')->on('campanhas');
-            $table->foreign('unidade_id')->references('id')->on('unidades');
-
-            $table->timestamps();
+            $table->foreign('campanha_id')->references('id')->on('campanhas')->onDelete('cascade');
+            $table->foreign('unidade_id')->references('id')->on('unidades')->onDelete('cascade');
         });
     }
 

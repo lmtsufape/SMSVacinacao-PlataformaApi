@@ -10,6 +10,7 @@ class CampanhaController extends Controller
 
     public function list(Request $request, $id = false)
     {
+        $campanha = '';
 
         if ($id !== false) {
             $campanha = \App\Campanha::find($id);
@@ -17,9 +18,24 @@ class CampanhaController extends Controller
             return $campanha;
         }
 
-        $campanha = \App\Campanha::all();
+        if($request->has('mes')){
+            if($request->has('excecao') && ($request->excecao === 'true')){
+                $campanha = \App\Campanha::whereMonth('data_ini', '!=', $request->mes)->with('idadePublico')->get();
+            }else{
+                $campanha = \App\Campanha::whereMonth('data_ini', $request->mes)->with('idadePublico')->get();
+            }
+
+        }else{
+            $campanha = \App\Campanha::with('idadePublico')->get();
+        }
 
         if ($request->json === 'true') {
+
+            /* $result = $campanha->map(function ($item) {
+                return $item->with('idadePublico')->get();
+            }); */
+
+
             return $campanha;
         }
 
@@ -34,12 +50,7 @@ class CampanhaController extends Controller
     public function create(Request $request)
     {
 
-        $dadosCampanha = $request->only(['id', 'nome',  'desc', 'idade_ini', 'idade_end', 'data_ini', 'data_end', 'atend_domic']);
-        if ($request->has('atend_domic')) {
-            $dadosCampanha['atend_domic'] = true;
-        } else {
-            $dadosCampanha['atend_domic'] = false;
-        }
+        $dadosCampanha = $request->only(['id', 'vacina_id', 'publico_id',  'segmento_id']);
 
         $campanha = \App\Campanha::create($dadosCampanha);
 
@@ -61,14 +72,8 @@ class CampanhaController extends Controller
     public function edit(Request $request)
     {
         $updatingCampanha = '';
-        $dadosCampanha = $request->only(['id', 'nome',  'desc', 'idade_ini', 'idade_end', 'data_ini', 'data_end', 'atend_domic']);
+        $dadosCampanha = $request->only(['id', 'vacina_id', 'publico_id',  'segmento_id']);
         $campanha = \App\Campanha::find($dadosCampanha['id']);
-
-        if ($request->has('atend_domic')) {
-            $dadosCampanha['atend_domic'] = true;
-        } else {
-            $dadosCampanha['atend_domic'] = false;
-        }
 
         if ($campanha !== null) {
             $updatingCampanha = \App\Campanha::updateOrCreate(['id' => $dadosCampanha['id']], $dadosCampanha);
@@ -108,16 +113,16 @@ class CampanhaController extends Controller
         return redirect()->action('CampanhaController@list');
     }
 
-    public function teste()
+    /*  public function teste()
     {
 
 
         $campanhaResults = \App\Campanha::all()->reject(function ($campanha) {
-            $result = $campanha->idade_end - $campanha->idade_ini;
+            $result = $campanha->campanha_end - $campanha->campanha_ini;
             $campanha->result = $result;
             return $result > 50;
         });
 
         return $campanhaResults;
-    }
+    } */
 }

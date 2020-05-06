@@ -22,6 +22,8 @@
     <script type="text/javascript" class="init">
         $(document).ready(function($) {
             $('#unidadetable').DataTable();
+            $('#alltable').DataTable();
+            $('#mytable').DataTable();
         });
     </script>
 
@@ -98,7 +100,7 @@
                             </a>
                         </li>
                         <li class="nav-item d-md-none">
-                            <a class="nav-link" href="#">
+                            <a class="nav-link" href="{{action('SolicitacaoController@list')}}">
                                 <i class="fas fa-syringe fa-lg"></i>
                                 Solicitações
                             </a>
@@ -164,7 +166,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">
+                            <a class="nav-link" href="{{action('SolicitacaoController@list')}}">
                                 <i class="fas fa-syringe fa-lg"></i>
                                 Solicitações
                             </a>

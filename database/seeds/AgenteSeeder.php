@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class AgentesTableSeeder extends Seeder
+class AgenteSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -18,6 +18,15 @@ class AgentesTableSeeder extends Seeder
             'cpf' => '10818110481',
             'password' => bcrypt('12345678'),
             'nome' => 'Fulando',
+            'cidade' => 'garanhuns',
+            'uf' => 'PE',
+        ]);
+
+        DB::table('agentes')->insert([  // 1
+            'email' => 'test@gmail.com',
+            'cpf' => '39539381002',
+            'password' => bcrypt('12345678'),
+            'nome' => 'Fulando2',
             'cidade' => 'garanhuns',
             'uf' => 'PE',
         ]);

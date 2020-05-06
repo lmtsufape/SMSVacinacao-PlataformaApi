@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Unidade extends Model
 {
@@ -12,8 +13,8 @@ class Unidade extends Model
         'id', 'nome', 'rua', 'num', 'bairro', 'cidade', 'uf', 'cep', 'complemento', 'lat', 'lng',
     ];
 
-    public function campanhas()
+    public function vacinas()
     {
-        return $this->belongsToMany('App\Campanha')->withTimestamps();
+        return $this->belongsToMany('App\Vacina', 'vacinas_unidades')->withTimestamps();
     }
 }

@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class CampanhasUnidadesTableSeeder extends Seeder
+class PeriodoSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -12,10 +12,9 @@ class CampanhasUnidadesTableSeeder extends Seeder
     public function run()
     {
         //
-
-        DB::table('campanhas_unidades')->insert([  // 1
-            'campanha_id' => 1,
-            'unidade_id' => 1,
+        \App\Periodo::create([
+            'data_ini' => Date('Y-m-d'),
+            'data_end' => Date('Y-m-d'),
         ]);
     }
 }

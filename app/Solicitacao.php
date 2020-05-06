@@ -12,13 +12,13 @@ class Solicitacao extends Model
     protected $table = "solicitacoes";
 
     protected $fillable = [
-        'id', 'campanha_id', 'paciente_cns', 'agente_id', 'status', 'recusa_desc', 'data_time',
+        'id', 'campanha_idade_publico_id', 'paciente_cns', 'agente_id', 'status', 'recusa_desc', 'data_time',
     ];
 
 
-    public function campanha()
+    public function campanhaIdadePublico()
     {
-        return $this->belongsTo('App\Campanha', 'campanha_id');
+        return $this->belongsTo('App\CampanhaIdadePublico', 'campanha_idade_publico_id');
     }
 
     public function paciente()

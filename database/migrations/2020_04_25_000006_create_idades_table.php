@@ -16,12 +16,10 @@ class CreateIdadesTable extends Migration
         Schema::create('idades', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->unsignedBigInteger('grupo_id');
+            $table->string('grupo');
             $table->integer('idade_ini');
             $table->integer('idade_end');
             $table->boolean('mes');
-
-            $table->foreign('grupo_id')->references('id')->on('grupos')->onDelete('cascade');
         });
     }
 

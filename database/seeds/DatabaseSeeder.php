@@ -13,13 +13,14 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(AgenteSeeder::class);
         $this->call(PacienteSeeder::class);
+        $this->call(PublicoSeeder::class);
         $this->call(IdadeSeeder::class);
-        $this->call(SegmentoSeeder::class);
-        $this->call(UnidadeSeeder::class);
         $this->call(TermoSeeder::class);
         $this->call(CampanhaSeeder::class);
+        $this->call(CampanhaIdadePublicoSeeder::class);
+        $this->call(UnidadeSeeder::class);
+        $this->call(CampanhaUnidadeSeeder::class);
         $this->call(SolicitacaoSeeder::class);
-        $this->call(VacinaUnidadeSeeder::class);
         $this->call(AgenteSolicitacaoSeeder::class);
     }
 }

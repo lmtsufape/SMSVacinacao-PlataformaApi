@@ -22,7 +22,7 @@ class PublicoSeeder extends Seeder
         ]);
 
         \App\Publico::create([
-            'nome' => 'Idosos'
+            'nome' => 'Indigenas'
         ]);
 
         \App\Publico::create([

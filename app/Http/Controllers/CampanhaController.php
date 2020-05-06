@@ -10,6 +10,7 @@ class CampanhaController extends Controller
 
     public function list(Request $request, $id = false)
     {
+        $campanha = '';
 
         if ($id !== false) {
             $campanha = \App\Campanha::find($id);
@@ -17,15 +18,25 @@ class CampanhaController extends Controller
             return $campanha;
         }
 
-        $campanha = \App\Campanha::all();
+        if($request->has('mes')){
+            if($request->has('excecao') && ($request->excecao === 'true')){
+                $campanha = \App\Campanha::whereMonth('data_ini', '!=', $request->mes)->with('idadePublico')->get();
+            }else{
+                $campanha = \App\Campanha::whereMonth('data_ini', $request->mes)->with('idadePublico')->get();
+            }
+
+        }else{
+            $campanha = \App\Campanha::with('idadePublico')->get();
+        }
 
         if ($request->json === 'true') {
 
-            $result = $campanha->map(function ($item) {
-                return $item->with('vacina', 'publico', 'segmento', 'segmento.idade', 'segmento.idade.grupo', 'segmento.periodo')->get();
-            });
+            /* $result = $campanha->map(function ($item) {
+                return $item->with('idadePublico')->get();
+            }); */
 
-            return $result;
+
+            return $campanha;
         }
 
         return view('campanha.list')->with('objs', $campanha);

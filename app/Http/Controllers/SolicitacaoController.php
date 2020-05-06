@@ -303,13 +303,10 @@ class SolicitacaoController extends Controller
 
         if ($paciente !== null) {
             $solicitacao = $paciente->solicitacoes()->with(
-                'campanha',
-                'campanha.vacina',
-                'campanha.publico',
-                'campanha.segmento',
-                'campanha.segmento.idade',
-                'campanha.segmento.idade.grupo',
-                'campanha.segmento.periodo'
+                'campanhaIdadePublico',
+                'campanhaIdadePublico.campanha',
+                'campanhaIdadePublico.publico',
+                'campanhaIdadePublico.idade',
             )->where($request->except('json'))->get();
         } else {
             $solicitacao = 'not found';

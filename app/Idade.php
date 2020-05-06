@@ -10,7 +10,7 @@ class Idade extends Model
     //
 
     protected $fillable = [
-        'id', 'grupo_id', 'idade_ini', 'idade_end', 'mes',
+        'id', 'grupo', 'idade_ini', 'idade_end', 'mes',
     ];
 
     public function grupo()

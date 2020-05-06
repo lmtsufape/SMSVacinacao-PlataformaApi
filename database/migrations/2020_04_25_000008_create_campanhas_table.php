@@ -16,13 +16,14 @@ class CreateCampanhasTable extends Migration
         Schema::create('campanhas', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->unsignedBigInteger('vacina_id');
-            $table->unsignedBigInteger('publico_id');
-            $table->unsignedBigInteger('segmento_id');
+            $table->unsignedBigInteger('termo_id');
+            $table->string('nome');
+            $table->text('desc');
+            $table->boolean('atend_domic');
+            $table->date('data_ini');
+            $table->date('data_end');
 
-            $table->foreign('vacina_id')->references('id')->on('vacinas')->onDelete('cascade');
-            $table->foreign('publico_id')->references('id')->on('publicos')->onDelete('cascade');
-            $table->foreign('segmento_id')->references('id')->on('segmentos')->onDelete('cascade');
+            $table->foreign('termo_id')->references('id')->on('termos')->onDelete('cascade');
         });
     }
 

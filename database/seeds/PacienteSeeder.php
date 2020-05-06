@@ -14,7 +14,7 @@ class PacienteSeeder extends Seeder
         //
 
         \App\Paciente::create([
-            'cns' => 1231231232,
+            'cns' => 111111111111111,
             'nome' => 'Luiz caldas',
             'nasc' => date('Y-m-d'),
             'tel' => '87981486931',
@@ -29,8 +29,8 @@ class PacienteSeeder extends Seeder
         ]);
 
         \App\Paciente::create([
-            'cns' => 1231231233,
-            'nome' => 'Tiringa',
+            'cns' => 222222222222222,
+            'nome' => 'Ermanoteu',
             'nasc' => date('Y-m-d'),
             'tel' => '87981486931',
             'rua' => 'luiz mendes',
@@ -44,7 +44,7 @@ class PacienteSeeder extends Seeder
         ]);
 
         \App\Paciente::create([
-            'cns' => 1231231234,
+            'cns' => 333333333333333,
             'nome' => 'Seu lunga',
             'nasc' => date('Y-m-d'),
             'tel' => '87981486931',

@@ -318,4 +318,35 @@ class SolicitacaoController extends Controller
 
         return redirect()->action('SolicitacaoController@list');
     }
+
+    public function createPacienteSolic(Request $request, $id)
+    {
+
+        $solicitacao = '';
+
+        $paciente = \App\Paciente::find($id);
+
+
+        if ($paciente !== null) {
+            $parameters = $request->only(['campanha_id', 'publico_id', 'idade_id']);
+            $campanhaIdadePublico = \App\CampanhaIdadePublico::where($parameters)->first();
+            if ($campanhaIdadePublico !== null) {
+                $data = [
+                    'campanha_idade_publico_id' => $campanhaIdadePublico->id,
+                    'paciente_cns' => $paciente->cns,
+                ];
+                $solicitacao = \App\Solicitacao::create($data);
+            } else {
+                $solicitacao = 'campanha, publico and idade not found';
+            }
+        } else {
+            $solicitacao = 'paciente not found';
+        }
+
+        if ($request->json == 'true') {
+            return $solicitacao;
+        }
+
+        return redirect()->action('SolicitacaoController@list');
+    }
 }

@@ -126,6 +126,7 @@ Route::delete('campanha/{id?}', 'CampanhaController@delete');
 
 
 Route::get('solicitacao/paciente/{id}', 'SolicitacaoController@pacienteSolic');
+Route::post('solicitacao/paciente/{id}', 'SolicitacaoController@createPacienteSolic');
 Route::get('solicitacao/delegadas/agente/{id?}', 'SolicitacaoController@agenteSolicDeleg');
 Route::get('solicitacao/atribuidas/agente/{id?}', 'SolicitacaoController@agenteSolicAtrib');
 Route::post('solicitacao/recusar/{id}', 'SolicitacaoController@recusar');

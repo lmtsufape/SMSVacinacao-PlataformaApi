@@ -19,9 +19,11 @@ class CreateSolicitacoesTable extends Migration
             $table->unsignedBigInteger('campanha_idade_publico_id');
             $table->string('paciente_cns');
             $table->unsignedBigInteger('agente_id')->nullable();
-            $table->string('status');
+            $table->string('status')->default('Em Analise');
             $table->text('recusa_desc')->nullable();
             $table->dateTime('data_time')->nullable();
+
+            $table->unique(['paciente_cns', 'campanha_idade_publico_id']);
 
             $table->foreign('campanha_idade_publico_id')->references('id')->on('campanhas_idades_publicos')->onDelete('cascade');
             $table->foreign('paciente_cns')->references('cns')->on('pacientes')->onDelete('cascade');

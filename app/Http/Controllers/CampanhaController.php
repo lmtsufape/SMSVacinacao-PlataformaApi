@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CampanhaController extends Controller
 {
@@ -15,18 +16,61 @@ class CampanhaController extends Controller
         if ($id !== false) {
             $campanha = \App\Campanha::find($id);
 
+            if ($request->has('mes')) {
+                $mes =  $request->mes;
+                $campanha->load(['publicos.idades' => function ($query) use ($id, $mes) {
+                    $query->where('campanha_id', '=', $id)->whereMonth('data_ini', '>=', $mes);
+                }])->get();
+            } else {
+                $campanha->load(['publicos.idades' => function ($query) use ($id) {
+                    $query->where('campanha_id', '=', $id);
+                }])->get();
+            }
+
             return $campanha;
         }
 
-        if($request->has('mes')){
-            if($request->has('excecao') && ($request->excecao === 'true')){
-                $campanha = \App\Campanha::whereMonth('data_ini', '!=', $request->mes)->with('idadePublico')->get();
-            }else{
-                $campanha = \App\Campanha::whereMonth('data_ini', $request->mes)->with('idadePublico')->get();
+        if ($request->has('mes')) {
+            if ($request->has('excecao') && ($request->excecao === 'true')) {
+                $campanha = DB::table('campanhas_idades_publicos')
+                    ->join('campanhas', 'campanha_id', '=', 'campanhas.id')
+                    ->join('termos', 'termo_id', '=', 'termos.id')
+                    ->select(DB::raw('MIN(campanhas_idades_publicos.data_ini) as data_ini, MAX(campanhas_idades_publicos.data_end) as data_end, campanhas.*, termos.nome AS termo_nome, termos.desc AS termo_desc'))
+                    ->groupBy('campanhas.id', 'termos.id')
+                    ->orderBy('data_ini')
+                    ->whereMonth('data_ini', '>', $request->mes)
+                    ->get();
+            } else {
+                $campanha = DB::table('campanhas_idades_publicos')
+                    ->join('campanhas', 'campanha_id', '=', 'campanhas.id')
+                    ->join('termos', 'termo_id', '=', 'termos.id')
+                    ->select(DB::raw('MIN(campanhas_idades_publicos.data_ini) as data_ini, MAX(campanhas_idades_publicos.data_end) as data_end, campanhas.*, termos.nome AS termo_nome, termos.desc AS termo_desc'))
+                    ->groupBy('campanhas.id', 'termos.id')
+                    ->orderBy('data_ini')
+                    ->whereMonth('data_ini', '<=', $request->mes)
+                    ->WhereMonth('data_end', '>=', $request->mes)
+                    ->get();
             }
+        } else {
 
-        }else{
-            $campanha = \App\Campanha::with('idadePublico')->get();
+            $campanha = DB::table('campanhas_idades_publicos')
+                ->join('campanhas', 'campanha_id', '=', 'campanhas.id')
+                ->join('termos', 'termo_id', '=', 'termos.id')
+                ->select(DB::raw('MIN(campanhas_idades_publicos.data_ini) as data_ini, MAX(campanhas_idades_publicos.data_end) as data_end, campanhas.*, termos.nome AS termo_nome, termos.desc AS termo_desc'))
+                ->groupBy('campanhas.id', 'termos.id')
+                ->orderBy('data_ini')
+                ->get();
+
+            /* $campanha = \App\Campanha::with(['publicos.idades' => function ($query) {
+                $query->whereColumn('campanha_id', '=', 'campanha_id');
+            }])->get(); */
+
+            /* $campanhas = DB::table('campanhas'); */
+            /* $campanha = DB::table('termos')
+                ->join('campanhas', function ($join) {
+                    $join->on('termos.id', '=', 'campanhas.termo_id');
+                })->select(DB::raw("termos.nome AS termo_nome, termos.desc AS termo_desc, campanhas.*"))
+                ->get(); */
         }
 
         if ($request->json === 'true') {
@@ -36,6 +80,7 @@ class CampanhaController extends Controller
             }); */
 
 
+            /* return $campanha->groupBy('termo_nome'); */
             return $campanha;
         }
 

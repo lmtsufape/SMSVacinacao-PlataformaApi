@@ -20,8 +20,6 @@ class CreateCampanhasTable extends Migration
             $table->string('nome');
             $table->text('desc');
             $table->boolean('atend_domic');
-            $table->date('data_ini');
-            $table->date('data_end');
 
             $table->foreign('termo_id')->references('id')->on('termos')->onDelete('cascade');
         });

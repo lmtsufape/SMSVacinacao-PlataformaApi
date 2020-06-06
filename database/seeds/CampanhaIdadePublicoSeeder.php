@@ -30,7 +30,7 @@ class CampanhaIdadePublicoSeeder extends Seeder
 
         \App\CampanhaIdadePublico::create([
             'campanha_id' => 1,
-            'idade_id' => 3,
+            'idade_id' => 4,
             'publico_id' => 1,
             'data_ini' => '2019-04-01',
             'data_end' => '2019-04-20',
@@ -70,8 +70,8 @@ class CampanhaIdadePublicoSeeder extends Seeder
 
         \App\CampanhaIdadePublico::create([
             'campanha_id' => 3,
-            'idade_id' => 3,
-            'publico_id' => 3,
+            'idade_id' => 4,
+            'publico_id' => 4,
             'data_ini' => '2020-08-06',
             'data_end' => '2020-10-08',
         ]);

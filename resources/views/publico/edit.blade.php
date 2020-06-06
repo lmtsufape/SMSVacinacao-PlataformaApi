@@ -11,7 +11,7 @@
             <div class="form-group col-md-12 mb-5" style="width: 310px;">
                 <div class="form-row">
                     <label for="nome">Nome</label>
-                    <input type="text" class="form-control" id="nome" placeholder="Nome" name="nome" value="{{$obj->nome}}">
+                    <input type="text" class="form-control" id="nome" placeholder="Nome" name="nome" value="{{$obj->nome}}" required autocomplete="nome" autofocus >
                 </div>
             </div>
 

@@ -11,7 +11,7 @@
                 <div class="form-row ">
                     <div class="col-md-12">
                         <label for="nome">Nome</label>
-                        <input type="text" class="form-control col-md-12" id="nome" placeholder="Nome" name="nome">
+                        <input type="text" class="form-control col-md-12" id="nome" placeholder="Nome" name="nome" required autocomplete="nome" autofocus value="{{ old('nome') }}">
                     </div>
                 </div>
             </div>

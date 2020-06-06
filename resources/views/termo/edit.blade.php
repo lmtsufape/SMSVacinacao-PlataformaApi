@@ -11,14 +11,14 @@
             <div class="form-group col-md-12 " style="width: 310px;">
                 <div class="form-row">
                     <label for="nome">Nome</label>
-                    <input type="text" class="form-control" id="nome" placeholder="Nome" name="nome" value="{{$obj->nome}}">
+                    <input type="text" class="form-control" id="nome" placeholder="Nome" name="nome" value="{{$obj->nome}}" required autocomplete="nome" autofocus>
                 </div>
             </div>
 
             <div class="form-group col-md-12 mb-5">
                 <div class="form-row">
                     <label for="desc">Descrição</label>
-                    <textarea class="form-control" id="desc" name="desc" rows="10" value="{{$obj->desc}}">{{$obj->desc}}</textarea>
+                    <textarea class="form-control" id="desc" name="desc" rows="10" value="{{$obj->desc}}" required autocomplete="desc" autofocus>{{$obj->desc}}</textarea>
                 </div>
             </div>
 

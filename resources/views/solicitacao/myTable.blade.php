@@ -1,6 +1,14 @@
 <script>
     $(document).ready(function($) {
-        var table = $('#mytable').DataTable();
+        var table = $('#mytable').DataTable({
+            "language": {
+                "lengthMenu": "Exibir _MENU_ registros por página",
+                "zeroRecords": "Nada encontrado - desculpe",
+                "info": "Mostrando página _PAGE_ de _PAGES_",
+                "infoEmpty": "Nenhum registro disponível",
+                "infoFiltered": "(filtrado de _MAX_ total de registros)"
+            },
+        });
 
         $(".location").click(function() {
             console.log($(this).data("lat"));
@@ -36,7 +44,7 @@
                 <th>Delegado Por</th>
                 <th>Agente</th>
                 <th>Momento</th>
-                <th width="14%">Opções</th>
+                <th width="20%">Opções</th>
             </tr>
         </thead>
 
@@ -60,12 +68,12 @@
                 <td data-toggle="modal" data-target="#modalAt{{$loop->iteration}}" class="text-wrap">{{$objAt->data_time}}</td>
                 <td>
                     <div class="d-flex justify-content-around flex-wrap">
-                        <div class="d-flex flex-column justify-content-center ">
+                        <div class="d-flex flex-column justify-content-center mt-1">
                             <a href="tel:{{$objAt->paciente->tel}}" class="btn btn-primary btn-sm mb-1 mr-1">Ligar</a>
                             <a data-toggle="modal" data-target="#modalAt{{$loop->iteration}}" class="btn btn-info btn-sm">Detalhes</a>
                         </div>
                         @can('create', App\Agendamento::class)
-                        <div class="d-flex flex-column">
+                        <div class="d-flex flex-column mt-1">
                             <form class="form-soft aceitar{{$objAt->id}} mb-1 mr-1" action="{{action('SolicitacaoController@aceitar', $objAt->id)}}#my" method="post">
                                 @method('post')
                                 @csrf
@@ -78,7 +86,7 @@
                             </a>
                         </div>
                         @endcan
-                        <div class="d-flex flex-column">
+                        <div class="d-flex flex-column mt-1">
                             <form class="form-soft atender{{$objAt->id}} mb-1 mr-1" action="{{action('SolicitacaoController@atender', $objAt->id)}}" method="post">
                                 @method('post')
                                 @csrf

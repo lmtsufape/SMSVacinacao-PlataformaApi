@@ -14,33 +14,22 @@ class SolicitacaoSeeder extends Seeder
     {
         DB::table('solicitacoes')->insert([  // 1
             'campanha_idade_publico_id' => 1,
-            'paciente_cns' => '111111111111111',
-            'status' => 'Em espera',
+            'paciente_cns' => '718000314410004',
         ]);
 
         DB::table('solicitacoes')->insert([  // 1
-            'campanha_idade_publico_id' => 2,
-            'paciente_cns' => '111111111111111',
-            'agente_id' => 1,
-            'status' => 'Vacinado',
-            'data_time' => new DateTime('now'),
+            'campanha_idade_publico_id' => 8,
+            'paciente_cns' => '718000314410004',
         ]);
 
         DB::table('solicitacoes')->insert([  // 1
-            'campanha_idade_publico_id' => 2,
-            'paciente_cns' => '222222222222222',
-            'agente_id' => 1,
-            'status' => 'Recusado',
-            'recusa_desc' => 'foi recusado por está...',
-            'data_time' => new DateTime('now'),
+            'campanha_idade_publico_id' => 3,
+            'paciente_cns' => '991514158060008',
         ]);
 
         DB::table('solicitacoes')->insert([  // 1
-            'campanha_idade_publico_id' => 2,
-            'paciente_cns' => '333333333333333',
-            'agente_id' => 1,
-            'status' => 'Em espera',
-            'data_time' => new DateTime('now'),
+            'campanha_idade_publico_id' => 5,
+            'paciente_cns' => '288354864860002',
         ]);
     }
 }

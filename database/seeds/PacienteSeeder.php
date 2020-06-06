@@ -14,14 +14,14 @@ class PacienteSeeder extends Seeder
         //
 
         \App\Paciente::create([
-            'cns' => 111111111111111,
-            'nome' => 'Luiz caldas',
+            'cns' => 718000314410004,
+            'nome' => 'Marina Pereira Lima',
             'nasc' => date('Y-m-d'),
             'tel' => '87981486931',
-            'rua' => 'luiz mendes',
+            'rua' => 'Santa Fé',
             'num' => '126',
-            'bairro' => 'Aloisio Souto Pinto',
-            'cidade' => 'garanhuns',
+            'bairro' => 'Boa vista',
+            'cidade' => 'Garanhuns',
             'uf' => 'PE',
             'cep' => '56555-000',
             'lat' => -8.987803,
@@ -29,14 +29,14 @@ class PacienteSeeder extends Seeder
         ]);
 
         \App\Paciente::create([
-            'cns' => 222222222222222,
-            'nome' => 'Ermanoteu',
+            'cns' => 991514158060008,
+            'nome' => 'Vinicius Martins Cardoso',
             'nasc' => date('Y-m-d'),
             'tel' => '87981486931',
-            'rua' => 'luiz mendes',
+            'rua' => 'Colônia Agrícola Vicente Pires',
             'num' => '126',
-            'bairro' => 'Aloisio Souto Pinto',
-            'cidade' => 'garanhuns',
+            'bairro' => 'Centro',
+            'cidade' => 'Garanhuns',
             'uf' => 'PE',
             'cep' => '56555-000',
             'lat' => -8.987868,
@@ -44,15 +44,15 @@ class PacienteSeeder extends Seeder
         ]);
 
         \App\Paciente::create([
-            'cns' => 333333333333333,
-            'nome' => 'Seu lunga',
+            'cns' => 288354864860002,
+            'nome' => 'Thiago Castro Ribeiro',
             'nasc' => date('Y-m-d'),
             'tel' => '87981486931',
-            'rua' => 'luiz mendes',
+            'rua' => 'Rua Nove',
             'num' => '126',
             'complemento' => 'casa',
             'bairro' => 'Aloisio Souto Pinto',
-            'cidade' => 'garanhuns',
+            'cidade' => 'Garanhuns',
             'uf' => 'PE',
             'cep' => '56555-000',
             'lat' => -8.985219,

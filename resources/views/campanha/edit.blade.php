@@ -32,14 +32,14 @@
             <div class="form-group col-md-12 " style="width: 330px;">
                 <div class=" form-row">
                     <label for="nome">Nome</label>
-                    <input type="text" class="form-control" id="nome" placeholder="Nome" name="nome" value="{{$obj->nome}}">
+                    <input type="text" class="form-control" id="nome" placeholder="Nome" name="nome" value="{{$obj->nome}}" required autocomplete="nome" autofocus>
                 </div>
             </div>
 
             <div class="form-group col-md-12">
                 <div class="form-row">
                     <label for="desc">Descrição</label>
-                    <textarea class="form-control" id="desc" name="desc" rows="6" value="{{$obj->desc}}">{{$obj->desc}}</textarea>
+                    <textarea class="form-control" id="desc" name="desc" rows="6" value="{{$obj->desc}}" required autocomplete="desc" autofocus>{{$obj->desc}}</textarea>
                 </div>
             </div>
 
@@ -53,7 +53,7 @@
                 <div class="form-row">
                     <div class="form-group col-md-7">
                         <label for="termo">Termo</label>
-                        <select id="termo" class="form-control termo" name="termo_id">
+                        <select id="termo" class="form-control termo" name="termo_id" >
                             <option selected value="{{$objT->id}}"> {{$objT->nome}}</option>
                             @foreach($objsT as $objFT)
                             <option value="{{$objFT->id}}">{{$objFT->nome}}</option>
@@ -66,7 +66,7 @@
                     </div>
                 </div>
                 <div class="form-row">
-                    <textarea class="form-control" id="termo_desc" name="termo_desc" disabled rows="5" value="{{$objT->desc}}">{{$objT->desc}}</textarea>
+                    <textarea class="form-control" id="termo_desc" name="termo_desc" disabled rows="5" value="{{$objT->desc}}" required autocomplete="termo_desc" autofocus>{{$objT->desc}}</textarea>
                 </div>
             </div>
 

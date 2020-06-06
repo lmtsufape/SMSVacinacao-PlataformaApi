@@ -8,94 +8,46 @@ use Illuminate\Support\Facades\DB;
 class CampanhaController extends Controller
 {
     //
-
     public function list(Request $request, $id = false)
     {
         $campanha = '';
 
         if ($id !== false) {
             $campanha = \App\Campanha::find($id);
-
-            if ($request->has('mes')) {
-                $mes =  $request->mes;
-                $campanha->load(['publicos.idades' => function ($query) use ($id, $mes) {
-                    $query->where('campanha_id', '=', $id)->whereMonth('data_ini', '>=', $mes);
-                }])->get();
-            } else {
-                $campanha->load(['publicos.idades' => function ($query) use ($id) {
-                    $query->where('campanha_id', '=', $id);
-                }])->get();
-            }
-
-            return $campanha;
-        }
-
-        if ($request->has('mes')) {
-            if ($request->has('excecao') && ($request->excecao === 'true')) {
-                $campanha = DB::table('campanhas_idades_publicos')
-                    ->join('campanhas', 'campanha_id', '=', 'campanhas.id')
-                    ->join('termos', 'termo_id', '=', 'termos.id')
-                    ->select(DB::raw('MIN(campanhas_idades_publicos.data_ini) as data_ini, MAX(campanhas_idades_publicos.data_end) as data_end, campanhas.*, termos.nome AS termo_nome, termos.desc AS termo_desc'))
-                    ->groupBy('campanhas.id', 'termos.id')
-                    ->orderBy('data_ini')
-                    ->whereMonth('data_ini', '>', $request->mes)
-                    ->get();
-            } else {
-                $campanha = DB::table('campanhas_idades_publicos')
-                    ->join('campanhas', 'campanha_id', '=', 'campanhas.id')
-                    ->join('termos', 'termo_id', '=', 'termos.id')
-                    ->select(DB::raw('MIN(campanhas_idades_publicos.data_ini) as data_ini, MAX(campanhas_idades_publicos.data_end) as data_end, campanhas.*, termos.nome AS termo_nome, termos.desc AS termo_desc'))
-                    ->groupBy('campanhas.id', 'termos.id')
-                    ->orderBy('data_ini')
-                    ->whereMonth('data_ini', '<=', $request->mes)
-                    ->WhereMonth('data_end', '>=', $request->mes)
-                    ->get();
-            }
         } else {
-
-            $campanha = DB::table('campanhas_idades_publicos')
-                ->join('campanhas', 'campanha_id', '=', 'campanhas.id')
-                ->join('termos', 'termo_id', '=', 'termos.id')
-                ->select(DB::raw('MIN(campanhas_idades_publicos.data_ini) as data_ini, MAX(campanhas_idades_publicos.data_end) as data_end, campanhas.*, termos.nome AS termo_nome, termos.desc AS termo_desc'))
-                ->groupBy('campanhas.id', 'termos.id')
-                ->orderBy('data_ini')
-                ->get();
-
-            /* $campanha = \App\Campanha::with(['publicos.idades' => function ($query) {
-                $query->whereColumn('campanha_id', '=', 'campanha_id');
-            }])->get(); */
-
-            /* $campanhas = DB::table('campanhas'); */
-            /* $campanha = DB::table('termos')
-                ->join('campanhas', function ($join) {
-                    $join->on('termos.id', '=', 'campanhas.termo_id');
-                })->select(DB::raw("termos.nome AS termo_nome, termos.desc AS termo_desc, campanhas.*"))
-                ->get(); */
+            $campanha = \App\Campanha::with('termo')->get();
         }
 
         if ($request->json === 'true') {
 
-            /* $result = $campanha->map(function ($item) {
-                return $item->with('idadePublico')->get();
-            }); */
-
-
-            /* return $campanha->groupBy('termo_nome'); */
             return $campanha;
         }
 
         return view('campanha.list')->with('objs', $campanha);
     }
 
-    public function add()
+    public function add(Request $request)
     {
-        return view('campanha.add');
+        $termo = \App\Termo::all()->reverse();
+
+        $queryRcv = new Request($request->query());
+        if ($queryRcv->has('urlReturn')) {
+            $url = $queryRcv->urlReturn;
+            return view('campanha.add')->with(["objs" => $termo, "urlReturn" => $url]);
+        }
+        return view('campanha.add')->with("objs", $termo);
     }
 
     public function create(Request $request)
     {
 
-        $dadosCampanha = $request->only(['id', 'vacina_id', 'publico_id',  'segmento_id']);
+        $dadosCampanha = $request->only(['nome', 'desc', 'atend_domic', 'termo_id']);
+
+        if ($request->has('atend_domic')) {
+            $dadosCampanha['atend_domic'] = true;
+        } else {
+            $dadosCampanha['atend_domic'] = false;
+        }
 
         $campanha = \App\Campanha::create($dadosCampanha);
 
@@ -103,22 +55,40 @@ class CampanhaController extends Controller
             return $campanha;
         }
 
-        return redirect()->action('CampanhaController@list');
+        $queryRcv = new Request($request->query());
+        if ($queryRcv->has('urlReturn')) {
+            $url = $queryRcv->urlReturn;
+            return redirect()->to($url);
+        }
     }
 
-    public function editForm($id)
+    public function editForm($id, Request $request)
     {
 
+        $termos = \App\Termo::all();
         $campanhaEdit = \App\Campanha::find($id);
+        $campanhaEdit->load('termo')->get();
 
-        return view('campanha.edit')->with('obj', $campanhaEdit);
+        $queryRcv = new Request($request->query());
+        if ($queryRcv->has('urlReturn')) {
+            $url = $queryRcv->urlReturn;
+            return view('campanha.edit')->with(['obj' => $campanhaEdit, 'objsT' => $termos, 'objT' => $campanhaEdit->termo, "urlReturn" => $url]);
+        }
+
+        return view('campanha.edit')->with(['obj' => $campanhaEdit, 'objsT' => $termos, 'objT' => $campanhaEdit->termo]);
     }
 
     public function edit(Request $request)
     {
         $updatingCampanha = '';
-        $dadosCampanha = $request->only(['id', 'vacina_id', 'publico_id',  'segmento_id']);
+        $dadosCampanha = $request->only(['id', 'nome', 'desc', 'atend_domic', 'termo_id']);
         $campanha = \App\Campanha::find($dadosCampanha['id']);
+
+        if ($request->has('atend_domic')) {
+            $dadosCampanha['atend_domic'] = true;
+        } else {
+            $dadosCampanha['atend_domic'] = false;
+        }
 
         if ($campanha !== null) {
             $updatingCampanha = \App\Campanha::updateOrCreate(['id' => $dadosCampanha['id']], $dadosCampanha);
@@ -130,7 +100,13 @@ class CampanhaController extends Controller
             return $updatingCampanha;
         }
 
-        return redirect()->action('CampanhaController@list');
+        $queryRcv = new Request($request->query());
+        if ($queryRcv->has('urlReturn')) {
+            $url = $queryRcv->urlReturn;
+            return redirect()->to($url);
+        }
+
+        return redirect(session('links')[2]);
     }
 
     public function delete(Request $request, $id = false)
@@ -155,7 +131,7 @@ class CampanhaController extends Controller
             return $campanha;
         }
 
-        return redirect()->action('CampanhaController@list');
+        return redirect()->back();
     }
 
     /*  public function teste()
@@ -170,4 +146,25 @@ class CampanhaController extends Controller
 
         return $campanhaResults;
     } */
+
+    public function addPublico(Request $request)
+    {
+        $result = '';
+        $idcampanha = $request->idcampanha;
+        $idpublico = $request->idpublico;
+
+        $campanha = \App\Campanha::find($idcampanha);
+
+        $campanha->load(['publicos.idades' => function ($query) use ($idcampanha, $idpublico) {
+            $query->where('campanha_id', '=', $idcampanha);
+        }])->get();
+
+        foreach ($campanha->publicos as $obj) {
+            if ($obj->id == $idpublico) {
+                $result = $obj;
+            }
+        }
+
+        return $result;
+    }
 }

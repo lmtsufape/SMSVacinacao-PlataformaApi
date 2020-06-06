@@ -34,6 +34,10 @@ class PacienteController extends Controller
     public function create(Request $request)
     {
 
+        $request->validate([
+            'cns' => 'required|string|unique:pacientes|cns',
+        ]);
+
         $dadosPaciente = $request->only(['cns', 'nome', 'nasc', 'tel', 'rua', 'num', 'complemento', 'bairro', 'cidade', 'uf', 'cep', 'lat', 'lng']);
         $paciente = \App\Paciente::create($dadosPaciente);
 
@@ -54,6 +58,7 @@ class PacienteController extends Controller
 
     public function edit(Request $request)
     {
+
         $updatingPaciente = '';
         $dadosPaciente = $request->only(['cns', 'nome', 'nasc', 'tel', 'rua', 'num', 'complemento', 'bairro', 'cidade', 'uf', 'cep', 'lat', 'lng']);
         $paciente = \App\Paciente::find($dadosPaciente['cns']);

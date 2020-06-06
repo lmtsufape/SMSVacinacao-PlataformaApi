@@ -16,7 +16,7 @@ class Solicitacao extends Model
     ];
 
 
-    public function campanhaIdadePublico()
+    public function campanhaidadepublico()
     {
         return $this->belongsTo('App\CampanhaIdadePublico', 'campanha_idade_publico_id');
     }

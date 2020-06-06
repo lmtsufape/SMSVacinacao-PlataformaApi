@@ -2,7 +2,8 @@
 
 @push('scripts')
 <script>
-    $(document).ready(function() {
+    $(document).ready(function($) {
+        $('#tablePaciente').DataTable();
         $(".location").click(function() {
             console.log($(this).data("lat"));
             let lat = $(this).data("lat");
@@ -38,36 +39,46 @@
         </div>
     </div>
 
-    <table id="unidadetable" class="table table-striped table-sm">
+    <table id="tablePaciente" class="table table-striped table-sm display responsive nowrap" cellspacing="0" width="100%">
         <thead>
             <tr>
                 <th>Paciente</th>
                 <th>Localização</th>
-                <th>Opcões</th>
+                <th width="21%">Opcões</th>
             </tr>
         </thead>
 
         <tbody>
             @foreach ($objs as $obj)
             <tr>
-                <td data-toggle="modal" data-target="#modal{{$loop->iteration}}">{{$obj->nome}}</td>
-                <td data-toggle="modal" data-target="#modal{{$loop->iteration}}">{{$obj->rua}}, Nº{{$obj->num}}, {{$obj->bairro}}, {{$obj->cidade}}-{{$obj->uf}}</td>
+                <td class="text-wrap">{{$obj->nome}}</td>
+                <td data-toggle="modal" data-target="#modal{{$loop->iteration}}" class="text-wrap">Rua {{$obj->rua}}, Nº{{$obj->num}}, Bairro {{$obj->bairro}}, {{$obj->cidade}}-{{$obj->uf}}</td>
                 <td>
                     <div class="d-flex justify-content-around flex-wrap">
-                        <button data-lat="{{$obj->lat}}" data-lng="{{$obj->lng}}" class="btn btn-info btn-sm location">Ir até</button>
-                        <button data-toggle="modal" data-target="#modal{{$loop->iteration}}" class="btn btn-info btn-sm">Detalhes</button>
-                        <a href="{{action('PacienteController@editForm', $obj->cns)}}">
-                            <i data-feather="edit"></i>
-                            Editar
-                        </a>
-                        <form class="form-soft" action="{{action('PacienteController@delete', $obj->cns)}}" method="post">
-                            @method('delete')
-                            @csrf
-                            <a href="" onclick="if(confirm('Deseja realmente excluir {{$obj->nome}}?')){this.closest('form').submit(); return false;}else{return false}">
-                                <i data-feather="trash-2"></i>
-                                deletar
+                        <div class="d-flex flex-column justify-content-center mb-1 mr-1">
+                            <a data-toggle="modal" data-target="#modal{{$loop->iteration}}" class="btn btn-info btn-sm">Detalhes</a>
+                        </div>
+
+                        <div class="d-flex flex-column m-1">
+                            <a href="tel:{{$obj->tel}}" class="btn btn-primary btn-sm mb-1 mr-1">Ligar</a>
+                            <a data-lat="{{$obj->lat}}" data-lng="{{$obj->lng}}" class="btn btn-info btn-sm location mb-1 mr-1">Ir até</a>
+                        </div>
+                        @can('create', App\Paciente::class)
+                        <div class="d-flex flex-column m-1">
+                            <a href="{{action('PacienteController@editForm', $obj->cns)}}" class="mb-1 mr-">
+                                <i data-feather="edit"></i>
+                                Editar
                             </a>
-                        </form>
+                            <form class="form-soft" action="{{action('PacienteController@delete', $obj->cns)}}" method="post">
+                                @method('delete')
+                                @csrf
+                                <a href="" onclick="if(confirm('Deseja realmente excluir {{$obj->nome}}?')){this.closest('form').submit(); return false;}else{return false}">
+                                    <i data-feather="trash-2"></i>
+                                    Deletar
+                                </a>
+                            </form>
+                        </div>
+                        @endcan
                     </div>
                 </td>
             </tr>
@@ -75,7 +86,7 @@
                 <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
+                            <h5 class="modal-title" id="exampleModalCenterTitle">Detalhes do Paciente</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -84,15 +95,30 @@
                             <dl class="row mt-3 pt-3 pl-2 ">
                                 <dt class="h4 col-sm-3">Nome:</dt>
                                 <dd class="h4 col-sm-9">{{$obj->nome}}</dd>
-                                <dt class="h4 col-sm-3">Sobrenome:</dt>
-                                <dd class="h4 col-sm-9">{{$obj->lat}}</dd>
-                                <dt class="h4 col-sm-3">CPF:</dt>
-                                <dd class="h4 col-sm-9">{{$obj->lon}}</dd>
+                                <dt class="h4 col-sm-3">CNS:</dt>
+                                <dd class="h4 col-sm-9">{{$obj->cns}}</dd>
+                                <dt class="h4 col-sm-3">Telefone:</dt>
+                                <dd class="h4 col-sm-9"><a href="tel:{{$obj->tel}}">{{$obj->tel}}</a> <a href="tel:{{$obj->tel}}" class="btn btn-primary btn-sm">Ligar</a></dd>
+                                <dt class="h4 col-sm-3">Nascimento:</dt>
+                                <dd class="h4 col-sm-9">{{$obj->nasc}}</dd>
+                                <dt class="h4 col-sm-3">Rua:</dt>
+                                <dd class="h4 col-sm-9">{{$obj->rua}}</dd>
+                                <dt class="h4 col-sm-3">Número:</dt>
+                                <dd class="h4 col-sm-9">{{$obj->num}}</dd>
+                                <dt class="h4 col-sm-3">Complemento:</dt>
+                                <dd class="h4 col-sm-9">{{$obj->complemento}}</dd>
+                                <dt class="h4 col-sm-3">Bairro:</dt>
+                                <dd class="h4 col-sm-9">{{$obj->bairro}}</dd>
+                                <dt class="h4 col-sm-3">Cidade:</dt>
+                                <dd class="h4 col-sm-9">{{$obj->cidade}}</dd>
+                                <dt class="h4 col-sm-3">Estado:</dt>
+                                <dd class="h4 col-sm-9">{{$obj->uf}}</dd>
+                                <dt class="h4 col-sm-3">Coordenadas:</dt>
+                                <dd class="h4 col-sm-9">{{$obj->lat}}, {{$obj->lng}}</dd>
                             </dl>
                         </div>
                         <div class="modal-footer">
-                            <a class="btn btn-danger" data-dismiss="modal" aria-label="Close" href="">Recusar</a>
-                            <a class="btn btn-success" href="" onclick="$('#modal{{$loop->iteration}}').modal('hide')">Aceitar</a>
+                            <button type="button" class="btn btn-info" data-dismiss="modal">Ok</button>
                         </div>
                     </div>
                 </div>

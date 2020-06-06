@@ -27,7 +27,6 @@ class AppServiceProvider extends ServiceProvider
     {
         //
         Validator::extend('cpf', '\App\Utils\CpfValidation@validate');
-        /* URL::forceScheme('https'); */
-        /* $this->app['request']->server->set('HTTPS', 'on'); */
+        Validator::extend('cns', '\App\Utils\CnsValidation@validate');
     }
 }

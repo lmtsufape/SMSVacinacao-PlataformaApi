@@ -95,4 +95,20 @@ class AgendamentoController extends Controller
 
         return redirect()->action('AgendamentoController@list');
     }
+
+    public function createMultiple(Request $request, $id)
+    {
+        $result = 'success';
+        $dadosAgendamento = $request->only(['agenteChefe', 'solicitacoes']);
+
+        $agente = \App\Agente::find($id);
+
+        $data = collect($dadosAgendamento['solicitacoes'])->mapWithKeys(function ($item) use ($dadosAgendamento) {
+            return [$item => ['chiefAgent_id' => $dadosAgendamento['agenteChefe']]];
+        });
+
+        $agente->solicitacoesAtribuidas()->attach($data);
+
+        return $result;
+    }
 }

@@ -26,8 +26,13 @@ class TermoController extends Controller
         return view('termo.list')->with('objs', $termo);
     }
 
-    public function add()
+    public function add(Request $request)
     {
+        $queryRcv = new Request($request->query());
+        if ($queryRcv->has('urlReturn')) {
+            $url = $queryRcv->urlReturn;
+            return view('termo.add')->with('urlReturn', $url);
+        }
         return view('termo.add');
     }
 
@@ -42,7 +47,13 @@ class TermoController extends Controller
             return $termo;
         }
 
-        return redirect()->action('TermoController@list');
+        $queryRcv = new Request($request->query());
+        if ($queryRcv->has('urlReturn')) {
+            $url = $queryRcv->urlReturn;
+            return redirect()->to($url);
+        }
+
+        return redirect(session('links')[3]);
     }
 
     public function editForm($id)
@@ -69,7 +80,7 @@ class TermoController extends Controller
             return $updatingTermo;
         }
 
-        return redirect()->action('TermoController@list');
+        return redirect(session('links')[3]);
     }
 
     public function delete(Request $request, $id = false)

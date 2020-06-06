@@ -59,19 +59,36 @@ class SolicitacaoController extends Controller
     public function list(Request $request, $id = false)
     {
 
+        $solicitacaoAttr = '';
+
         if ($id !== false) {
             $solicitacao = \App\Solicitacao::find($id);
 
             return $solicitacao;
         }
 
-        $solicitacao = \App\Solicitacao::all();
+        $solicitacao = \App\Solicitacao::with('paciente', 'agente', 'campanhaidadepublico', 'campanhaidadepublico.campanha', 'campanhaidadepublico.publico', 'campanhaidadepublico.idade')->get();
 
         if ($request->json === 'true') {
             return $solicitacao;
         }
 
-        return view('solicitacao.list')->with('objs', $solicitacao);
+        if (Auth::check()) {
+            $agente = \App\Agente::find(Auth::user()->id);
+
+            $solicitacaoAttr = $agente->solicitacoesAtribuidas()->with(
+                'paciente',
+                'agente',
+                'campanhaidadepublico',
+                'campanhaidadepublico.campanha',
+                'campanhaidadepublico.publico',
+                'campanhaidadepublico.idade',
+            )->where($request->except('json'))->get();
+        } else {
+            $solicitacaoAttr = 'not found';
+        }
+
+        return view('solicitacao.list')->with(['objs' => $solicitacao, 'objsAt' => $solicitacaoAttr]);
     }
 
     public function add()
@@ -177,9 +194,38 @@ class SolicitacaoController extends Controller
 
         if ($solicitacao !== null) {
             if (Auth::check()) {
-                $agente = Auth::user();
-                $solicitacao->agente_id = $agente->id;
-                $solicitacao->status = 'vacinado';
+                $agente = Auth::user()->id;
+                $solicitacao->agente_id = $agente;
+                $solicitacao->status = 'Vacinado';
+                $solicitacao->data_time = new DateTime('NOW');
+                $solicitacao->save();
+            }
+        } else {
+            $solicitacao = 'not found';
+        }
+
+        if ($request->json == 'true') {
+            if (Auth::check()) {
+                return 'ok';
+            } else {
+                return 'fail';
+            }
+        }
+
+        return redirect()->action('SolicitacaoController@list');
+    }
+
+    public function aceitar(Request $request, $id = false)
+    {
+
+        $solicitacao = '';
+        $solicitacao = \App\Solicitacao::find($id);
+
+        if ($solicitacao !== null) {
+            if (Auth::check()) {
+                $agente = Auth::user()->id;
+                $solicitacao->agente_id = $agente;
+                $solicitacao->status = 'Aceito';
                 $solicitacao->data_time = new DateTime('NOW');
                 $solicitacao->save();
             }
@@ -206,10 +252,13 @@ class SolicitacaoController extends Controller
 
         if ($solicitacao !== null) {
             if (Auth::check()) {
-                $agente = Auth::user();
-                $solicitacao->agente_id = $agente->id;
-                $solicitacao->status = 'recusado';
+                $agente = Auth::user()->id;
+                $solicitacao->agente_id = $agente;
+                $solicitacao->status = 'Recusado';
                 $solicitacao->data_time = new DateTime('NOW');
+                if ($request->has('desc')) {
+                    $solicitacao->recusa_desc = $request->desc;
+                }
                 $solicitacao->save();
             }
         } else {
@@ -239,13 +288,12 @@ class SolicitacaoController extends Controller
 
         if ($agente !== null) {
             $solicitacao = $agente->solicitacoesAtribuidas()->with(
-                'campanha',
-                'campanha.vacina',
-                'campanha.publico',
-                'campanha.segmento',
-                'campanha.segmento.idade',
-                'campanha.segmento.idade.grupo',
-                'campanha.segmento.periodo'
+                'paciente',
+                'agente',
+                'campanhaidadepublico',
+                'campanhaidadepublico.campanha',
+                'campanhaidadepublico.publico',
+                'campanhaidadepublico.idade',
             )->where($request->except('json'))->get();
         } else {
             $solicitacao = 'not found';

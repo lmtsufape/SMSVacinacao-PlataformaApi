@@ -25,20 +25,37 @@ class IdadeController extends Controller
         return view('idade.list')->with('objs', $idade);
     }
 
-    public function add()
+    public function add(Request $request)
     {
+        $queryRcv = new Request($request->query());
+        if ($queryRcv->has('urlReturn')) {
+            $url = $queryRcv->urlReturn;
+            return view('idade.add')->with('urlReturn', $url);
+        }
         return view('idade.add');
     }
 
     public function create(Request $request)
     {
 
-        $dadosIdade = $request->only(['id', 'grupo_id', 'idade_ini',  'idade_end', 'mes']);
+        $dadosIdade = $request->only(['grupo', 'idade_ini',  'idade_end', 'mes']);
+
+        if ($request->has('mes')) {
+            $dadosIdade['mes'] = true;
+        } else {
+            $dadosIdade['mes'] = false;
+        }
 
         $idade = \App\Idade::create($dadosIdade);
 
         if ($request->json === 'true') {
             return $idade;
+        }
+
+        $queryRcv = new Request($request->query());
+        if ($queryRcv->has('urlReturn')) {
+            $url = $queryRcv->urlReturn;
+            return redirect()->to($url);
         }
 
         return redirect()->action('IdadeController@list');
@@ -55,8 +72,14 @@ class IdadeController extends Controller
     public function edit(Request $request)
     {
         $updatingIdade = '';
-        $dadosIdade = $request->only(['id', 'grupo_id', 'idade_ini', 'idade_end', 'mes']);
+        $dadosIdade = $request->only(['id', 'grupo', 'idade_ini',  'idade_end', 'mes']);
         $idade = \App\Idade::find($dadosIdade['id']);
+
+        if ($request->has('mes')) {
+            $dadosIdade['mes'] = true;
+        } else {
+            $dadosIdade['mes'] = false;
+        }
 
         if ($idade !== null) {
             $updatingIdade = \App\Idade::updateOrCreate(['id' => $dadosIdade['id']], $dadosIdade);

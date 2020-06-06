@@ -28,5 +28,6 @@ class PublicoSeeder extends Seeder
         \App\Publico::create([
             'nome' => 'Publico Geral'
         ]);
+
     }
 }

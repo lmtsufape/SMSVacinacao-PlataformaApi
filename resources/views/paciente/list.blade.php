@@ -3,7 +3,15 @@
 @push('scripts')
 <script>
     $(document).ready(function($) {
-        $('#tablePaciente').DataTable();
+        $('#tablePaciente').DataTable({
+            "language": {
+                "lengthMenu": "Exibir _MENU_ registros por página",
+                "zeroRecords": "Nada encontrado - desculpe",
+                "info": "Mostrando página _PAGE_ de _PAGES_",
+                "infoEmpty": "Nenhum registro disponível",
+                "infoFiltered": "(filtrado de _MAX_ total de registros)"
+            },
+        });
         $(".location").click(function() {
             console.log($(this).data("lat"));
             let lat = $(this).data("lat");

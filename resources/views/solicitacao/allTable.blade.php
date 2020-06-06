@@ -1,6 +1,13 @@
 <script>
     $(document).ready(function($) {
         var table = $('#alltable').DataTable({
+            "language": {
+                "lengthMenu": "Exibir _MENU_ registros por página",
+                "zeroRecords": "Nada encontrado - desculpe",
+                "info": "Mostrando página _PAGE_ de _PAGES_",
+                "infoEmpty": "Nenhum registro disponível",
+                "infoFiltered": "(filtrado de _MAX_ total de registros)"
+            },
             'columnDefs': [{
                 'targets': 0,
                 'checkboxes': {
@@ -112,7 +119,7 @@
                 <th>Status</th>
                 <th>Agente</th>
                 <th>Momento</th>
-                <th width="22%">Opções</th>
+                <th width="20%">Opções</th>
             </tr>
         </thead>
 

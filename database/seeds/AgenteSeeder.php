@@ -14,21 +14,21 @@ class AgenteSeeder extends Seeder
         //
 
         DB::table('agentes')->insert([  // 1
-            'email' => 'luancsl95@gmail.com',
-            'cpf' => '10818110481',
+            'email' => 'admin@gmail.com',
+            'cpf' => '54527952781',
             'password' => bcrypt('12345678'),
-            'nome' => 'Fulando',
-            'cidade' => 'garanhuns',
+            'nome' => 'Amanda Costa Fernandes',
+            'cidade' => 'Garanhuns',
             'uf' => 'PE',
             'admin' => true,
         ]);
 
         DB::table('agentes')->insert([  // 1
-            'email' => 'test@gmail.com',
-            'cpf' => '39539381002',
+            'email' => 'agente@gmail.com',
+            'cpf' => '77606790175',
             'password' => bcrypt('12345678'),
-            'nome' => 'Fulando2',
-            'cidade' => 'garanhuns',
+            'nome' => 'Danilo Gomes Alves',
+            'cidade' => 'Garanhuns',
             'uf' => 'PE',
         ]);
     }

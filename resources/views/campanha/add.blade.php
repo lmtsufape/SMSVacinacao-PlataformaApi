@@ -31,14 +31,14 @@
             <div class="form-group col-md-12 " style="width: 330px;">
                 <div class="form-row">
                     <label for="nome">Nome</label>
-                    <input type="text" class="form-control" id="nome" placeholder="Nome" name="nome">
+                    <input type="text" class="form-control" id="nome" placeholder="Nome" name="nome" required autocomplete="nome" autofocus value="{{ old('nome') }}">
                 </div>
             </div>
 
             <div class="form-group col-md-12">
                 <div class="form-row">
                     <label for="desc">Descrição</label>
-                    <textarea class="form-control" id="desc" name="desc" rows="6"></textarea>
+                    <textarea class="form-control" id="desc" name="desc" rows="6" required autocomplete="desc" autofocus value="{{ old('desc') }}"></textarea>
                 </div>
             </div>
 
@@ -52,8 +52,8 @@
                 <div class="form-row">
                     <div class="form-group col-md-7">
                         <label for="termo">Termo</label>
-                        <select id="termo" class="form-control termo" name="termo_id">
-                            <option selected value=""></option>
+                        <select id="termo" class="form-control termo" name="termo_id" required autocomplete="termo_id" autofocus value="{{ old('termo_id') }}">
+                            <option value=""></option>
                             @foreach($objs as $obj)
                             <option value="{{$obj->id}}">{{$obj->nome}}</option>
                             @endforeach
@@ -65,7 +65,7 @@
                     </div>
                 </div>
                 <div class="form-row">
-                    <textarea class="form-control" id="termo_desc" name="termo_desc" disabled rows="5"></textarea>
+                    <textarea class="form-control" id="termo_desc" name="termo_desc" disabled rows="5" required autocomplete="termo_desc" autofocus value="{{ old('termo_desc') }}"></textarea>
                 </div>
             </div>
 

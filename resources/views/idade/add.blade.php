@@ -10,7 +10,7 @@
             <div class="form-group col-md-12">
                 <div class="form-row">
                     <label for="grupo">Grupo</label>
-                    <input type="text" class="form-control" id="grupo" placeholder="Grupo" name="grupo">
+                    <input type="text" class="form-control" id="grupo" placeholder="Grupo" name="grupo" required autocomplete="grupo" autofocus value="{{ old('grupo') }}">
 
 
                 </div>
@@ -24,11 +24,11 @@
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="idade_ini">Idade Início</label>
-                        <input type="number" class="form-control" id="idade_ini" placeholder="Idade início" name="idade_ini">
+                        <input type="number" class="form-control" id="idade_ini" placeholder="Idade início" name="idade_ini" required autocomplete="idade_ini" autofocus value="{{ old('idade_ini') }}">
                     </div>
                     <div class="form-group col-md-6">
                         <label for="idade_end">Idade Final</label>
-                        <input type="number" class="form-control" id="idade_end" placeholder="Idade final" name="idade_end">
+                        <input type="number" class="form-control" id="idade_end" placeholder="Idade final" name="idade_end" required autocomplete="idade_end" autofocus value="{{ old('idade_end') }}">
                     </div>
                 </div>
                 <div class="form-row">

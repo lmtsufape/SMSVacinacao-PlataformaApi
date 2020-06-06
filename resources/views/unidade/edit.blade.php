@@ -5,12 +5,25 @@
 <script>
     $(document).ready(function($) {
 
-        $("#cep").mask('99999-999', {
-            placeholder: "_____-___"
+        $("#form").submit(function() {
+            $(".mask").unmask();
         });
 
-        $('#form').submit(function() {
-            $('.unmask').unmask();
+        $("#cep").focusout(function() {
+            var cep = $("#cep").cleanVal();
+            $.ajax({
+                url: 'https://viacep.com.br/ws/' + cep + '/json/unicode/',
+                dataType: 'json',
+                success: function(resposta) {
+                    $("#rua").val(resposta.logradouro);
+                    $("#complemento").val(resposta.complemento);
+                    $("#bairro").val(resposta.bairro);
+                    $("#cidade").val(resposta.localidade);
+                    $("#uf").val(resposta.uf);
+
+                    $("#num").focus();
+                }
+            });
         });
     });
 </script>
@@ -21,7 +34,7 @@
 <div>
     <h1 class="d-flex justify-content-center h2 pt-4">Editar Unidade</h1>
     <div class="d-flex justify-content-center flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <form method="POST" action="{{action('UnidadeController@edit')}}">
+        <form id="form" method="POST" action="{{action('UnidadeController@edit')}}">
             @method('put')
             @csrf
             <input type="hidden" name="id" value="{{$und->id}}" />
@@ -35,7 +48,7 @@
                 <div class="form-row">
                     <div class="form-group col-md-2">
                         <label for="cep">CEP</label>
-                        <input type="text" class="form-control unmask" id="cep" placeholder="CEP" name="cep" value="{{$und->cep}}">
+                        <input data-mask="99999-999" data-mask-reverse="true" type="text" class="form-control mask" id="cep" placeholder="_____-___" name="cep" value="{{$und->cep}}">
                     </div>
                     <div class="form-group col-md-4">
                         <label for="bairro">Bairro</label>

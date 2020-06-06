@@ -5,12 +5,25 @@
 <script>
     $(document).ready(function($) {
 
-        $("#cep").mask('99999-999', {
-            placeholder: "_____-___"
+        $("#form").submit(function() {
+            $(".mask").unmask();
         });
 
-        $('#form').submit(function() {
-            $('.unmask').unmask();
+        $("#cep").focusout(function() {
+            var cep = $("#cep").cleanVal();
+            $.ajax({
+                url: 'https://viacep.com.br/ws/' + cep + '/json/unicode/',
+                dataType: 'json',
+                success: function(resposta) {
+                    $("#rua").val(resposta.logradouro);
+                    $("#complemento").val(resposta.complemento);
+                    $("#bairro").val(resposta.bairro);
+                    $("#cidade").val(resposta.localidade);
+                    $("#uf").val(resposta.uf);
+
+                    $("#num").focus();
+                }
+            });
         });
     });
 </script>
@@ -21,28 +34,28 @@
 <div>
     <h1 class="d-flex justify-content-center h2 pt-4">Cadastrar Nova Unidade</h1>
     <div class="d-flex justify-content-center flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <form method="POST" action="{{action('UnidadeController@create')}}">
+        <form id="form" method="POST" action="{{action('UnidadeController@create')}}">
             @method('post')
             @csrf
             <div class="form-group">
                 <div class="form-row">
                     <label for="nome">Nome</label>
-                    <input type="text" class="form-control" id="nome" placeholder="Nome" name="nome">
+                    <input type="text" class="form-control" id="nome" placeholder="Nome" name="nome" required autocomplete="nome" autofocus value="{{ old('nome') }}">
                 </div>
             </div>
             <div class="form-group">
                 <div class="form-row">
                     <div class="form-group col-md-2">
                         <label for="cep">CEP</label>
-                        <input type="text" class="form-control unmask" id="cep" placeholder="CEP" name="cep">
+                        <input data-mask="99999-999" data-mask-reverse="true" type="text" class="form-control mask" id="cep" placeholder="_____-___" name="cep" required autocomplete="cep" autofocus value="{{ old('cep') }}">
                     </div>
                     <div class="form-group col-md-4">
                         <label for="bairro">Bairro</label>
-                        <input type="text" class="form-control" id="bairro" placeholder="Bairro" name="bairro">
+                        <input type="text" class="form-control" id="bairro" placeholder="Bairro" name="bairro" required autocomplete="bairro" autofocus value="{{ old('bairro') }}">
                     </div>
                     <div class="form-group col-md-3">
                         <label for="cidade">Cidade</label>
-                        <input type="text" class="form-control" id="cidade" placeholder="Cidade" name="cidade">
+                        <input type="text" class="form-control" id="cidade" placeholder="Cidade" name="cidade" required autocomplete="cidade" autofocus value="{{ old('cidade') }}">
                     </div>
                     <div class="form-group col-md-2">
                         <label for="uf">UF</label>
@@ -81,29 +94,25 @@
                 <div class="form-row">
                     <div class="form-group col-md-5">
                         <label for="rua">Rua</label>
-                        <input type="text" class="form-control" id="rua" placeholder="Rua" name="rua">
+                        <input type="text" class="form-control" id="rua" placeholder="Rua" name="rua" required autocomplete="rua" autofocus value="{{ old('rua') }}">
                     </div>
                     <div class="form-group col-md-2">
                         <label for="num">Número</label>
-                        <input type="text" class="form-control" id="num" placeholder="Numero" name="num">
+                        <input type="text" class="form-control" id="num" placeholder="Numero" name="num" required autocomplete="num" autofocus value="{{ old('num') }}">
                     </div>
                     <div class="form-group col-md-3">
                         <label for="complemento">Complemento</label>
-                        @if(isset($und->complemento))
-                        <input type="text" class="form-control" id="complemento" placeholder="Complemento" name="complemento">
-                        @else
-                        <input type="text" class="form-control" id="complemento" placeholder="Complemento" name="complemento" value="">
-                        @endif
+                        <input type="text" class="form-control" id="complemento" placeholder="Complemento" name="complemento" autocomplete="complemento" autofocus value="{{ old('complemento') }}">
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-2">
                         <label for="lat">Latitude</label>
-                        <input type="text" class="form-control" id="lat" placeholder="Latitude" name="lat">
+                        <input type="text" class="form-control" id="lat" placeholder="Latitude" name="lat" required autocomplete="lat" autofocus value="{{ old('lat') }}">
                     </div>
                     <div class="form-group col-md-2">
                         <label for="lng">Longitude</label>
-                        <input type="text" class="form-control" id="lng" placeholder="Longitude" name="lng">
+                        <input type="text" class="form-control" id="lng" placeholder="Longitude" name="lng" required autocomplete="lng" autofocus value="{{ old('lng') }}">
                     </div>
                 </div>
             </div>

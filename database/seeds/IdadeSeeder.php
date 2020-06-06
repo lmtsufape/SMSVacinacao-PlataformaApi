@@ -14,21 +14,21 @@ class IdadeSeeder extends Seeder
         //
 
         \App\Idade::create([
-            'grupo' => 'idoso',
+            'grupo' => 'Idoso',
             'idade_ini' => 40,
             'idade_end' => 60,
             'mes' => false,
         ]);
 
         \App\Idade::create([
-            'grupo' => 'crianca',
+            'grupo' => 'Criança',
             'idade_ini' => 8,
             'idade_end' => 12,
             'mes' => false,
         ]);
 
         \App\Idade::create([
-            'grupo' => 'adolecente',
+            'grupo' => 'Adolecente',
             'idade_ini' => 10,
             'idade_end' => 20,
             'mes' => false,

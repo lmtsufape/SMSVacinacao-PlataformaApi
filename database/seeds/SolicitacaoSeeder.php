@@ -22,7 +22,7 @@ class SolicitacaoSeeder extends Seeder
             'campanha_idade_publico_id' => 2,
             'paciente_cns' => '111111111111111',
             'agente_id' => 1,
-            'status' => 'vacinado',
+            'status' => 'Vacinado',
             'data_time' => new DateTime('now'),
         ]);
 
@@ -30,7 +30,7 @@ class SolicitacaoSeeder extends Seeder
             'campanha_idade_publico_id' => 2,
             'paciente_cns' => '222222222222222',
             'agente_id' => 1,
-            'status' => 'recusado',
+            'status' => 'Recusado',
             'recusa_desc' => 'foi recusado por está...',
             'data_time' => new DateTime('now'),
         ]);

@@ -18,7 +18,7 @@ class Agente extends Authenticatable
     protected $table = "agentes";
 
     protected $fillable = [
-        'id', 'email', 'nome', 'cpf', 'password', 'cidade', 'uf',
+        'id', 'email', 'nome', 'cpf', 'password', 'cidade', 'uf', 'admin',
     ];
 
     protected $hidden = [
@@ -52,7 +52,10 @@ class Agente extends Authenticatable
 
     public function solicitacoesAtribuidas()
     {
-        return $this->belongsToMany('\App\Solicitacao', 'agentes_solicitacoes', 'agente_id', 'solicitacao_id')->withPivot('chiefAgent_id');
+        return $this->belongsToMany('\App\Solicitacao', 'agentes_solicitacoes', 'agente_id', 'solicitacao_id')
+            ->withPivot('chiefAgent_id')
+            ->join('agentes', 'chiefAgent_id', '=', 'agentes.id')
+            ->select('solicitacoes.*', 'agentes.nome AS chiefAgent_nome');
     }
 
     public function solicitacoesDelegadas()

@@ -20,6 +20,7 @@ class AgenteSeeder extends Seeder
             'nome' => 'Fulando',
             'cidade' => 'garanhuns',
             'uf' => 'PE',
+            'admin' => true,
         ]);
 
         DB::table('agentes')->insert([  // 1

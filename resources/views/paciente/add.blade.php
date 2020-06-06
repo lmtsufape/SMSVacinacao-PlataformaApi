@@ -4,19 +4,26 @@
 @push('scripts')
 <script>
     $(document).ready(function($) {
-        $("#tel").mask('(99)99999-9999', {
-            reverse: false,
-            placeholder: "(__)_____-____"
-        });
-        $('#cns').mask('999 9999 9999 9999', {
-            placeholder: "___ ____ ____ ____"
-        })
-        $("#cep").mask('99999-999', {
-            placeholder: "_____-___"
+
+        $("#form").submit(function() {
+            $(".mask").unmask();
         });
 
-        $('#form').submit(function() {
-            $('.unmask').unmask();
+        $("#cep").focusout(function() {
+            var cep = $("#cep").cleanVal();
+            $.ajax({
+                url: 'https://viacep.com.br/ws/' + cep + '/json/unicode/',
+                dataType: 'json',
+                success: function(resposta) {
+                    $("#rua").val(resposta.logradouro);
+                    $("#complemento").val(resposta.complemento);
+                    $("#bairro").val(resposta.bairro);
+                    $("#cidade").val(resposta.localidade);
+                    $("#uf").val(resposta.uf);
+
+                    $("#num").focus();
+                }
+            });
         });
     });
 </script>
@@ -33,28 +40,33 @@
             <div class="form-group">
                 <div class="form-row">
                     <label for="cns">CNS</label>
-                    <input type="text" class="form-control .unmask" id="cns" placeholder="cns" name="cns">
+                    <input data-mask="999 9999 9999 9999" data-mask-reverse="true" type="text" class="form-control mask @error('cns') is-invalid @enderror" id="cns" placeholder="___ ____ ____ ____" name="cns" value="{{ old('cns') }}" required autocomplete="cns" autofocus>
+                    @error('cns')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                    @enderror
                 </div>
             </div>
             <div class="form-group">
                 <div class="form-row">
                     <label for="nome">Nome</label>
-                    <input type="text" class="form-control" id="nome" placeholder="Nome" name="nome">
+                    <input type="text" class="form-control" id="nome" placeholder="Nome" name="nome" value="{{ old('nome') }}" required autocomplete="nome" autofocus>
                 </div>
             </div>
             <div class="form-group">
                 <div class="form-row">
                     <div class="form-group col-md-2">
                         <label for="cep">CEP</label>
-                        <input type="text" class="form-control unmask" id="cep" placeholder="CEP" name="cep">
+                        <input data-mask="99999-999" data-mask-reverse="true" type="text" class="form-control mask" id="cep" placeholder="_____-___" name="cep" value="{{ old('cep') }}" required autocomplete="cep" autofocus>
                     </div>
                     <div class="form-group col-md-4">
                         <label for="bairro">Bairro</label>
-                        <input type="text" class="form-control" id="bairro" placeholder="Bairro" name="bairro">
+                        <input type="text" class="form-control" id="bairro" placeholder="Bairro" name="bairro" value="{{ old('bairro') }}" required autocomplete="bairro" autofocus>
                     </div>
                     <div class="form-group col-md-3">
                         <label for="cidade">Cidade</label>
-                        <input type="text" class="form-control" id="cidade" placeholder="Cidade" name="cidade">
+                        <input type="text" class="form-control" id="cidade" placeholder="Cidade" name="cidade" value="{{ old('cidade') }}" required autocomplete="cidade" autofocus>
                     </div>
                     <div class="form-group col-md-2">
                         <label for="uf">UF</label>
@@ -93,44 +105,40 @@
                 <div class="form-row">
                     <div class="form-group col-md-5">
                         <label for="rua">Rua</label>
-                        <input type="text" class="form-control" id="rua" placeholder="Rua" name="rua">
+                        <input type="text" class="form-control" id="rua" placeholder="Rua" name="rua" value="{{ old('rua') }}" required autocomplete="rua" autofocus>
                     </div>
                     <div class="form-group col-md-2">
                         <label for="num">Número</label>
-                        <input type="number" class="form-control" id="num" placeholder="Numero" name="num">
+                        <input type="number" class="form-control" id="num" placeholder="Numero" name="num" value="{{ old('num') }}" required autocomplete="num" autofocus>
                     </div>
                     <div class="form-group col-md-3">
                         <label for="complemento">Complemento</label>
-                        @if(isset($und->complemento))
-                        <input type="text" class="form-control" id="complemento" placeholder="Complemento" name="complemento">
-                        @else
-                        <input type="text" class="form-control" id="complemento" placeholder="Complemento" name="complemento" value="">
-                        @endif
+                        <input type="text" class="form-control" id="complemento" placeholder="Complemento" name="complemento" value="{{ old('complemento') }}" autocomplete="complemento" autofocus>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-3">
                         <label for="nasc">Data de Nascimento</label>
-                        <input type="date" class="form-control" id="nasc" placeholder="Data de Nascimento" name="nasc">
+                        <input type="date" class="form-control" id="nasc" placeholder="Data de Nascimento" name="nasc" value="{{ old('nasc') }}" required autocomplete="nasc" autofocus>
                     </div>
                     <div class=" form-group col-md-4">
                         <label for="tel">Telefone</label>
-                        <input type="text" class="form-control unmask" id="tel" placeholder="Telefone" name="tel" ">
+                        <input data-mask="99 99999-9999" data-mask-reverse="true" type="text" class="form-control mask" id="tel" placeholder="(__)_____-____" name="tel" value="{{ old('tel') }}" required autocomplete="tel" autofocus>
                     </div>
                 </div>
                 <div class=" form-row">
-                        <div class="form-group col-md-2">
-                            <label for="lat">Latitude</label>
-                            <input type="number" class="form-control" id="lat" placeholder="Latitude" name="lat">
-                        </div>
-                        <div class="form-group col-md-2">
-                            <label for="lng">Longitude</label>
-                            <input type="number" class="form-control" id="lng" placeholder="Longitude" name="lng">
-                        </div>
+                    <div class="form-group col-md-2">
+                        <label for="lat">Latitude</label>
+                        <input type="number" class="form-control" id="lat" placeholder="Latitude" name="lat" value="{{ old('lat') }}" required autocomplete="lat" autofocus>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="lng">Longitude</label>
+                        <input type="number" class="form-control" id="lng" placeholder="Longitude" name="lng" value="{{ old('lng') }}" required autocomplete="lng" autofocus>
                     </div>
                 </div>
-                <a href="{{action('PacienteController@list')}}" class="btn btn-dark">Cancelar</a>
-                <button id="submit" type="submit" class="btn btn-success">Cadastrar</button>
+            </div>
+            <a href="{{action('PacienteController@list')}}" class="btn btn-dark">Cancelar</a>
+            <button id="submit" type="submit" class="btn btn-success">Cadastrar</button>
         </form>
     </div>
 </div>

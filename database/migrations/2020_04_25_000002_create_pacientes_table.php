@@ -14,7 +14,7 @@ class CreatePacientesTable extends Migration
     public function up()
     {
         Schema::create('pacientes', function (Blueprint $table) {
-            $table->string('cns')->unique();
+            $table->unsignedBigInteger('cns')->unique();
             $table->timestamps();
             $table->string('nome');
             $table->date('nasc');

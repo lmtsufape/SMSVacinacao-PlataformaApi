@@ -8,6 +8,15 @@
     }
 </style>
 @endsection
+
+@push('script')
+<script>
+    $(document).ready(function($) {
+        $('#tableUnidade').DataTable();
+    });
+</script>
+@endpush
+
 @section('content')
 
 <div>
@@ -23,34 +32,39 @@
         </div>
     </div>
 
-    <table id="unidadetable" class="table table-striped table-sm">
+    <table id="tableUnidade" class="table table-striped table-sm display responsive nowrap" cellspacing="0" width="100%">
         <thead>
             <tr>
                 <th>Unidade</th>
                 <th>Localização</th>
-                <th>Opcões</th>
+                <th width="14%">Opcões</th>
             </tr>
         </thead>
 
         <tbody>
             @foreach ($unds as $und)
             <tr>
-                <td data-toggle="modal" data-target="#modal{{$loop->iteration}}">{{$und->nome}}</td>
-                <td data-toggle="modal" data-target="#modal{{$loop->iteration}}">{{$und->rua}}, Nº{{$und->num}}, {{$und->bairro}}, {{$und->cidade}}-{{$und->uf}}</td>
+                <td class="text-wrap">{{$und->nome}}</td>
+                <td data-toggle="modal" data-target="#modal{{$loop->iteration}}" class="text-wrap">Rua {{$und->rua}}, Nº{{$und->num}}, Bairro {{$und->bairro}}, {{$und->cidade}}-{{$und->uf}}</td>
                 <td>
                     <div class="d-flex justify-content-around flex-wrap">
-                        <a href="{{action('UnidadeController@editForm', $und->id)}}">
-                            <i data-feather="edit"></i>
-                            Editar
-                        </a>
-                        <form class="form-soft" action="{{action('UnidadeController@delete', $und->id)}}" method="post">
-                            @method('delete')
-                            @csrf
-                            <a href="" onclick="if(confirm('Deseja realmente excluir {{$und->nome}}?')){this.closest('form').submit(); return false;}else{return false}">
-                                <i data-feather="trash-2"></i>
-                                deletar
+                        <div class="d-flex flex-column justify-content-center ">
+                            <a data-toggle="modal" data-target="#modal{{$loop->iteration}}" class="btn btn-info btn-sm mb-1 mr-1">Detalhes</a>
+                        </div>
+                        <div class="d-flex flex-column justify-content-center">
+                            <a href="{{action('UnidadeController@editForm', $und->id)}}" class="mb-1 mr-1">
+                                <i data-feather="edit"></i>
+                                Editar
                             </a>
-                        </form>
+                            <form class="form-soft" action="{{action('UnidadeController@delete', $und->id)}}" method="post">
+                                @method('delete')
+                                @csrf
+                                <a href="" onclick="if(confirm('Deseja realmente excluir {{$und->nome}}?')){this.closest('form').submit(); return false;}else{return false}">
+                                    <i data-feather="trash-2"></i>
+                                    Deletar
+                                </a>
+                            </form>
+                        </div>
                     </div>
                 </td>
             </tr>
@@ -58,7 +72,7 @@
                 <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
+                            <h5 class="modal-title" id="exampleModalCenterTitle">Detalhes da Unidade</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -67,15 +81,22 @@
                             <dl class="row mt-3 pt-3 pl-2 ">
                                 <dt class="h4 col-sm-3">Nome:</dt>
                                 <dd class="h4 col-sm-9">{{$und->nome}}</dd>
-                                <dt class="h4 col-sm-3">Sobrenome:</dt>
-                                <dd class="h4 col-sm-9">{{$und->lat}}</dd>
-                                <dt class="h4 col-sm-3">CPF:</dt>
-                                <dd class="h4 col-sm-9">{{$und->lon}}</dd>
+                                <dt class="h4 col-sm-3">Rua:</dt>
+                                <dd class="h4 col-sm-9">{{$und->rua}}</dd>
+                                <dt class="h4 col-sm-3">Número:</dt>
+                                <dd class="h4 col-sm-9">{{$und->num}}</dd>
+                                <dt class="h4 col-sm-3">Bairro:</dt>
+                                <dd class="h4 col-sm-9">{{$und->bairro}}</dd>
+                                <dt class="h4 col-sm-3">Cidade:</dt>
+                                <dd class="h4 col-sm-9">{{$und->cidade}}</dd>
+                                <dt class="h4 col-sm-3">Estado:</dt>
+                                <dd class="h4 col-sm-9">{{$und->uf}}</dd>
+                                <dt class="h4 col-sm-3">Coordenadas:</dt>
+                                <dd class="h4 col-sm-9">{{$und->lat}}, {{$und->lng}}</dd>
                             </dl>
                         </div>
                         <div class="modal-footer">
-                            <a class="btn btn-danger" data-dismiss="modal" aria-label="Close" href="">Recusar</a>
-                            <a class="btn btn-success" href="" onclick="$('#modal{{$loop->iteration}}').modal('hide')">Aceitar</a>
+                            <button type="button" class="btn btn-info" data-dismiss="modal">Ok</button>
                         </div>
                     </div>
                 </div>
@@ -85,5 +106,5 @@
     </table>
 </div>
 
-
+@stack('script')
 @stop

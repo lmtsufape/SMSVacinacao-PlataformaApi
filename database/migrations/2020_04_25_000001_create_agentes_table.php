@@ -21,6 +21,7 @@ class CreateAgentesTable extends Migration
             $table->string('password');
             $table->string('cidade');
             $table->string('uf');
+            $table->boolean('admin')->default(false);
             $table->rememberToken();
             $table->timestamp('email_verified_at')->nullable();
             $table->timestamps();

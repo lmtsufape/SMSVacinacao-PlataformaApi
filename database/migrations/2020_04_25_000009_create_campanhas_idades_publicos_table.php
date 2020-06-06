@@ -22,7 +22,7 @@ class CreateCampanhasIdadesPublicosTable extends Migration
             $table->date('data_ini');
             $table->date('data_end');
 
-            $table->unique(['campanha_id', 'publico_id', 'idade_id']);
+            $table->unique(['campanha_id', 'publico_id', 'idade_id', 'data_ini', 'data_end']);
 
             $table->foreign('campanha_id')->references('id')->on('campanhas')->onDelete('cascade');
             $table->foreign('idade_id')->references('id')->on('idades')->onDelete('cascade');

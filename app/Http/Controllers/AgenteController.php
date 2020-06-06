@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Hash;
 
 class AgenteController extends Controller
 {
@@ -17,7 +20,7 @@ class AgenteController extends Controller
             return $agente;
         }
 
-        $agente = \App\Agente::all();
+        $agente = \App\Agente::all()->where('id', '!=', Auth::user()->id);
 
         if ($request->json === 'true') {
             return $agente;
@@ -34,7 +37,29 @@ class AgenteController extends Controller
     public function create(Request $request)
     {
 
-        $dadosAgente = $request->only(['id', 'cpf', 'password', 'nome', 'email', 'cidade', 'uf']);
+
+        $request->validate([
+            'nome' => 'required|string|max:255',
+            'email' => 'required|string|email:rfc,dns',
+            'cpf' => 'required|string|unique:agentes|cpf',
+            'cidade' => 'required|string',
+            'uf' => 'required|string',
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+
+        $dadosAgente = $request->only(['id', 'cpf', 'password', 'nome', 'email', 'cidade', 'uf', 'admin']);
+
+        if ($request->has('admin')) {
+            if ($request->admin) {
+                $dadosAgente['admin'] = true;
+            } else {
+                $dadosAgente['admin'] = false;
+            }
+        }
+
+
+        $dadosAgente['password'] = Hash::make($dadosAgente['password']);
+
         $agente = \App\Agente::create($dadosAgente);
 
         if ($request->json === 'true') {
@@ -44,24 +69,46 @@ class AgenteController extends Controller
         return redirect()->action('AgenteController@list');
     }
 
-    public function editForm($id)
+    public function editForm($id, Request $request)
     {
 
         $agenteEdit = \App\Agente::find($id);
 
-        return view('agente.edit')->with('obj', $agenteEdit);
+        $queryRcv = new Request($request->query());
+        if ($queryRcv->has('urlReturn')) {
+            $url = $queryRcv->urlReturn;
+            return view('agente.edit')->with(['obj' => $agenteEdit, 'urlReturn' => $url]);
+        }
+
+        return view('agente.edit')->with(['obj' => $agenteEdit, 'urlReturn' => URL::full()]);
     }
 
     public function edit(Request $request)
     {
-
+        $request->validate([
+            'nome' => 'required|string|max:255',
+            'email' => 'required|string|email:rfc,dns',
+            'cidade' => 'required|string',
+            'uf' => 'required|string',
+            'password' => 'required|string|min:8|confirmed',
+        ]);
         $updatingAgente = '';
-        $dadosAgente = $request->only(['id', 'cpf', 'password', 'nome', 'email', 'cidade', 'uf']);
+        $dadosAgente = $request->only(['id', 'cpf', 'password', 'nome', 'email', 'cidade', 'uf', 'admin']);
         $agente = \App\Agente::find($dadosAgente['id']);
 
         if ($dadosAgente['password'] == NULL) {
             unset($dadosAgente['password']);
         };
+
+
+        if ($request->has('admin')) {
+            $dadosAgente['admin'] = true;
+        } else {
+            $dadosAgente['admin'] = false;
+        }
+
+
+        $dadosAgente['password'] = Hash::make($dadosAgente['password']);
 
         if ($agente !== null) {
             $updatingAgente = \App\Agente::updateOrCreate(['id' => $dadosAgente['id']], $dadosAgente);
@@ -71,6 +118,12 @@ class AgenteController extends Controller
 
         if ($request->json === 'true') {
             return $updatingAgente;
+        }
+
+        $queryRcv = new Request($request->query());
+        if ($queryRcv->has('urlReturn')) {
+            $url = $queryRcv->urlReturn;
+            return redirect()->to($url);
         }
 
         return redirect()->action('AgenteController@list');
@@ -96,6 +149,15 @@ class AgenteController extends Controller
         if ($request->json === 'true') {
             return $agente;
         }
+
+        return redirect()->action('AgenteController@list');
+    }
+
+    public function setAdmin($id)
+    {
+        $agente = \App\Agente::find($id);
+        $agente->admin = true;
+        $agente->save();
 
         return redirect()->action('AgenteController@list');
     }

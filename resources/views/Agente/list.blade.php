@@ -8,6 +8,15 @@
     }
 </style>
 @endsection
+
+@push('scripts')
+<script>
+    $(document).ready(function($) {
+        $('#tableAgente').DataTable();
+    });
+</script>
+@endpush
+
 @section('content')
 
 <div>
@@ -23,38 +32,54 @@
         </div>
     </div>
 
-    <table id="unidadetable" class="table table-striped table-sm">
+    <table id="tableAgente" class="table table-striped table-sm display responsive nowrap" cellspacing="0" width="100%">
         <thead>
             <tr>
                 <th>Agente</th>
                 <th>CPF</th>
                 <th>Email</th>
                 <th>Atuação</th>
-                <th>Opcões</th>
+                <th>Administrador</th>
+                <th width="17%">Opcões</th>
             </tr>
         </thead>
 
         <tbody>
             @foreach ($objs as $obj)
             <tr>
-                <td data-toggle="modal" data-target="#modal{{$loop->iteration}}">{{$obj->nome}}</td>
+                <td class="text-wrap">{{$obj->nome}}</td>
                 <td data-toggle="modal" data-target="#modal{{$loop->iteration}}">{{$obj->cpf}}</td>
                 <td data-toggle="modal" data-target="#modal{{$loop->iteration}}">{{$obj->email}}</td>
-                <td data-toggle="modal" data-target="#modal{{$loop->iteration}}">{{$obj->cidade}}-{{$obj->uf}}</td>
+                <td data-toggle="modal" data-target="#modal{{$loop->iteration}}" class="text-wrap">{{$obj->cidade}}-{{$obj->uf}}</td>
+                <td data-toggle="modal" data-target="#modal{{$loop->iteration}}">{{$obj->admin? 'Sim' : 'Não'}}</td>
                 <td>
-                    <div class="d-flex justify-content-around flex-wrap">
-                        <a href="{{action('AgenteController@editForm', $obj->id)}}">
-                            <i data-feather="edit"></i>
-                            Editar
-                        </a>
-                        <form class="form-soft" action="{{action('AgenteController@delete', $obj->id)}}" method="post">
-                            @method('delete')
-                            @csrf
-                            <a href="" onclick="if(confirm('Deseja realmente excluir {{$obj->nome}}?')){this.closest('form').submit(); return false;}else{return false}">
-                                <i data-feather="trash-2"></i>
-                                deletar
+
+                    <div class="d-flex justify-content-around flex-wrap  ">
+                        <div class="d-flex flex-column justify-content-center  ">
+                            <a data-toggle="modal" data-target="#modal{{$loop->iteration}}" class=" btn btn-info btn-sm mb-1">Detalhes</a>
+                            @can('setAdmin', $obj)
+                            <a href="{{action('AgenteController@setAdmin', $obj->id)}}" class="btn btn-primary btn-sm" onclick="return confirm('Deseja mesmo tornar {{$obj->nome}} administrador?')">
+                                Tornar Admin
                             </a>
-                        </form>
+                            @endcan
+                        </div>
+
+                        <div class="d-flex flex-column justify-content-center">
+                            @can('update', $obj)
+                            <a href="{{action('AgenteController@editForm', $obj->id)}}?urlReturn={{URL::full()}}" class="mb-1">
+                                <i data-feather="edit"></i>
+                                Editar
+                            </a>
+                            <form class="form-soft" action="{{action('AgenteController@delete', $obj->id)}}" method="post">
+                                @method('delete')
+                                @csrf
+                                <a href="" onclick="if(confirm('Deseja realmente excluir {{$obj->nome}}?')){this.closest('form').submit(); return false;}else{return false}">
+                                    <i data-feather="trash-2"></i>
+                                    Deletar
+                                </a>
+                            </form>
+                            @endcan
+                        </div>
                     </div>
                 </td>
             </tr>
@@ -62,7 +87,7 @@
                 <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
+                            <h5 class="modal-title" id="exampleModalCenterTitle">Detalhes do Agente</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -71,15 +96,16 @@
                             <dl class="row mt-3 pt-3 pl-2 ">
                                 <dt class="h4 col-sm-3">Nome:</dt>
                                 <dd class="h4 col-sm-9">{{$obj->nome}}</dd>
-                                <dt class="h4 col-sm-3">Sobrenome:</dt>
-                                <dd class="h4 col-sm-9">{{$obj->lat}}</dd>
                                 <dt class="h4 col-sm-3">CPF:</dt>
-                                <dd class="h4 col-sm-9">{{$obj->lon}}</dd>
+                                <dd class="h4 col-sm-9">{{$obj->cpf}}</dd>
+                                <dt class="h4 col-sm-3">Administrador:</dt>
+                                <dd class="h4 col-sm-9">{{$obj->admin? 'Sim' : 'Não'}}</dd>
+                                <dt class="h4 col-sm-3">Atuação:</dt>
+                                <dd class="h4 col-sm-9">{{$obj->cidade}}-{{$obj->uf}}</dd>
                             </dl>
                         </div>
                         <div class="modal-footer">
-                            <a class="btn btn-danger" data-dismiss="modal" aria-label="Close" href="">Recusar</a>
-                            <a class="btn btn-success" href="" onclick="$('#modal{{$loop->iteration}}').modal('hide')">Aceitar</a>
+                            <button type="button" class="btn btn-info" data-dismiss="modal">Ok</button>
                         </div>
                     </div>
                 </div>
@@ -88,6 +114,5 @@
         </tbody>
     </table>
 </div>
-
-
+@stack('scripts')
 @stop

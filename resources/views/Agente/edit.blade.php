@@ -2,15 +2,7 @@
 
 @push('scripts')
 <script>
-    $(document).ready(function($) {
-        $("#cpf").mask('999.999.999-99', {
-            reverse: false,
-            placeholder: "___.___.___-__"
-        });
-        $('#form').submit(function() {
-            $('.unmask').unmask();
-        });
-    });
+    $(document).ready(function($) {});
 </script>
 @endpush
 
@@ -19,81 +11,90 @@
 <div>
     <h1 class="d-flex justify-content-center h2 pt-4">Editar Agente</h1>
     <div class="d-flex justify-content-center flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <form method="POST" action="{{action('AgenteController@edit')}}">
+        <form method="POST" action="{{action('AgenteController@edit')}}?urlReturn={{ $urlReturn }}">
             @method('put')
             @csrf
             <input type="hidden" name="id" value="{{$obj->id}}" />
             <div class="form-group">
                 <div class="form-row">
                     <label for="nome">Nome</label>
-                    <input type="text" class="form-control" id="nome" placeholder="Nome" name="nome" value="{{$obj->nome}}">
+                    <input type="text" class="form-control @error('nome') is-invalid @enderror" id="nome" placeholder="Nome" name="nome" value="{{$obj->nome}}">
+                    @error('nome')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                    @enderror
                 </div>
             </div>
             <div class="form-group">
                 <div class="form-row">
                     <label for="email">E-mail</label>
-                    <input type="text" class="form-control" id="email" placeholder="E-mail" name="email" value="{{$obj->email}}">
+                    <input type="text" class="form-control @error('email') is-invalid @enderror" id="email" placeholder="E-mail" name="email" required autocomplete="email" value="{{$obj->email}}" />
+                    @error('email')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                    @enderror
                 </div>
             </div>
             <div class="form-group">
                 <div class="form-row">
                     <label for="cpf">CPF</label>
-                    <input type="text" class="form-control unmask" id="cpf" placeholder="CPF" name="cpf" value="{{$obj->cpf}}">
+                    <input type="hidden" name="cpf" value="{{$obj->cpf}}" />
+                    <input data-mask="999.999.999-99" data-mask-reverse="true" type="text" class="form-control" id="cpf" disabled value="{{$obj->cpf}}" />
                 </div>
             </div>
+            @can('setAdmin', $obj)
+            <div class=" form-group col-md-12">
+                <div class="custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" id="customSwitch1" name="admin" value="{{$obj->admin? '1':'0'}}" {{($obj->admin? ' checked' : '')}}>
+                    <label class="custom-control-label" for="customSwitch1">Tornar um administrador</label>
+                </div>
+            </div>
+            @else
+            <div class="mt-4 mb-4">
+                <h6>Administrador: não.</h6>
+            </div>
+            @endcan
             <div class="form-group">
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="cidade">Cidade</label>
-                        <input type="text" class="form-control" id="cidade" placeholder="Cidade" name="cidade" value="{{$obj->cidade}}">
+                        <select id="cidade" class="form-control" name="cidade">
+                            <option selected="selected" value="{{$obj->cidade}}">{{$obj->cidade}}</option>
+                            <option @if(old('cidade')=='Garanhuns' ) selected @endif value="Garanhuns">Garanhuns</option>
+                        </select>
                     </div>
                     <div class="form-group col-md-3">
                         <label for="uf">UF</label>
                         <select id="uf" class="form-control" name="uf">
                             <option selected="selected" value="{{$obj->uf}}">{{$obj->uf}}</option>
-                            <option @if(old('uf')=='AC' ) selected @endif value="AC">AC</option>
-                            <option @if(old('uf')=='AL' ) selected @endif value="AL">AL</option>
-                            <option @if(old('uf')=='AP' ) selected @endif value="AP">AP</option>
-                            <option @if(old('uf')=='AM' ) selected @endif value="AM">AM</option>
-                            <option @if(old('uf')=='BA' ) selected @endif value="BA">BA</option>
-                            <option @if(old('uf')=='CE' ) selected @endif value="CE">CE</option>
-                            <option @if(old('uf')=='DF' ) selected @endif value="DF">DF</option>
-                            <option @if(old('uf')=='ES' ) selected @endif value="ES">ES</option>
-                            <option @if(old('uf')=='GO' ) selected @endif value="GO">GO</option>
-                            <option @if(old('uf')=='MA' ) selected @endif value="MA">MA</option>
-                            <option @if(old('uf')=='MT' ) selected @endif value="MT">MT</option>
-                            <option @if(old('uf')=='MS' ) selected @endif value="MS">MS</option>
-                            <option @if(old('uf')=='MG' ) selected @endif value="MG">MG</option>
-                            <option @if(old('uf')=='PA' ) selected @endif value="PA">PA</option>
-                            <option @if(old('uf')=='PB' ) selected @endif value="PB">PB</option>
-                            <option @if(old('uf')=='PR' ) selected @endif value="PR">PR</option>
                             <option @if(old('uf')=='PE' ) selected @endif value="PE">PE</option>
-                            <option @if(old('uf')=='PI' ) selected @endif value="PI">PI</option>
-                            <option @if(old('uf')=='RJ' ) selected @endif value="RJ">RJ</option>
-                            <option @if(old('uf')=='RN' ) selected @endif value="RN">RN</option>
-                            <option @if(old('uf')=='RS' ) selected @endif value="RS">RS</option>
-                            <option @if(old('uf')=='RO' ) selected @endif value="RO">RO</option>
-                            <option @if(old('uf')=='RR' ) selected @endif value="RR">RR</option>
-                            <option @if(old('uf')=='SC' ) selected @endif value="SC">SC</option>
-                            <option @if(old('uf')=='SP' ) selected @endif value="SP">SP</option>
-                            <option @if(old('uf')=='SE' ) selected @endif value="SE">SE</option>
-                            <option @if(old('uf')=='TO' ) selected @endif value="TO">TO</option>
                         </select>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-5">
                         <label for="password">Senha</label>
-                        <input type="password" class="form-control" id="password" placeholder="Senha" name="password">
+                        <input type="password" class="form-control  @error('password') is-invalid @enderror" id="password" placeholder="Senha" name="password" required autocomplete="new-password">
+                        @error('password')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
                     </div>
                     <div class="form-group col-md-5">
                         <label for="password2">Confirmar Senha</label>
-                        <input type="password" class="form-control" id="password2" placeholder="Senha" name="password2">
+                        <input type="password" class="form-control" id="password2" placeholder="Senha" name="password_confirmation" required autocomplete="new-password">
                     </div>
                 </div>
             </div>
-            <a href="{{action('AgenteController@list')}}" class="btn btn-dark">Cancelar</a>
-            <button type="submit" class="btn btn-success">Salvar</button>
+
+            <div class="form-group mt-4">
+                <a href="{{ $urlReturn }}" class="btn btn-dark">Cancelar</a>
+                <button type="submit" class="btn btn-success">Salvar</button>
+            </div>
+
         </form>
     </div>
 </div>

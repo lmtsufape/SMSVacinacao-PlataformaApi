@@ -25,8 +25,14 @@ class PublicoController extends Controller
         return view('publico.list')->with('objs', $publico);
     }
 
-    public function add()
+    public function add(Request $request)
     {
+        $queryRcv = new Request($request->query());
+        if ($queryRcv->has('urlReturn')) {
+            $url = $queryRcv->urlReturn;
+            return view('publico.add')->with('urlReturn', $url);
+        }
+
         return view('publico.add');
     }
 
@@ -39,6 +45,12 @@ class PublicoController extends Controller
 
         if ($request->json === 'true') {
             return $publico;
+        }
+
+        $queryRcv = new Request($request->query());
+        if ($queryRcv->has('urlReturn')) {
+            $url = $queryRcv->urlReturn;
+            return redirect()->to($url);
         }
 
         return redirect()->action('PublicoController@list');

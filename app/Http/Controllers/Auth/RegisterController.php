@@ -53,18 +53,12 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
 
-        $messages = [
-            'cpf.required' => 'CPF é requerido!',
-            'cpf.unique' => 'Já existe conta com este CPF',
-            'cpf.cpf' => 'CPF invalido!'
-        ];
-
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'cpf' => ['required', 'string', 'unique:agentes', 'cpf'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:agentes'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ], $messages);
+        ]);
     }
 
     /**

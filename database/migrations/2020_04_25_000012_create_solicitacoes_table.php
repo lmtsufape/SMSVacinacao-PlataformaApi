@@ -17,9 +17,9 @@ class CreateSolicitacoesTable extends Migration
             $table->id();
             $table->timestamps();
             $table->unsignedBigInteger('campanha_idade_publico_id');
-            $table->string('paciente_cns');
+            $table->unsignedBigInteger('paciente_cns');
             $table->unsignedBigInteger('agente_id')->nullable();
-            $table->string('status')->default('Em Analise');
+            $table->string('status')->default('Em espera');
             $table->text('recusa_desc')->nullable();
             $table->dateTime('data_time')->nullable();
 

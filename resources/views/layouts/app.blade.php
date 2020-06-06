@@ -11,21 +11,18 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
-    <script type="text/javascript" src="{{ asset('js/jquery-3.4.1.min.js') }}" charset="UTF-8"></script>
-    <script type="text/javascript" src="{{ asset('js/jquery.mask.min.js') }}" charset="UTF-8"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
     <script type="text/javascript" src="{{ asset('dataTable/jquery.dataTables.min.js') }}" charset="UTF-8"></script>
     <script type="text/javascript" src="{{ asset('dataTable/dataTables.bootstrap4.min.js') }}" charset="UTF-8"></script>
     <script src="{{ asset('js/feather.js') }}"></script>
     <script src="{{ asset('js/fontawesome-all.min.js') }}"></script>
+    <script type="text/javascript" src="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.11/js/dataTables.checkboxes.min.js"></script>
+    <script type="text/javascript" src="//cdn.datatables.net/responsive/2.2.4/js/dataTables.responsive.min.js"></script>
 
-    <script type="text/javascript" class="init">
-        $(document).ready(function($) {
-            $('#unidadetable').DataTable();
-            $('#alltable').DataTable();
-            $('#mytable').DataTable();
-        });
-    </script>
+
+    @stack('head')
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -33,9 +30,12 @@
 
     @section('style')
     <!-- Styles -->
+
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/fontawesome-all.min.css') }}" rel="stylesheet">
     <link href="{{ asset('dataTable/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+    <link href="//cdn.datatables.net/responsive/2.2.4/css/responsive.dataTables.min.css" rel="stylesheet">
+    <link type="text/css" href="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.11/css/dataTables.checkboxes.css" rel="stylesheet" />
     <style type="text/css">
         .nav-link {
             color: rgb(0, 0, 0, 0.5);
@@ -81,6 +81,8 @@
                             <a class="nav-link" href="{{ route('register') }}">{{ __('Cadastrar') }}</a>
                         </li>
 
+                        @endif
+                        @else
                         <li class="nav-item d-md-none">
                             <a class="nav-link " href="#">
                                 <i class="fas fa-chart-bar  fa-lg "></i>
@@ -94,13 +96,13 @@
                             </a>
                         </li>
                         <li class="nav-item d-md-none">
-                            <a class="nav-link {{ Request::segment(1) === 'campanha' ? 'active' : null }}" href="{{action('CampanhaController@list')}}">
+                            <a class="nav-link {{ Request::segment(1) === 'segmento' ? 'active' : null }}" href="{{action('SegmentoController@listFull')}}">
                                 <i class="fas fa-notes-medical fa-lg"></i>
-                                Campanhas
+                                Segmentações
                             </a>
                         </li>
                         <li class="nav-item d-md-none">
-                            <a class="nav-link" href="{{action('SolicitacaoController@list')}}">
+                            <a class="nav-link {{ Request::segment(1) === 'solicitacao' ? 'active' : null }}" href="{{action('SolicitacaoController@list')}}">
                                 <i class="fas fa-syringe fa-lg"></i>
                                 Solicitações
                             </a>
@@ -118,16 +120,52 @@
                             </a>
                         </li>
 
-                        @endif
-                        @else
+                        <li class="nav-item dropdown ">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class=" fas fa-user-cog fa-lg"></i>
+                                Administração
+                            </a>
 
+                            <div class="dropdown-menu " aria-labelledby="dropdownMenuLink">
+
+                                <a class="dropdown-item {{ Request::segment(1) === 'conta' ? 'active' : null }}" href="{{route('conta.route', Auth::user()->id )}}">
+                                    <i class="fas fa-cog fa-1x "></i>
+                                    Conta
+                                </a>
+                                @can('create', App\Campanha::class)
+                                <a class="dropdown-item {{ Request::segment(1) === 'campanha' ? 'active' : null }}" href="{{action('CampanhaController@list')}}">
+                                    <i class="fas fa-cog fa-1x "></i>
+                                    Conf-Campanhas
+                                </a>
+                                @endcan
+                                @can('create', App\Termo::class)
+                                <a class="dropdown-item {{ Request::segment(1) === 'termo' ? 'active' : null }}" href="{{action('TermoController@list')}}">
+                                    <i class="fas fa-cog fa-1x "></i>
+                                    Conf-Termos
+                                </a>
+                                @endcan
+                                @can('create', App\Publico::class)
+                                <a class="dropdown-item {{ Request::segment(1) === 'publico' ? 'active' : null }}" href="{{action('PublicoController@list')}}">
+                                    <i class="fas fa-cog fa-1x "></i>
+                                    Conf-Públicos
+                                </a>
+                                @endcan
+                                @can('create', App\Idade::class)
+                                <a class="dropdown-item {{ Request::segment(1) === 'idade' ? 'active' : null }}" href="{{action('IdadeController@list')}}">
+                                    <i class="fas fa-cog fa-1x "></i>
+                                    Conf-Idades
+                                </a>
+                                @endcan
+                            </div>
+                        </li>
 
                         <li class="nav-item dropdown">
-                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                {{ Auth::user()->name }} <i class="caret"></i>
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {{ Auth::user()->nome }} <i class="caret"></i>
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+
                                 <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                     {{ __('Sair') }}
@@ -153,20 +191,22 @@
                                 Relatórios
                             </a>
                         </li>
+                        @can('create', App\Unidade::class)
                         <li class="nav-item">
                             <a class="nav-link {{ Request::segment(1) === 'unidade' ? 'active' : null }}" href="{{action('UnidadeController@list')}}">
                                 <i class="fas fa-hospital fa-lg"></i>
                                 Unidades
                             </a>
                         </li>
+                        @endcan
                         <li class="nav-item">
-                            <a class="nav-link {{ Request::segment(1) === 'campanha' ? 'active' : null }}" href="{{action('CampanhaController@list')}}">
+                            <a class="nav-link {{ Request::segment(1) === 'segmento' ? 'active' : null }}" href="{{action('SegmentoController@listFull')}}">
                                 <i class="fas fa-notes-medical fa-lg"></i>
-                                Campanhas
+                                Segmentações
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{action('SolicitacaoController@list')}}">
+                            <a class="nav-link {{ Request::segment(1) === 'solicitacao' ? 'active' : null }}" href="{{action('SolicitacaoController@list')}}">
                                 <i class="fas fa-syringe fa-lg"></i>
                                 Solicitações
                             </a>
@@ -193,10 +233,34 @@
                     </h6>
                     <ul class="navbar-nav flex-column mb-2 pl-3">
                         <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <i class="fas fa-cog fa-lg "></i>
+                            <a class="nav-link {{ Request::segment(1) === 'conta' ? 'active' : null }}" href="{{route('conta.route', Auth::user()->id )}}">
+                                <i class="fas fa-cog fa-1x "></i>
                                 Conta
                             </a>
+                            @can('create', App\Campanha::class)
+                            <a class="nav-link {{ Request::segment(1) === 'campanha' ? 'active' : null }}" href="{{action('CampanhaController@list')}}">
+                                <i class="fas fa-cog fa-1x "></i>
+                                Conf-Campanhas
+                            </a>
+                            @endcan
+                            @can('create', App\Termo::class)
+                            <a class="nav-link {{ Request::segment(1) === 'termo' ? 'active' : null }}" href="{{action('TermoController@list')}}">
+                                <i class="fas fa-cog fa-1x "></i>
+                                Conf-Termos
+                            </a>
+                            @endcan
+                            @can('create', App\Publico::class)
+                            <a class="nav-link {{ Request::segment(1) === 'publico' ? 'active' : null }}" href="{{action('PublicoController@list')}}">
+                                <i class="fas fa-cog fa-1x "></i>
+                                Conf-Públicos
+                            </a>
+                            @endcan
+                            @can('create', App\Idade::class)
+                            <a class="nav-link {{ Request::segment(1) === 'idade' ? 'active' : null }}" href="{{action('IdadeController@list')}}">
+                                <i class="fas fa-cog fa-1x "></i>
+                                Conf-Idades
+                            </a>
+                            @endcan
                         </li>
                     </ul>
                 </div>
@@ -209,6 +273,7 @@
     </div>
 </body>
 
+<script type="text/javascript" src="{{ asset('js/jquery.mask.min.js') }}" charset="UTF-8"></script>
 <script>
     feather.replace({
         width: 24,

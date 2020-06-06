@@ -16,8 +16,8 @@ class CampanhaIdadePublicoSeeder extends Seeder
             'campanha_id' => 1,
             'idade_id' => 2,
             'publico_id' => 1,
-            'data_ini' => '2020-05-01',
-            'data_end' => '2020-06-08',
+            'data_ini' => '2020-05-27',
+            'data_end' => '2020-05-30',
         ]);
 
         \App\CampanhaIdadePublico::create([
@@ -26,6 +26,14 @@ class CampanhaIdadePublicoSeeder extends Seeder
             'publico_id' => 1,
             'data_ini' => '2020-04-01',
             'data_end' => '2020-04-20',
+        ]);
+
+        \App\CampanhaIdadePublico::create([
+            'campanha_id' => 1,
+            'idade_id' => 3,
+            'publico_id' => 1,
+            'data_ini' => '2019-04-01',
+            'data_end' => '2019-04-20',
         ]);
 
         \App\CampanhaIdadePublico::create([
@@ -40,6 +48,14 @@ class CampanhaIdadePublicoSeeder extends Seeder
             'campanha_id' => 2,
             'idade_id' => 3,
             'publico_id' => 2,
+            'data_ini' => '2020-08-01',
+            'data_end' => '2020-08-10',
+        ]);
+
+        \App\CampanhaIdadePublico::create([
+            'campanha_id' => 2,
+            'idade_id' => 3,
+            'publico_id' => 1,
             'data_ini' => '2020-08-01',
             'data_end' => '2020-08-10',
         ]);

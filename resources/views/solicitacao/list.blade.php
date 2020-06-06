@@ -1,5 +1,20 @@
 @extends('layouts.app')
 
+@push('listSolicitacao')
+<script>
+    $(document).ready(function($) {
+        $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
+            localStorage.setItem('activeTab', $(e.target).attr('href'));
+        });
+        var activeTab = localStorage.getItem('activeTab');
+        if (activeTab) {
+            $('#tab a[href="' + activeTab + '"]').tab('show');
+        }
+        
+    });
+</script>
+@endpush
+
 @section('style')
 @parent
 <style type="text/css">
@@ -9,7 +24,7 @@
 </style>
 @endsection
 @section('content')
-
+@stack('listSolicitacao')
 <div>
     <div class="pt-3">
         <h1 class="h2">Solicitações</h1>

@@ -114,7 +114,7 @@
                             </a>
                         </li>
                         <li class="nav-item d-md-none">
-                            <a class="nav-link {{ Request::segment(1) === 'agente' ? 'active' : null }}" href="{{action('AgenteController@list')}}">
+                            <a class="nav-link {{ Request::segment(1) === 'agente' ? 'active' : null }}" href="{{action('AgenteController@list')}}?userExclude=true">
                                 <i class=" fas fa-user-nurse fa-lg"></i>
                                 Agentes
                             </a>
@@ -218,7 +218,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ Request::segment(1) === 'agente' ? 'active' : null }}" href="{{action('AgenteController@list')}}">
+                            <a class="nav-link {{ Request::segment(1) === 'agente' ? 'active' : null }}" href="{{action('AgenteController@list')}}?userExclude=true">
                                 <i class="fas fa-user-nurse fa-lg"></i>
                                 Agentes
                             </a>
@@ -274,6 +274,7 @@
 </body>
 
 <script type="text/javascript" src="{{ asset('js/jquery.mask.min.js') }}" charset="UTF-8"></script>
+<script type="text/javascript" src="//cdn.datatables.net/responsive/2.2.4/js/dataTables.responsive.min.js"></script>
 <script>
     feather.replace({
         width: 24,

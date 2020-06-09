@@ -1,6 +1,7 @@
 <script>
     $(document).ready(function($) {
         var table = $('#mytable').DataTable({
+            "responsive": true,
             "language": {
                 "lengthMenu": "Exibir _MENU_ registros por página",
                 "zeroRecords": "Nada encontrado - desculpe",

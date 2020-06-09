@@ -1,6 +1,7 @@
 <script>
     $(document).ready(function($) {
         var table = $('#alltable').DataTable({
+            "responsive": true,
             "language": {
                 "lengthMenu": "Exibir _MENU_ registros por página",
                 "zeroRecords": "Nada encontrado - desculpe",
@@ -38,6 +39,13 @@
             var selectComponent = $("#agente").children("option:selected");
             var selected = selectComponent.val();
             var checks = Array.from(table.column(0).checkboxes.selected());
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                }
+            });
+            console.log('checks', checks)
 
             $url = "{{action('AgendamentoController@createMultiple')}}/" + selected + "?json=true";
             console.log("sl", $url);

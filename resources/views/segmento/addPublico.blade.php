@@ -11,10 +11,11 @@
 @endsection
 
 @push('addPublico')
+
 <script>
     $(document).ready(function($) {
 
-        $('#tableIdade').DataTable({
+        var table = $('#tableIdade').DataTable({
             "language": {
                 "lengthMenu": "Exibir _MENU_ registros por página",
                 "zeroRecords": "Nada encontrado - desculpe",
@@ -28,7 +29,7 @@
             "scrollY": "200px",
             "autoWidth": false,
             "scrollCollapse": true,
-        });
+        })
 
         var getPublico = function() {
             const selectPublico = $("select.publico").children("option:selected").val();
@@ -41,8 +42,9 @@
                 type: "GET",
                 url: urlProcess,
                 success: function(result) {
-                    result.forEach(function(item, index) {
-                        $('#tableIdade > tbody').append(`
+                    if (result.length > 0) {
+                        result.forEach(function(item, index) {
+                            $('#tableIdade > tbody').append(`
                             '<tr> 
                                 <td>${item.id}</td> 
                                 <td>${item.grupo}</td> 
@@ -58,12 +60,24 @@
                                     </form>
                                 </td>
                             </tr>`);
-                    });
+                        });
+                    }
                 },
                 complete: function(msg) {
                     $('#loading').css({
                         display: "none"
                     });
+                    setTimeout(() => {
+                        $.fn.dataTable
+                            .tables({
+                                visible: true,
+                                api: true
+                            })
+                            .columns.adjust()
+                            .responsive.recalc();
+                    }, 1);
+
+
                 }
             });
         }
@@ -85,7 +99,9 @@
         }
 
         $("select.publico").change(function() {
+
             populate();
+
         });
 
         var main = function() {
@@ -100,62 +116,67 @@
 @endpush
 
 @section('content')
-
-<div>
-    <h1 class="d-flex justify-content-center h2 pt-4 mr-5 ss ">Configuração de Público</h1>
-    <div class="d-flex justify-content-center flex-wrap flex-md-nowrap align-items-center pt-5 pb-2 mb-3  border-bottom ">
-        <form method="POST" action="{{action('SegmentoController@addIdade')}}">
-            @method('get')
-            @csrf
-            <div class="form-group col-md-12">
-                <div class=" form-row">
-                    <div class="form-group col-md-6">
-                        <label for="nome">Público</label>
-                        <select id="publico" class="form-control publico" name="publico_id">
-                            @foreach($objs as $obj)
-                            <option value="{{$obj->id}}">{{$obj->nome}}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="form-group col-md-6 ">
-                        <label for="nome" class="mb-5"> </label>
-                        <a href="{{action('PublicoController@add')}}?urlReturn={{URL::full()}}" class="btn btn-success mt-2">Nova Publico</a>
-                    </div>
-                </div>
-            </div>
-
-
-            <div class="form-group col-md-12 mt-5 ">
-                <div class="form-row ">
-                    <div class="form-group col-md-10">
-                        <label for="desc">Idades para esta publico</label>
-                        <table id="tableIdade" class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th>Id</th>
-                                    <th>Grupo</th>
-                                    <th>Faixa Etária</th>
-                                    <th>Opcões</th>
-                                </tr>
-                            </thead>
-                            <tbody class="fi">
-
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="form-group col-md-2 ">
-                        <label for="nome" class="mb-5"> </label>
-                        <button class="btn btn-primary btn-add">Adicionar</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group col-md-12 mt-5 ">
-                <a href="{{$urlReturn}}" class="btn btn-secondary">Voltar</a>
-            </div>
-
-        </form>
-    </div>
-</div>
 @stack('addPublico')
+<div class="row border-bottom">
+    <div class="col-lg-3 pt-3 col-sm-12">
+        <h5 class="p-2"><i data-feather="check-circle" stroke="#32CD32"></i> Campanha <strong>{{$campanha->nome}}</strong> selecionada</h5>
+    </div>
+    <div class="col-lg-9 col-md-12">
+        <h1 class=" h2 pt-4 mr-5 ss ">Configuração de Público</h1>
+        <div class=" pt-5 pb-2 mb-3  ">
+            <form method="POST" action="{{action('SegmentoController@addIdade')}}">
+                @method('get')
+                @csrf
+                <div class="form-group col-md-12 ">
+                    <div class=" form-row ">
+                        <div class="form-group col-md-6">
+                            <label for="nome">Público</label>
+                            <select id="publico" class="form-control publico" name="publico_id">
+                                @foreach($objs as $obj)
+                                <option value="{{$obj->id}}">{{$obj->nome}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6 ">
+                            <label for="nome" class="mb-5"> </label>
+                            <a href="{{action('PublicoController@add')}}?urlReturn={{URL::full()}}" class="btn btn-success mt-2">Nova Publico</a>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="form-group col-md-12 mt-5 ">
+                    <div class="form-row ">
+                        <div class="form-group col-md-6">
+                            <label for="desc">Idades para esta publico</label>
+                            <table id="tableIdade" class="table  table-sm display responsive" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Grupo</th>
+                                        <th>Faixa Etaria</th>
+                                        <th>Opcões</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="fi">
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="form-group col-md-2 ">
+                            <label for="nome" class="mb-5"> </label>
+                            <button class="btn btn-primary btn-add">Adicionar</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-md-12 mt-5 ">
+                    <a href="{{$urlReturn}}" class="btn btn-secondary">Voltar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+
 @stop

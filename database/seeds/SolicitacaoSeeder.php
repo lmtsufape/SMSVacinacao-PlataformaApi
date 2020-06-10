@@ -31,5 +31,10 @@ class SolicitacaoSeeder extends Seeder
             'campanha_idade_publico_id' => 5,
             'paciente_cns' => '288354864860002',
         ]);
+
+        \App\Solicitacao::create([  // 1
+            'campanha_idade_publico_id' => 5,
+            'paciente_cns' => '764541936590006',
+        ]);
     }
 }

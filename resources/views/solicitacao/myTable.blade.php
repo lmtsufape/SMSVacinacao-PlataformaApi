@@ -117,7 +117,7 @@
                             <div class="modal-body">
                                 <dl class="row pl-2 pr-2">
                                     <label for="desc">Descrição</label>
-                                    <textarea class="form-control" id="desc" name="desc" rows="6"></textarea>
+                                    <textarea class="form-control" id="desc" name="desc" required rows="6"></textarea>
                                 </dl>
                             </div>
                             <div class="modal-footer">

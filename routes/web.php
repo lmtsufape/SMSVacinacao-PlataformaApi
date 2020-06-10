@@ -136,6 +136,12 @@ Route::middleware('auth')->group(function () {
     Route::put('agendamento', 'AgendamentoController@edit');
     Route::delete('agendamento/{id?}', 'AgendamentoController@delete');
 
+    /* CRUD Relatorio */
+
+    Route::get('relatorio', 'RelatorioController@list');
+    Route::get('relatorio/snvacinados', 'RelatorioController@snVacinados');
+    
+
     /* Route::get('/home', 'RelatorioController@list')->name('home'); */
     Route::get('home', function () {
         return redirect('solicitacao');

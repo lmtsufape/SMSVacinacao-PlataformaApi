@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Collection;
+use Mockery\Undefined;
 
-class RelatorioController extends Controller
+class ApiRelatorioController extends Controller
 {
     //
 
@@ -59,6 +62,12 @@ class RelatorioController extends Controller
             'labels' => $labels,
             'datasets' => [
                 [
+                    'label' => 'Restante',
+                    'data' => $labels->map(function ($item, $key) use ($groupCount) {
+                        return $groupCount['Restante']->has($item) ? $groupCount['Restante'][$item] : 0;
+                    })
+                ],
+                [
                     'label' => 'Vacinado',
                     'data' => $labels->map(function ($item, $key) use ($groupCount) {
                         if ($groupCount->has('Vacinado')) {
@@ -67,16 +76,10 @@ class RelatorioController extends Controller
                             return 0;
                         }
                     })
-                ],
-                [
-                    'label' => 'Restante',
-                    'data' => $labels->map(function ($item, $key) use ($groupCount) {
-                        return $groupCount['Restante']->has($item) ? $groupCount['Restante'][$item] : 0;
-                    })
-                ],
+                ]
             ]
 
         ];
-        return $data;
+        return  $data;
     }
 }

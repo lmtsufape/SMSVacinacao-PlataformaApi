@@ -70,3 +70,9 @@ Route::get('solicitacao/{id?}', 'ApiSolicitacaoController@list');
 Route::post('solicitacao', 'ApiSolicitacaoController@create');
 Route::put('solicitacao', 'ApiSolicitacaoController@edit');
 Route::delete('solicitacao/{id?}', 'ApiSolicitacaoController@delete');
+
+
+/* CRUD Relatorio */
+
+Route::get('relatorio', 'ApiRelatorioController@list');
+Route::get('relatorio/snvacinados', 'ApiRelatorioController@snVacinados');

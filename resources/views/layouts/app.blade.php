@@ -36,6 +36,7 @@
     <link href="{{ asset('dataTable/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
     <link href="//cdn.datatables.net/responsive/2.2.4/css/responsive.dataTables.min.css" rel="stylesheet">
     <link type="text/css" href="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.11/css/dataTables.checkboxes.css" rel="stylesheet" />
+    <link href="//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css" rel="stylesheet">
     <style type="text/css">
         .nav-link {
             color: rgb(0, 0, 0, 0.5);
@@ -84,7 +85,7 @@
                         @endif
                         @else
                         <li class="nav-item d-md-none">
-                            <a class="nav-link " href="#">
+                            <a class="nav-link {{ Request::segment(1) === 'relatorio' ? 'active' : null }}" href="{{action('RelatorioController@list')}}">
                                 <i class="fas fa-chart-bar  fa-lg "></i>
                                 Relatórios
                             </a>
@@ -186,7 +187,7 @@
                 <div class="sidebar-sticky">
                     <ul class="navbar-nav flex-column pt-3 pl-3">
                         <li class="nav-item">
-                            <a class="nav-link {{ Request::segment(1) === 'relatorio' ? 'active' : null }}" href="#">
+                            <a class="nav-link {{ Request::segment(1) === 'relatorio' ? 'active' : null }}" href="{{action('RelatorioController@list')}}">
                                 <i class="fas fa-chart-bar  fa-lg "></i>
                                 Relatórios
                             </a>
@@ -275,6 +276,7 @@
 
 <script type="text/javascript" src="{{ asset('js/jquery.mask.min.js') }}" charset="UTF-8"></script>
 <script type="text/javascript" src="//cdn.datatables.net/responsive/2.2.4/js/dataTables.responsive.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
 <script>
     feather.replace({
         width: 24,

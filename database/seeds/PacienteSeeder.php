@@ -58,5 +58,21 @@ class PacienteSeeder extends Seeder
             'lat' => -8.985219,
             'lng' => -37.486392
         ]);
+
+        \App\Paciente::create([
+            'cns' => 764541936590006,
+            'nome' => 'João Marques Silva',
+            'nasc' => date('Y-m-d'),
+            'tel' => '87981486931',
+            'rua' => 'Av Rui Barbosa',
+            'num' => '100',
+            'complemento' => 'casa',
+            'bairro' => 'Boa vista',
+            'cidade' => 'Garanhuns',
+            'uf' => 'PE',
+            'cep' => '56555-000',
+            'lat' => -8.985219,
+            'lng' => -37.486392
+        ]);
     }
 }

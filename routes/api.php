@@ -76,3 +76,4 @@ Route::delete('solicitacao/{id?}', 'ApiSolicitacaoController@delete');
 
 Route::get('relatorio', 'ApiRelatorioController@list');
 Route::get('relatorio/snvacinados', 'ApiRelatorioController@snVacinados');
+Route::get('relatorio/snpacientes', 'ApiRelatorioController@snPacientes');

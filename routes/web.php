@@ -140,7 +140,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('relatorio', 'RelatorioController@list');
     Route::get('relatorio/snvacinados', 'RelatorioController@snVacinados');
-    
+    Route::get('relatorio/snpacientes', 'RelatorioController@snPacientes');
+
 
     /* Route::get('/home', 'RelatorioController@list')->name('home'); */
     Route::get('home', function () {

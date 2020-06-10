@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class RelatorioController extends Controller
 {
@@ -16,25 +17,70 @@ class RelatorioController extends Controller
         return view('relatorio.list');
     }
 
-    public function snVacinados()
+    public function snVacinados(Request $request)
     {
 
-        $obj = \App\Solicitacao::whereYear('solicitacoes.created_at', '2020')
-            ->join('pacientes', 'paciente_cns', '=', 'pacientes.cns')
-            ->select(DB::raw('solicitacoes.status, pacientes.bairro'))
-            ->get();
+        $params =  collect($request->only(['period', 'division', 'user']));
+        $obj = '';
+        $restantes = '';
+        $vacinados = '';
+        $divisao = $params['division'];
+
+        if ($params['user'] === 'true') {
+            if (Auth::check()) {
+                $agente = Auth::user();
+                $solicitacao = $agente->solicitacoesAtribuidas();
+                if ($params['period'] === 'anual') {
+                    $obj = $solicitacao->whereYear('solicitacoes.created_at', date('Y'))
+                        ->join('pacientes', 'paciente_cns', '=', 'pacientes.cns')
+                        ->select(DB::raw('solicitacoes.status, pacientes.' . $divisao))
+                        ->get();
+                } elseif ($params['period'] === 'mensal') {
+                    $obj = $solicitacao->whereYear('solicitacoes.created_at', date('Y'))
+                        ->whereMonth('solicitacoes.created_at', date('m'))
+                        ->join('pacientes', 'paciente_cns', '=', 'pacientes.cns')
+                        ->select(DB::raw('solicitacoes.status, pacientes.' . $divisao))
+                        ->get();
+                } elseif ($params['period'] === 'diario') {
+                    $obj = $solicitacao->whereDate('solicitacoes.created_at', date('Y-m-d'))
+                        ->join('pacientes', 'paciente_cns', '=', 'pacientes.cns')
+                        ->select(DB::raw('solicitacoes.status, pacientes.' . $divisao))
+                        ->get();
+                }
+            }
+        } else {
+            if ($params['period'] === 'anual') {
+                $obj = \App\Solicitacao::whereYear('solicitacoes.created_at', date('Y'))
+                    ->join('pacientes', 'paciente_cns', '=', 'pacientes.cns')
+                    ->select(DB::raw('solicitacoes.status, pacientes.' . $divisao))
+                    ->get();
+            } elseif ($params['period'] === 'mensal') {
+                $obj = \App\Solicitacao::whereYear('solicitacoes.created_at', date('Y'))
+                    ->whereMonth('solicitacoes.created_at', date('m'))
+                    ->join('pacientes', 'paciente_cns', '=', 'pacientes.cns')
+                    ->select(DB::raw('solicitacoes.status, pacientes.' . $divisao))
+                    ->get();
+            } elseif ($params['period'] === 'diario') {
+                $obj = \App\Solicitacao::whereDate('solicitacoes.created_at', date('Y-m-d'))
+                    ->join('pacientes', 'paciente_cns', '=', 'pacientes.cns')
+                    ->select(DB::raw('solicitacoes.status, pacientes.' . $divisao))
+                    ->get();
+            }
+        }
+
+
 
         $restantes = $obj->groupBy([function ($item) {
             if ($item['status'] !== 'Recusado') {
                 return 'Restante';
             };
-        }, 'bairro']);
+        }, $divisao]);
 
         $vacinados = $obj->groupBy([function ($item) {
             if ($item['status'] === 'Vacinado') {
                 return 'Vacinado';
             }
-        }, 'bairro']);
+        }, $divisao]);
 
         $prepData = $vacinados->has('Vacinado') ? $restantes->only('Restante')->merge($vacinados->only('Vacinado')) : $restantes->only('Restante');
 

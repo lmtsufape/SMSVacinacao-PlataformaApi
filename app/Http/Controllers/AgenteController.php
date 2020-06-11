@@ -18,10 +18,8 @@ class AgenteController extends Controller
             $agente = \App\Agente::find($id);
 
             return $agente;
-        }else if($request->userExclude){
+        } else {
             $agente = \App\Agente::all()->where('id', '!=', Auth::user()->id);
-        }else{
-            $agente = \App\Agente::all();
         }
 
         if ($request->json === 'true') {

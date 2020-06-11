@@ -115,7 +115,7 @@
                             </a>
                         </li>
                         <li class="nav-item d-md-none">
-                            <a class="nav-link {{ Request::segment(1) === 'agente' ? 'active' : null }}" href="{{action('AgenteController@list')}}?userExclude=true">
+                            <a class="nav-link {{ Request::segment(1) === 'agente' ? 'active' : null }}" href="{{action('AgenteController@list')}}">
                                 <i class=" fas fa-user-nurse fa-lg"></i>
                                 Agentes
                             </a>
@@ -219,7 +219,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ Request::segment(1) === 'agente' ? 'active' : null }}" href="{{action('AgenteController@list')}}?userExclude=true">
+                            <a class="nav-link {{ Request::segment(1) === 'agente' ? 'active' : null }}" href="{{action('AgenteController@list')}}">
                                 <i class="fas fa-user-nurse fa-lg"></i>
                                 Agentes
                             </a>

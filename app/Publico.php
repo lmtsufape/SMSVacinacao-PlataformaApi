@@ -16,6 +16,6 @@ class Publico extends Model
     public function idades()
     {
         return $this->belongsToMany('\App\Idade', 'campanhas_idades_publicos', 'publico_id', 'idade_id')
-            ->withPivot('campanha_id', 'data_ini', 'data_end');
+            ->withPivot(['campanha_id', 'data_ini', 'data_end']);
     }
 }

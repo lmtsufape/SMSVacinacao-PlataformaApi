@@ -18,7 +18,7 @@ class Paciente extends Model
     public function campanhas()
     {
         return $this->belongsToMany('\App\Campanha', 'campanhas_pacientes', 'paciente_cns', 'campanha_id')
-            ->withPivot('vacinado', 'data_time', 'agente_id')
+            ->withPivot(['vacinado', 'data_time', 'agente_id'])
             ->join('agentes', 'agente_id', '=', 'agentes.id')
             ->where('vacinado', '=', true)
             ->select('campanhas', 'agentes.nome as agentes_agente_nome', 'agentes.id as agentes_agente_id');
@@ -26,7 +26,7 @@ class Paciente extends Model
 
     public function agentes()
     {
-        return $this->belongsToMany('\App\Agente', 'campanhas_pacientes', 'paciente_cns', 'agente_id')->withPivot('vacinado', 'data_time')->withTimestamps();
+        return $this->belongsToMany('\App\Agente', 'campanhas_pacientes', 'paciente_cns', 'agente_id')->withPivot(['vacinado', 'data_time'])->withTimestamps();
     }
 
     public function solicitacoes()

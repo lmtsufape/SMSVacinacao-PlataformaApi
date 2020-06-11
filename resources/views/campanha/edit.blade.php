@@ -53,7 +53,7 @@
                 <div class="form-row">
                     <div class="form-group col-md-7">
                         <label for="termo">Termo</label>
-                        <select id="termo" class="form-control termo" name="termo_id" >
+                        <select id="termo" class="form-control termo" name="termo_id">
                             <option selected value="{{$objT->id}}"> {{$objT->nome}}</option>
                             @foreach($objsT as $objFT)
                             <option value="{{$objFT->id}}">{{$objFT->nome}}</option>
@@ -62,7 +62,7 @@
                     </div>
                     <div class="form-group col-md-5 ">
                         <label for="nome" class="mb-5"> </label>
-                        <a href="{{action('TermoController@add')}}" class="btn btn-success mt-2">Novo Termo</a>
+                        <a href="{{action('TermoController@add')}}?urlReturn={{URL::full()}}" class="btn btn-success mt-2">Novo Termo</a>
                     </div>
                 </div>
                 <div class="form-row">

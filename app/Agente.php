@@ -37,17 +37,17 @@ class Agente extends Authenticatable
 
     public function campanhasAtendidas()
     {
-        return $this->belongsToMany('\App\Campanha', 'campanhas_pacientes', 'agente_id', 'campanha_id')->withPivot('vacinado', 'data_time')->withTimestamps();
+        return $this->belongsToMany('\App\Campanha', 'campanhas_pacientes', 'agente_id', 'campanha_id')->withPivot(['vacinado', 'data_time'])->withTimestamps();
     }
 
     public function pacientesAtendidos()
     {
-        return $this->belongsToMany('\App\Paciente', 'solicitacoes', 'agente_id', 'paciente_cns')->wherePivot('status', '=', 'vacinado')->withPivot('status', 'data_time')->withTimestamps();
+        return $this->belongsToMany('\App\Paciente', 'solicitacoes', 'agente_id', 'paciente_cns')->wherePivot('status', '=', 'vacinado')->withPivot(['status', 'data_time'])->withTimestamps();
     }
 
     public function pacientesRecusados()
     {
-        return $this->belongsToMany('\App\Paciente', 'solicitacoes', 'agente_id', 'paciente_cns')->wherePivot('status', '=', 'recusado')->withPivot('status', 'data_time')->withTimestamps();
+        return $this->belongsToMany('\App\Paciente', 'solicitacoes', 'agente_id', 'paciente_cns')->wherePivot('status', '=', 'recusado')->withPivot(['status', 'data_time'])->withTimestamps();
     }
 
     public function solicitacoesAtribuidas()

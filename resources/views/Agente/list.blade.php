@@ -34,7 +34,7 @@
             <a id="add" href="{{action('AgenteController@add')}}" class="btn btn-sm btn-outline-primary pt-2 ml-2">
                 <span data-feather="plus"></span> Cadastrar
             </a>
-            <a href="{{action('AgenteController@list')}}?userExclude=true" class="btn btn-sm btn-outline-primary pt-2 ml-2">
+            <a href="{{action('AgenteController@list')}}" class="btn btn-sm btn-outline-primary pt-2 ml-2">
                 <span data-feather="rotate-ccw"></span> Atualizar
             </a>
         </div>

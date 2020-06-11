@@ -67,7 +67,7 @@ class SolicitacaoController extends Controller
             return $solicitacao;
         }
 
-        $solicitacao = \App\Solicitacao::with('paciente', 'agente', 'campanhaidadepublico', 'campanhaidadepublico.campanha', 'campanhaidadepublico.publico', 'campanhaidadepublico.idade')->get();
+        $solicitacao = \App\Solicitacao::with(['paciente', 'agente', 'campanhaidadepublico', 'campanhaidadepublico.campanha', 'campanhaidadepublico.publico', 'campanhaidadepublico.idade'])->get();
 
         if ($request->json === 'true') {
             return $solicitacao;
@@ -77,12 +77,14 @@ class SolicitacaoController extends Controller
             $agente = \App\Agente::find(Auth::user()->id);
 
             $solicitacaoAttr = $agente->solicitacoesAtribuidas()->with(
-                'paciente',
-                'agente',
-                'campanhaidadepublico',
-                'campanhaidadepublico.campanha',
-                'campanhaidadepublico.publico',
-                'campanhaidadepublico.idade',
+                [
+                    'paciente',
+                    'agente',
+                    'campanhaidadepublico',
+                    'campanhaidadepublico.campanha',
+                    'campanhaidadepublico.publico',
+                    'campanhaidadepublico.idade',
+                ]
             )->where($request->except('json'))->get();
         } else {
             $solicitacaoAttr = 'not found';
@@ -288,12 +290,14 @@ class SolicitacaoController extends Controller
 
         if ($agente !== null) {
             $solicitacao = $agente->solicitacoesAtribuidas()->with(
-                'paciente',
-                'agente',
-                'campanhaidadepublico',
-                'campanhaidadepublico.campanha',
-                'campanhaidadepublico.publico',
-                'campanhaidadepublico.idade',
+                [
+                    'paciente',
+                    'agente',
+                    'campanhaidadepublico',
+                    'campanhaidadepublico.campanha',
+                    'campanhaidadepublico.publico',
+                    'campanhaidadepublico.idade',
+                ]
             )->where($request->except('json'))->get();
         } else {
             $solicitacao = 'not found';

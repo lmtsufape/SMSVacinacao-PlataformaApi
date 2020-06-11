@@ -326,13 +326,15 @@ class ApiSolicitacaoController extends Controller
 
         if ($agente !== null) {
             $solicitacao = $agente->solicitacoesDelegadas()->with(
-                'campanha',
-                'campanha.vacina',
-                'campanha.publico',
-                'campanha.segmento',
-                'campanha.segmento.idade',
-                'campanha.segmento.idade.grupo',
-                'campanha.segmento.periodo'
+                [
+                    'campanha',
+                    'campanha.vacina',
+                    'campanha.publico',
+                    'campanha.segmento',
+                    'campanha.segmento.idade',
+                    'campanha.segmento.idade.grupo',
+                    'campanha.segmento.periodo'
+                ]
             )->where($request->except('json'))->get();
         } else {
             $solicitacao = 'not found';
@@ -355,10 +357,12 @@ class ApiSolicitacaoController extends Controller
 
         if ($paciente !== null) {
             $solicitacao = $paciente->solicitacoes()->with(
-                'campanhaIdadePublico',
-                'campanhaIdadePublico.campanha',
-                'campanhaIdadePublico.publico',
-                'campanhaIdadePublico.idade',
+                [
+                    'campanhaIdadePublico',
+                    'campanhaIdadePublico.campanha',
+                    'campanhaIdadePublico.publico',
+                    'campanhaIdadePublico.idade',
+                ]
             )->where($request->except('json'))->get();
         } else {
             $solicitacao = 'not found';

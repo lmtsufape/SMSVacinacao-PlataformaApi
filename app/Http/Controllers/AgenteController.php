@@ -16,7 +16,6 @@ class AgenteController extends Controller
 
         if ($id !== false) {
             $agente = \App\Agente::find($id);
-
             return $agente;
         } else {
             $agente = \App\Agente::all()->where('id', '!=', Auth::user()->id);
@@ -193,19 +192,21 @@ class AgenteController extends Controller
 
     public function teste(Request $request)
     {
-        /* $agente = \App\Agente::with('solicitacoesAtribuidas', 'solicitacoesAtribuidas.campanha')->get(); */
+        /* $agente = \App\Agente::with(['solicitacoesAtribuidas', 'solicitacoesAtribuidas.campanha'])->get(); */
         $agente = \App\Agente::find(2);
 
 
-        /* return $agente->with('solicitacoesAtribuidas', 'solicitacoesAtribuidas.campanha')->get(); */
+        /* return $agente->with(['solicitacoesAtribuidas', 'solicitacoesAtribuidas.campanha'])->get(); */
         return $agente->solicitacoesAtribuidas()->with(
-            'campanha',
-            'campanha.vacina',
-            'campanha.publico',
-            'campanha.segmento',
-            'campanha.segmento.idade',
-            'campanha.segmento.idade.grupo',
-            'campanha.segmento.periodo'
+            [
+                'campanha',
+                'campanha.vacina',
+                'campanha.publico',
+                'campanha.segmento',
+                'campanha.segmento.idade',
+                'campanha.segmento.idade.grupo',
+                'campanha.segmento.periodo'
+            ]
         )->get();
     }
 }

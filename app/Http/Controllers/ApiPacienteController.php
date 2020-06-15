@@ -10,14 +10,16 @@ class ApiPacienteController extends Controller
 
     public function list(Request $request, $cns = false)
     {
-
+        $paciente = '';
         if ($cns !== false) {
             $paciente = \App\Paciente::find($cns);
-
-            return $paciente;
+            if ($paciente === null) {
+                $paciente = 'Paciente não consta em nossos registros';
+                return response($paciente, 404)->header('Content-Type', 'text/plain');
+            }
+        } else {
+            $paciente = \App\Paciente::all();
         }
-
-        $paciente = \App\Paciente::all();
 
         return $paciente;
     }
@@ -33,11 +35,7 @@ class ApiPacienteController extends Controller
         $dadosPaciente = $request->only(['cns', 'nome', 'nasc', 'tel', 'rua', 'num', 'complemento', 'bairro', 'cidade', 'uf', 'cep', 'lat', 'lng']);
         $paciente = \App\Paciente::create($dadosPaciente);
 
-        if ($request->json === 'true') {
-            return $paciente;
-        }
-
-        return redirect()->action('PacienteController@list');
+        return $paciente;
     }
 
     public function editForm($cns)
@@ -45,7 +43,7 @@ class ApiPacienteController extends Controller
 
         $pacienteEdit = \App\Paciente::find($cns);
 
-        return view('paciente.edit')->with('obj', $pacienteEdit);
+        return $pacienteEdit;
     }
 
     public function edit(Request $request)
@@ -60,11 +58,7 @@ class ApiPacienteController extends Controller
             $updatingPaciente = 'not found';
         }
 
-        if ($request->json === 'true') {
-            return $updatingPaciente;
-        }
-
-        return redirect()->action('PacienteController@list');
+        return $updatingPaciente;
     }
 
     public function delete(Request $request, $cns = false)
@@ -84,10 +78,6 @@ class ApiPacienteController extends Controller
             $paciente = 'not found';
         }
 
-        if ($request->json === 'true') {
-            return $paciente;
-        }
-
-        return redirect()->action('PacienteController@list');
+        return $paciente;
     }
 }

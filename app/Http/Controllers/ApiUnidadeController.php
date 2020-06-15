@@ -36,11 +36,7 @@ class ApiUnidadeController extends Controller
         $dadosUnidade = $request->only(['id', 'nome',  'rua', 'num', 'bairro', 'cidade', 'uf', 'cep', 'complemento', 'lat', 'lng']);
         $unidade = \App\Unidade::create($dadosUnidade);
 
-        if ($request->json === 'true') {
-            return $unidade;
-        }
-
-        return redirect()->action('UnidadeController@list');
+        return $unidade;
     }
 
 
@@ -66,11 +62,7 @@ class ApiUnidadeController extends Controller
         }
 
 
-        if ($request->json === 'true') {
-            return $updatingUnidade;
-        }
-
-        return redirect()->action('UnidadeController@list');
+        return $updatingUnidade;
     }
 
     public function delete(Request $request, $id = false)
@@ -92,11 +84,7 @@ class ApiUnidadeController extends Controller
         }
 
 
-        if ($request->json === 'true') {
-            return $unidade;
-        }
-
-        return redirect()->action('UnidadeController@list');
+        return $unidade;
     }
 
     public function near(Request $request)

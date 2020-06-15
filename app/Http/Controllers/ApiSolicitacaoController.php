@@ -6,6 +6,7 @@ use DateTime;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Mockery\Undefined;
 
 class ApiSolicitacaoController extends Controller
 {
@@ -58,39 +59,17 @@ class ApiSolicitacaoController extends Controller
 
     public function list(Request $request, $id = false)
     {
-
-        $solicitacaoAttr = '';
+        $solicitacao = '';
 
         if ($id !== false) {
             $solicitacao = \App\Solicitacao::find($id);
 
             return $solicitacao;
-        }
-
-        $solicitacao = \App\Solicitacao::with(['paciente', 'agente', 'campanhaidadepublico', 'campanhaidadepublico.campanha', 'campanhaidadepublico.publico', 'campanhaidadepublico.idade'])->get();
-
-        if ($request->json === 'true') {
-            return $solicitacao;
-        }
-
-        if (Auth::check()) {
-            $agente = \App\Agente::find(Auth::user()->id);
-
-            $solicitacaoAttr = $agente->solicitacoesAtribuidas()->with(
-                [
-                    'paciente',
-                    'agente',
-                    'campanhaidadepublico',
-                    'campanhaidadepublico.campanha',
-                    'campanhaidadepublico.publico',
-                    'campanhaidadepublico.idade',
-                ]
-            )->where($request->except('json'))->get();
         } else {
-            $solicitacaoAttr = 'not found';
+            $solicitacao = \App\Solicitacao::with(['paciente', 'agente', 'campanhaidadepublico', 'campanhaidadepublico.campanha', 'campanhaidadepublico.publico', 'campanhaidadepublico.idade'])->get();
         }
 
-        return view('solicitacao.list')->with(['objs' => $solicitacao, 'objsAt' => $solicitacaoAttr]);
+        return $solicitacao;
     }
 
     public function add()
@@ -109,11 +88,7 @@ class ApiSolicitacaoController extends Controller
 
         $solicitacao = \App\Solicitacao::create($dadosSolicitacao);
 
-        if ($request->json === 'true') {
-            return $solicitacao;
-        }
-
-        return redirect()->action('SolicitacaoController@list');
+        return $solicitacao;
     }
 
     public function editForm($id)
@@ -136,11 +111,7 @@ class ApiSolicitacaoController extends Controller
             $updatingSolicitacao = 'not found';
         }
 
-        if ($request->json === 'true') {
-            return $updatingSolicitacao;
-        }
-
-        return redirect()->action('SolicitacaoController@list');
+        return $updatingSolicitacao;
     }
 
     public function delete(Request $request, $id = false)
@@ -156,16 +127,23 @@ class ApiSolicitacaoController extends Controller
         }
 
         if ($solicitacao !== null) {
-            $solicitacao->delete();
+            if ($solicitacao->status === 'Em espera') {
+                $solicitacao->delete();
+            } else if ($solicitacao->status === 'Aceito') {
+                $solicitacao = 'Solicitação aceita por algum agente, não é possível cancelar mais está solicitação!';
+                return response($solicitacao, 500)->header('Content-Type', 'text/plain');
+            } else if ($solicitacao->status === 'Recusado') {
+                $solicitacao = 'Solicitação recusada por algum agente, não é possível cancelar mais está solicitação!';
+                return response($solicitacao, 500)->header('Content-Type', 'text/plain');
+            } else {
+                $solicitacao = 'Ocorreu algum problema, não foi possível cancelar está solicitação';
+                return response($solicitacao, 500)->header('Content-Type', 'text/plain');
+            }
         } else {
             $solicitacao = 'not found';
         }
 
-        if ($request->json === 'true') {
-            return $solicitacao;
-        }
-
-        return redirect()->action('SolicitacaoController@list');
+        return $solicitacao;
     }
 
     public function getStatus(Request $request, $id)
@@ -179,10 +157,6 @@ class ApiSolicitacaoController extends Controller
             $solicitacao = $solicitacao->status;
         } else {
             $solicitacao = 'not found';
-        }
-
-        if ($request->json == 'true') {
-            return $solicitacao;
         }
 
         return $solicitacao;
@@ -267,11 +241,7 @@ class ApiSolicitacaoController extends Controller
             $solicitacao = 'not found';
         }
 
-        if ($request->json == 'true') {
-            return $solicitacao;
-        }
-
-        return redirect()->action('SolicitacaoController@list');
+        return $solicitacao;
     }
 
     public function agenteSolicAtrib(Request $request, $id = false)
@@ -303,11 +273,7 @@ class ApiSolicitacaoController extends Controller
             $solicitacao = 'not found';
         }
 
-        if ($request->json == 'true') {
-            return $solicitacao;
-        }
-
-        return redirect()->action('SolicitacaoController@list');
+        return $solicitacao;
     }
 
     public function agenteSolicDeleg(Request $request, $id = false)
@@ -340,11 +306,7 @@ class ApiSolicitacaoController extends Controller
             $solicitacao = 'not found';
         }
 
-        if ($request->json == 'true') {
-            return $solicitacao;
-        }
-
-        return redirect()->action('SolicitacaoController@list');
+        return $solicitacao;
     }
 
     public function pacienteSolic(Request $request, $id)
@@ -365,14 +327,11 @@ class ApiSolicitacaoController extends Controller
                 ]
             )->where($request->except('json'))->get();
         } else {
-            $solicitacao = 'not found';
+            $solicitacao = 'Paciente não consta em nossos registros';
+            return response($solicitacao, 404)->header('Content-Type', 'text/plain');
         }
 
-        if ($request->json == 'true') {
-            return $solicitacao;
-        }
-
-        return redirect()->action('SolicitacaoController@list');
+        return $solicitacao;
     }
 
     public function createPacienteSolic(Request $request, $id)
@@ -380,8 +339,8 @@ class ApiSolicitacaoController extends Controller
 
         $solicitacao = '';
 
-        $paciente = \App\Paciente::find($id);
 
+        $paciente = \App\Paciente::find($id);
 
         if ($paciente !== null) {
             $parameters = $request->only(['campanha_id', 'publico_id', 'idade_id']);
@@ -391,18 +350,21 @@ class ApiSolicitacaoController extends Controller
                     'campanha_idade_publico_id' => $campanhaIdadePublico->id,
                     'paciente_cns' => $paciente->cns,
                 ];
-                $solicitacao = \App\Solicitacao::create($data);
+                try {
+                    $solicitacao = \App\Solicitacao::create($data);
+                } catch (\Illuminate\Database\QueryException $e) {
+                    $solicitacao = 'Você já fez uma solicitação como esta';
+                    return response($solicitacao, 409)->header('Content-Type', 'text/plain');
+                }
             } else {
-                $solicitacao = 'campanha, publico and idade not found';
+                $solicitacao = 'Campanha, publico ou idade não encontrados';
+                return response($solicitacao, 404)->header('Content-Type', 'text/plain');
             }
         } else {
-            $solicitacao = 'paciente not found';
+            $solicitacao = 'Paciente não consta em nossos registros';
+            return response($solicitacao, 404)->header('Content-Type', 'text/plain');
         }
 
-        if ($request->json == 'true') {
-            return $solicitacao;
-        }
-
-        return redirect()->action('SolicitacaoController@list');
+        return $solicitacao;
     }
 }

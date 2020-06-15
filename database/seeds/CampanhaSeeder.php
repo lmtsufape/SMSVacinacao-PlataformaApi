@@ -17,14 +17,14 @@ class CampanhaSeeder extends Seeder
             'termo_id' => 2,
             'nome' => 'H1N1',
             'desc' => 'A gripe suína foi reconhecida pela primeira vez na pandemia de 1919 e ainda circula como um vírus da gripe sazonal. A gripe suína é causada pela cepa de vírus H1N1, que começou em porcos. Os sintomas incluem febre, tosse, dor de garganta, calafrios e dores no corpo.',
-            'atend_domic' => false,
+            'atend_domic' => true,
         ]);
 
         DB::table('campanhas')->insert([  // 1
             'termo_id' => 1,
             'nome' => 'Covid-19',
             'desc' => 'Ele causa problemas respiratórios semelhantes à gripe e sintomas como tosse, febre e, em casos mais graves, dificuldade para respirar. Como prevenção, lave as mãos com frequência e evite tocar o rosto e ter contato próximo (um metro de distância) com pessoas que não estejam bem.',
-            'atend_domic' => false,
+            'atend_domic' => true,
         ]);
 
         DB::table('campanhas')->insert([  // 1

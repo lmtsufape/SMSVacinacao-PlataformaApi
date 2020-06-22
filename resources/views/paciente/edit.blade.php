@@ -38,32 +38,32 @@
             <input type="hidden" name="cns" value="{{$obj->cns}}">
             <div class="form-group">
                 <div class="form-row">
-                    <label for="cns">CNS</label>
-                    <input data-mask="999 9999 9999 9999" data-mask-reverse="true" type="text" class="form-control" disabled value="{{$obj->cns}}">
+                    <label for="cns">CNS *</label>
+                    <input data-mask="000 0000 0000 0000" data-mask-reverse="true" type="text" class="form-control" disabled value="{{$obj->cns}}" required>
                 </div>
             </div>
             <div class="form-group">
                 <div class="form-row">
-                    <label for="nome">Nome</label>
-                    <input type="text" class="form-control" id="nome" placeholder="Nome" name="nome" value="{{$obj->nome}}" required autocomplete="nome" autofocus>
+                    <label for="nome">Nome *</label>
+                    <input type="text" pattern="[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+" title="Nome do paciente deve conter apenas letra em sua descrição" class="form-control" id="nome" placeholder="Nome" name="nome" value="{{$obj->nome}}" required autocomplete="nome" autofocus>
                 </div>
             </div>
             <div class="form-group">
                 <div class="form-row">
                     <div class="form-group col-md-2">
-                        <label for="cep">CEP</label>
-                        <input data-mask="99999-999" data-mask-reverse="true" type="text" class="form-control mask" id="cep" placeholder="_____-___" name="cep" required autocomplete="cep" autofocus value="{{$obj->cep}}">
+                        <label for="cep">CEP *</label>
+                        <input data-mask="00000-000" data-mask-reverse="true" type="text" class="form-control mask" id="cep" placeholder="_____-___" name="cep" required autocomplete="cep" autofocus value="{{$obj->cep}}">
                     </div>
                     <div class="form-group col-md-4">
-                        <label for="bairro">Bairro</label>
+                        <label for="bairro">Bairro *</label>
                         <input type="text" class="form-control" id="bairro" placeholder="Bairro" name="bairro" value="{{$obj->bairro}}" required autocomplete="bairro" autofocus>
                     </div>
                     <div class="form-group col-md-3">
-                        <label for="cidade">Cidade</label>
+                        <label for="cidade">Cidade *</label>
                         <input type="text" class="form-control" id="cidade" placeholder="Cidade" name="cidade" value="{{$obj->cidade}}" required autocomplete="cidade" autofocus>
                     </div>
                     <div class="form-group col-md-2">
-                        <label for="uf">UF</label>
+                        <label for="uf">UF *</label>
                         <select id="uf" class="form-control" name="uf">
                             <option selected="selected" value="{{$obj->uf}}">{{$obj->uf}}</option>
                             <option @if(old('uf')=='AC' ) selected @endif value="AC">AC</option>
@@ -98,12 +98,12 @@
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-5">
-                        <label for="rua">Rua</label>
+                        <label for="rua">Rua *</label>
                         <input type="text" class="form-control" id="rua" placeholder="Rua" name="rua" value="{{$obj->rua}}" required autocomplete="rua" autofocus>
                     </div>
                     <div class="form-group col-md-2">
-                        <label for="num">Número</label>
-                        <input type="number" class="form-control" id="num" placeholder="Numero" name="num" value="{{$obj->num}}" required autocomplete="num" autofocus>
+                        <label for="num">Número *</label>
+                        <input type="number" class="form-control" id="num" placeholder="Numero" name="num" min="0" value="{{$obj->num}}" required autocomplete="num" autofocus>
                     </div>
                     <div class="form-group col-md-3">
                         <label for="complemento">Complemento</label>
@@ -112,21 +112,21 @@
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-3">
-                        <label for="nasc">Data de Nascimento</label>
+                        <label for="nasc">Data de Nascimento *</label>
                         <input type="date" class="form-control" id="nasc" placeholder="Data de Nascimento" name="nasc" value="{{$obj->nasc}}" required autocomplete="nasc" autofocus>
                     </div>
                     <div class="form-group col-md-4">
-                        <label for="tel">Telefone</label>
-                        <input data-mask="99 99999-9999" data-mask-reverse="true" type="text" class="form-control mask" id="tel" placeholder="(__)_____-____" name="tel" value="{{$obj->tel}}" required autocomplete="tel" autofocus>
+                        <label for="tel">Telefone *</label>
+                        <input data-mask="00 00000-0000" data-mask-reverse="true" type="text" class="form-control mask" id="tel" placeholder="(__)_____-____" name="tel" value="{{$obj->tel}}" required autocomplete="tel" autofocus>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-3">
-                        <label for="lat">Latitude</label>
+                        <label for="lat">Latitude *</label>
                         <input type="number" class="form-control" id="lat" placeholder="Latitude" name="lat" value="{{$obj->lat}}" required autocomplete="lat" autofocus>
                     </div>
                     <div class="form-group col-md-3">
-                        <label for="lng">Longitude</label>
+                        <label for="lng">Longitude *</label>
                         <input type="number" class="form-control" id="lng" placeholder="Longitude" name="lng" value="{{$obj->lng}}" required autocomplete="lng" autofocus>
                     </div>
                 </div>

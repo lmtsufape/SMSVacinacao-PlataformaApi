@@ -17,8 +17,8 @@
             <input type="hidden" name="id" value="{{$obj->id}}" />
             <div class="form-group">
                 <div class="form-row">
-                    <label for="nome">Nome</label>
-                    <input type="text" class="form-control @error('nome') is-invalid @enderror" id="nome" placeholder="Nome" name="nome" value="{{$obj->nome}}">
+                    <label for="nome">Nome *</label>
+                    <input type="text" pattern="[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+" title="Nome do agente deve conter apenas letra em sua descrição" class="form-control @error('nome') is-invalid @enderror" id="nome" placeholder="Nome" name="nome" value="{{$obj->nome}}" required>
                     @error('nome')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
@@ -28,7 +28,7 @@
             </div>
             <div class="form-group">
                 <div class="form-row">
-                    <label for="email">E-mail</label>
+                    <label for="email">E-mail *</label>
                     <input type="text" class="form-control @error('email') is-invalid @enderror" id="email" placeholder="E-mail" name="email" required autocomplete="email" value="{{$obj->email}}" />
                     @error('email')
                     <span class="invalid-feedback" role="alert">
@@ -39,9 +39,9 @@
             </div>
             <div class="form-group">
                 <div class="form-row">
-                    <label for="cpf">CPF</label>
+                    <label for="cpf">CPF *</label>
                     <input type="hidden" name="cpf" value="{{$obj->cpf}}" />
-                    <input data-mask="999.999.999-99" data-mask-reverse="true" type="text" class="form-control" id="cpf" disabled value="{{$obj->cpf}}" />
+                    <input data-mask="000.000.000-00" data-mask-reverse="true" type="text" class="form-control" id="cpf" disabled value="{{$obj->cpf}}" required />
                 </div>
             </div>
             @can('setAdmin', $obj)
@@ -59,14 +59,14 @@
             <div class="form-group">
                 <div class="form-row">
                     <div class="form-group col-md-6">
-                        <label for="cidade">Cidade</label>
+                        <label for="cidade">Cidade *</label>
                         <select id="cidade" class="form-control" name="cidade">
                             <option selected="selected" value="{{$obj->cidade}}">{{$obj->cidade}}</option>
                             <option @if(old('cidade')=='Garanhuns' ) selected @endif value="Garanhuns">Garanhuns</option>
                         </select>
                     </div>
                     <div class="form-group col-md-3">
-                        <label for="uf">UF</label>
+                        <label for="uf">UF *</label>
                         <select id="uf" class="form-control" name="uf">
                             <option selected="selected" value="{{$obj->uf}}">{{$obj->uf}}</option>
                             <option @if(old('uf')=='PE' ) selected @endif value="PE">PE</option>
@@ -75,7 +75,7 @@
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-5">
-                        <label for="password">Senha</label>
+                        <label for="password">Senha *</label>
                         <input type="password" class="form-control  @error('password') is-invalid @enderror" id="password" placeholder="Senha" name="password" required autocomplete="new-password">
                         @error('password')
                         <span class="invalid-feedback" role="alert">
@@ -84,7 +84,7 @@
                         @enderror
                     </div>
                     <div class="form-group col-md-5">
-                        <label for="password2">Confirmar Senha</label>
+                        <label for="password2">Confirmar Senha *</label>
                         <input type="password" class="form-control" id="password2" placeholder="Senha" name="password_confirmation" required autocomplete="new-password">
                     </div>
                 </div>

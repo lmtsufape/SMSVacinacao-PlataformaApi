@@ -41,7 +41,7 @@
             <a id="add" href="{{action('SegmentoController@addCampanha')}}?urlReturn={{URL::full()}}" class="btn btn-sm btn-outline-primary pt-2 ml-2">
                 <span data-feather="plus"></span> Cadastrar
             </a>
-            <a href="{{action('SegmentoController@list')}}" class="btn btn-sm btn-outline-primary pt-2 ml-2">
+            <a href="{{action('SegmentoController@listFull')}}" class="btn btn-sm btn-outline-primary pt-2 ml-2">
                 <span data-feather="rotate-ccw"></span> Atualizar
             </a>
         </div>

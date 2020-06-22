@@ -43,11 +43,11 @@
                 <div class="form-group col-md-6">
                     <div class="form-group col-md-12">
                         <label for="data_ini">Data Início</label>
-                        <input type="date" class="form-control" id="data_ini" placeholder="Data Início" name="data_ini">
+                        <input type="date" class="form-control" id="data_ini" placeholder="Data Início" name="data_ini" required autocomplete="data_ini" autofocus value="{{ old('data_ini') }}">
                     </div>
                     <div class="form-group col-md-12">
                         <label for="data_end">Data Final</label>
-                        <input type="date" class="form-control" id="data_end" placeholder="Data final" name="data_end">
+                        <input type="date" class="form-control" id="data_end" placeholder="Data final" name="data_end" required autocomplete="data_end" autofocus value="{{ old('data_end') }}">
                     </div>
                 </div>
                 <div class="form-group col-md-12 mt-5 ">

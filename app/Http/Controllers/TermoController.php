@@ -80,7 +80,7 @@ class TermoController extends Controller
             return $updatingTermo;
         }
 
-        return redirect(session('links')[3]);
+        return redirect()->action('TermoController@list');
     }
 
     public function delete(Request $request, $id = false)

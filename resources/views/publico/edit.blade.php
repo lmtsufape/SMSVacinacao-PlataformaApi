@@ -10,8 +10,8 @@
             <input type="hidden" name="id" value="{{$obj->id}}" />
             <div class="form-group col-md-12 mb-5" style="width: 310px;">
                 <div class="form-row">
-                    <label for="nome">Nome</label>
-                    <input type="text" class="form-control" id="nome" placeholder="Nome" name="nome" value="{{$obj->nome}}" required autocomplete="nome" autofocus >
+                    <label for="nome">Nome *</label>
+                    <input type="text" pattern="[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ][A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ_\-\(\)\/\\* 0-9]*" title="Nome do público deve começar com letra e conter pelo menos alguma em sua descrição" class="form-control" id="nome" placeholder="Nome" name="nome" value="{{$obj->nome}}" required autocomplete="nome" autofocus >
                 </div>
             </div>
 

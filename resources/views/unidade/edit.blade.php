@@ -40,26 +40,26 @@
             <input type="hidden" name="id" value="{{$und->id}}" />
             <div class="form-group">
                 <div class="form-row">
-                    <label for="nome">Nome</label>
-                    <input type="text" class="form-control" id="nome" placeholder="Nome" name="nome" value="{{$und->nome}}">
+                    <label for="nome">Nome *</label>
+                    <input type="text" pattern="[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ][A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ_\-\(\)\/\\* 0-9]*" title="Nome da unidade deve começar com letra e conter pelo menos alguma em sua descrição" class="form-control" id="nome" placeholder="Nome" name="nome" value="{{$und->nome}}" required>
                 </div>
             </div>
             <div class="form-group">
                 <div class="form-row">
                     <div class="form-group col-md-2">
-                        <label for="cep">CEP</label>
-                        <input data-mask="99999-999" data-mask-reverse="true" type="text" class="form-control mask" id="cep" placeholder="_____-___" name="cep" value="{{$und->cep}}">
+                        <label for="cep">CEP *</label>
+                        <input data-mask="00000-000" data-mask-reverse="true" type="text" class="form-control mask" id="cep" placeholder="_____-___" name="cep" value="{{$und->cep}}" required>
                     </div>
                     <div class="form-group col-md-4">
-                        <label for="bairro">Bairro</label>
-                        <input type="text" class="form-control" id="bairro" placeholder="Bairro" name="bairro" value="{{$und->bairro}}">
+                        <label for="bairro">Bairro *</label>
+                        <input type="text" class="form-control" id="bairro" placeholder="Bairro" name="bairro" value="{{$und->bairro}}" required>
                     </div>
                     <div class="form-group col-md-3">
-                        <label for="cidade">Cidade</label>
-                        <input type="text" class="form-control" id="cidade" placeholder="Cidade" name="cidade" value="{{$und->cidade}}">
+                        <label for="cidade">Cidade *</label>
+                        <input type="text" class="form-control" id="cidade" placeholder="Cidade" name="cidade" value="{{$und->cidade}}" required>
                     </div>
                     <div class="form-group col-md-2">
-                        <label for="uf">UF</label>
+                        <label for="uf">UF *</label>
                         <select id="uf" class="form-control" name="uf">
                             <option selected="selected" value="{{$und->uf}}">{{$und->uf}}</option>
                             <option @if(old('uf')=='AC' ) selected @endif value="AC">AC</option>
@@ -94,12 +94,12 @@
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-5">
-                        <label for="rua">Rua</label>
-                        <input type="text" class="form-control" id="rua" placeholder="Rua" name="rua" value="{{$und->rua}}">
+                        <label for="rua">Rua *</label>
+                        <input type="text" class="form-control" id="rua" placeholder="Rua" name="rua" value="{{$und->rua}}" required>
                     </div>
                     <div class="form-group col-md-2">
-                        <label for="num">Número</label>
-                        <input type="number" class="form-control" id="num" placeholder="Numero" name="num" value="{{$und->num}}">
+                        <label for="num">Número *</label>
+                        <input type="number" class="form-control" id="num" placeholder="Numero" min="0" name="num" value="{{$und->num}}" required>
                     </div>
                     <div class="form-group col-md-3">
                         <label for="complemento">Complemento</label>
@@ -112,12 +112,12 @@
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-2">
-                        <label for="lat">Latitude</label>
-                        <input type="number" class="form-control" id="lat" placeholder="Latitude" name="lat" value="{{$und->lat}}">
+                        <label for="lat">Latitude *</label>
+                        <input type="number" class="form-control" id="lat" placeholder="Latitude" name="lat" value="{{$und->lat}}" required>
                     </div>
                     <div class="form-group col-md-2">
-                        <label for="lng">Longitude</label>
-                        <input type="number" class="form-control" id="lng" placeholder="Longitude" name="lng" value="{{$und->lng}}">
+                        <label for="lng">Longitude *</label>
+                        <input type="number" class="form-control" id="lng" placeholder="Longitude" name="lng" value="{{$und->lng}}" required>
                     </div>
                 </div>
             </div>

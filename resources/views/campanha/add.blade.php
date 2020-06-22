@@ -30,14 +30,14 @@
             @csrf
             <div class="form-group col-md-12 " style="width: 330px;">
                 <div class="form-row">
-                    <label for="nome">Nome</label>
-                    <input type="text" class="form-control" id="nome" placeholder="Nome" name="nome" required autocomplete="nome" autofocus value="{{ old('nome') }}">
+                    <label for="nome">Nome *</label>
+                    <input type="text" pattern="[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ][A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ_\-\(\)\/\\* 0-9]*" title="Nome da campanha deve começar com letra e conter pelo menos alguma em sua descrição" class="form-control" id="nome" placeholder="Nome" name="nome" required autocomplete="nome" autofocus value="{{ old('nome') }}">
                 </div>
             </div>
 
             <div class="form-group col-md-12">
                 <div class="form-row">
-                    <label for="desc">Descrição</label>
+                    <label for="desc">Descrição *</label>
                     <textarea class="form-control" id="desc" name="desc" rows="6" required autocomplete="desc" autofocus value="{{ old('desc') }}"></textarea>
                 </div>
             </div>
@@ -51,7 +51,7 @@
             <div class="form-group col-md-12 mb-5">
                 <div class="form-row">
                     <div class="form-group col-md-7">
-                        <label for="termo">Termo</label>
+                        <label for="termo">Termo *</label>
                         <select id="termo" class="form-control termo" name="termo_id" required autocomplete="termo_id" autofocus value="{{ old('termo_id') }}">
                             <option value=""></option>
                             @foreach($objs as $obj)

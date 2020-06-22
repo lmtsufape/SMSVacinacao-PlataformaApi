@@ -39,26 +39,26 @@
             @csrf
             <div class="form-group">
                 <div class="form-row">
-                    <label for="nome">Nome</label>
-                    <input type="text" class="form-control" id="nome" placeholder="Nome" name="nome" required autocomplete="nome" autofocus value="{{ old('nome') }}">
+                    <label for="nome">Nome *</label>
+                    <input type="text" pattern="[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ][A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ_\-\(\)\/\\* 0-9]*" title="Nome da unidade deve começar com letra e conter pelo menos alguma em sua descrição" class="form-control" id="nome" placeholder="Nome" name="nome" required autocomplete="nome" autofocus value="{{ old('nome') }}">
                 </div>
             </div>
             <div class="form-group">
                 <div class="form-row">
                     <div class="form-group col-md-2">
-                        <label for="cep">CEP</label>
-                        <input data-mask="99999-999" data-mask-reverse="true" type="text" class="form-control mask" id="cep" placeholder="_____-___" name="cep" required autocomplete="cep" autofocus value="{{ old('cep') }}">
+                        <label for="cep">CEP *</label>
+                        <input data-mask="00000-000" data-mask-reverse="true" type="text" class="form-control mask" id="cep" placeholder="_____-___" name="cep" required autocomplete="cep" autofocus value="{{ old('cep') }}">
                     </div>
                     <div class="form-group col-md-4">
-                        <label for="bairro">Bairro</label>
+                        <label for="bairro">Bairro *</label>
                         <input type="text" class="form-control" id="bairro" placeholder="Bairro" name="bairro" required autocomplete="bairro" autofocus value="{{ old('bairro') }}">
                     </div>
                     <div class="form-group col-md-3">
-                        <label for="cidade">Cidade</label>
+                        <label for="cidade">Cidade *</label>
                         <input type="text" class="form-control" id="cidade" placeholder="Cidade" name="cidade" required autocomplete="cidade" autofocus value="{{ old('cidade') }}">
                     </div>
                     <div class="form-group col-md-2">
-                        <label for="uf">UF</label>
+                        <label for="uf">UF *</label>
                         <select id="uf" class="form-control" name="uf">
                             <option @if(old('uf')=='PE' ) selected @endif value="PE">PE</option>
                             <option @if(old('uf')=='AC' ) selected @endif value="AC">AC</option>
@@ -93,12 +93,12 @@
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-5">
-                        <label for="rua">Rua</label>
+                        <label for="rua">Rua *</label>
                         <input type="text" class="form-control" id="rua" placeholder="Rua" name="rua" required autocomplete="rua" autofocus value="{{ old('rua') }}">
                     </div>
                     <div class="form-group col-md-2">
-                        <label for="num">Número</label>
-                        <input type="text" class="form-control" id="num" placeholder="Numero" name="num" required autocomplete="num" autofocus value="{{ old('num') }}">
+                        <label for="num">Número *</label>
+                        <input type="number" class="form-control" id="num" placeholder="Numero" name="num" min="0" required autocomplete="num" autofocus value="{{ old('num') }}">
                     </div>
                     <div class="form-group col-md-3">
                         <label for="complemento">Complemento</label>
@@ -107,12 +107,12 @@
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-2">
-                        <label for="lat">Latitude</label>
-                        <input type="text" class="form-control" id="lat" placeholder="Latitude" name="lat" required autocomplete="lat" autofocus value="{{ old('lat') }}">
+                        <label for="lat">Latitude *</label>
+                        <input type="number" class="form-control" id="lat" placeholder="Latitude" name="lat" required autocomplete="lat" autofocus value="{{ old('lat') }}">
                     </div>
                     <div class="form-group col-md-2">
-                        <label for="lng">Longitude</label>
-                        <input type="text" class="form-control" id="lng" placeholder="Longitude" name="lng" required autocomplete="lng" autofocus value="{{ old('lng') }}">
+                        <label for="lng">Longitude *</label>
+                        <input type="number" class="form-control" id="lng" placeholder="Longitude" name="lng" required autocomplete="lng" autofocus value="{{ old('lng') }}">
                     </div>
                 </div>
             </div>

@@ -228,9 +228,9 @@
 
                     <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
                         <i>Administração</i>
-                        <a class="d-flex align-items-center text-muted" href="">
+                        <!-- <a class="d-flex align-items-center text-muted" href="">
                             <i data-feather="plus-circle"></i>
-                        </a>
+                        </a> -->
                     </h6>
                     <ul class="navbar-nav flex-column mb-2 pl-3">
                         <li class="nav-item">

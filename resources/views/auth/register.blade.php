@@ -3,9 +3,11 @@
 @push('scripts')
 <script>
     $(document).ready(function($) {
-        $('#cpf').mask('000.000.000-00', {
-            reverse: false
+
+        $('#form').submit(function() {
+            $(".mask").unmask();
         });
+
     });
 </script>
 @endpush
@@ -18,14 +20,14 @@
                 <div class="card-header">{{ __('Cadastro') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('register') }}">
+                    <form id="form" method="POST" action="{{ route('register') }}">
                         @csrf
 
                         <div class="form-group row">
-                            <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Nome') }}</label>
+                            <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Nome') }} *</label>
 
                             <div class="col-md-6">
-                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
+                                <input id="name" pattern="[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+" title="Nome do agente deve conter apenas letra em sua descrição" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
 
                                 @error('name')
                                 <span class="invalid-feedback" role="alert">
@@ -36,10 +38,10 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="cpf" class="col-md-4 col-form-label text-md-right">CPF</label>
+                            <label for="cpf" class="col-md-4 col-form-label text-md-right">CPF *</label>
 
                             <div class="col-md-6">
-                                <input id="cpf" type="text" class="form-control @error('cpf') is-invalid @enderror" name="cpf" value="{{ old('cpf') }}" required autocomplete="cpf" autofocus>
+                                <input id="cpf" data-mask="000.000.000-00" data-mask-reverse="true" type="text" class="form-control @error('cpf') is-invalid @enderror mask" name="cpf" value="{{ old('cpf') }}" placeholder="___.___.___-__" required autocomplete="cpf" autofocus>
 
                                 @error('cpf')
                                 <span class="invalid-feedback" role="alert">
@@ -50,7 +52,7 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('Endereço de e-mail') }}</label>
+                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('Endereço de e-mail') }} *</label>
 
                             <div class="col-md-6">
                                 <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
@@ -64,7 +66,7 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Senha') }}</label>
+                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Senha') }} *</label>
 
                             <div class="col-md-6">
                                 <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
@@ -78,7 +80,7 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirme a Senha') }}</label>
+                            <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirme a Senha') }} *</label>
 
                             <div class="col-md-6">
                                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
@@ -91,7 +93,7 @@
                             </div>
                             <div class="col-md-6 row">
                                 <div class="form-group">
-                                    <label for="cidade-select" class="col-md-12 col-form-label text-md-left">Cidade</label>
+                                    <label for="cidade-select" class="col-md-12 col-form-label text-md-left">Cidade *</label>
                                     <div class="col-md-12">
                                         <select id="cidade-select" class="form-control" name="cidade">
                                             <option value="Garanhuns">Garanhuns</option>
@@ -100,7 +102,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="uf-select" class="col-md-12 col-form-label text-md-left">UF</label>
+                                    <label for="uf-select" class="col-md-12 col-form-label text-md-left">UF *</label>
                                     <div class="col-md-12">
                                         <select id="uf-select" class="form-control" name="uf">
                                             <option @if(old('uf')=='PE' ) selected @endif value="PE">PE</option>

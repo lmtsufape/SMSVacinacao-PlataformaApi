@@ -109,7 +109,7 @@
             <div class="col-lg-9" style="position: relative; height: 60vh">
                 <canvas id="myChart"></canvas>
             </div>
-            <div class="col-lg-3 mt-5">
+            <div class="col-lg-3 mt-5 mb-5">
                 <label for="division">Divisão</label>
                 <select id="division" class="form-control division" name="division">
                     <option value="bairro" selected>Bairro</option>

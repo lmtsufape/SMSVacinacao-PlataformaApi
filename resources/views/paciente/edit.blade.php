@@ -39,7 +39,7 @@
             <div class="form-group">
                 <div class="form-row">
                     <label for="cns">CNS *</label>
-                    <input data-mask="000 0000 0000 0000" data-mask-reverse="true" type="text" class="form-control" disabled value="{{$obj->cns}}" required>
+                    <input data-mask="000 0000 0000 0000" data-mask-reverse="false" type="text" class="form-control" disabled value="{{$obj->cns}}" required>
                 </div>
             </div>
             <div class="form-group">
@@ -52,7 +52,7 @@
                 <div class="form-row">
                     <div class="form-group col-md-2">
                         <label for="cep">CEP *</label>
-                        <input data-mask="00000-000" data-mask-reverse="true" type="text" class="form-control mask" id="cep" placeholder="_____-___" name="cep" required autocomplete="cep" autofocus value="{{$obj->cep}}">
+                        <input data-mask="00000-000" data-mask-reverse="false" type="text" class="form-control mask" id="cep" placeholder="_____-___" name="cep" required autocomplete="cep" autofocus value="{{$obj->cep}}">
                     </div>
                     <div class="form-group col-md-4">
                         <label for="bairro">Bairro *</label>

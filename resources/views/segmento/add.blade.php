@@ -47,7 +47,12 @@
                     </div>
                     <div class="form-group col-md-12">
                         <label for="data_end">Data Final</label>
-                        <input type="date" class="form-control" id="data_end" placeholder="Data final" name="data_end" required autocomplete="data_end" autofocus value="{{ old('data_end') }}">
+                        <input type="date" class="form-control @error('data_end') is-invalid @enderror" id="data_end" placeholder="Data final" name="data_end" required autocomplete="data_end" autofocus value="{{ old('data_end') }}">
+                        @error('data_end')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
                     </div>
                 </div>
                 <div class="form-group col-md-12 mt-5 ">

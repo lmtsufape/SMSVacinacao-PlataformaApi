@@ -54,7 +54,7 @@
             <tr>
                 <td>{{$objAt->id}}</td>
                 <td data-toggle="modal" data-target="#modalAt{{$loop->iteration}}" class="text-wrap">{{$objAt->paciente->nome}}</td>
-                <td data-toggle="modal" data-target="#modalAt{{$loop->iteration}}" class="text-wrap">Campanha {{$objAt->campanhaidadepublico->campanha->nome}}, Público {{$objAt->campanhaidadepublico->publico->nome}}, Grupo {{$objAt->campanhaidadepublico->idade->grupo}} de {{$objAt->campanhaidadepublico->idade->idade_ini}} à {{$objAt->campanhaidadepublico->idade->idade_end}}</td>
+                <td data-toggle="modal" data-target="#modalAt{{$loop->iteration}}" class="text-wrap">Campanha {{$objAt->campanhaidadepublico->campanha->nome}}, Público {{$objAt->campanhaidadepublico->publico->nome}}, Grupo {{$objAt->campanhaidadepublico->idade->grupo}} de {{$objAt->campanhaidadepublico->idade->idade_ini}} à {{$objAt->campanhaidadepublico->idade->idade_end}} {{$objAt->campanhaidadepublico->idade->mes?'meses':'anos'}}</td>
                 @if ($objAt->status == 'Aceito')
                 <td style="color:#388E8E;" data-toggle="modal" data-target="#modalAt{{$loop->iteration}}">{{$objAt->status}}</td>
                 @elseif ($objAt->status == 'Recusado')

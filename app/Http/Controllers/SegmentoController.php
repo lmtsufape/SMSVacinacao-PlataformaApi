@@ -111,6 +111,16 @@ class SegmentoController extends Controller
     public function create(Request $request)
     {
 
+
+
+        $request->validate([
+            'campanha_id' => 'required',
+            'publico_id' => 'required',
+            'idade_id' => 'required',
+            'data_ini' => 'required',
+            'data_end' => 'required|unique_with:campanhas_idades_publicos,data_ini,idade_id,publico_id,campanha_id',
+        ], ['unique_with' => 'A combinação de data final, data início, idade, público e campanha já existe.']);
+
         $dadosSegmento = $request->only(['campanha_id', 'publico_id', 'idade_id', 'data_ini', 'data_end']);
 
         $segmento = \App\CampanhaIdadePublico::create($dadosSegmento);

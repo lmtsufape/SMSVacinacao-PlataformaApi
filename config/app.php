@@ -80,7 +80,7 @@ return [
     |
     */
 
-    'locale' => 'pt',
+    'locale' => 'pt-BR',
 
     /*
     |--------------------------------------------------------------------------
@@ -162,6 +162,7 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         Yajra\Datatables\DatatablesServiceProvider::class,
+        Felixkiss\UniqueWithValidator\ServiceProvider::class,
 
         /*
          * Package Service Providers...

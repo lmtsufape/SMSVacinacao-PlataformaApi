@@ -31,9 +31,11 @@
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">Agentes</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
+            @can('create', App\Agente::class)
             <a id="add" href="{{action('AgenteController@add')}}" class="btn btn-sm btn-outline-primary pt-2 ml-2">
                 <span data-feather="plus"></span> Cadastrar
             </a>
+            @endcan
             <a href="{{action('AgenteController@list')}}" class="btn btn-sm btn-outline-primary pt-2 ml-2">
                 <span data-feather="rotate-ccw"></span> Atualizar
             </a>
@@ -44,7 +46,9 @@
         <thead>
             <tr>
                 <th>Agente</th>
+                @can('create', App\Agente::class)
                 <th>CPF</th>
+                @endcan
                 <th>Email</th>
                 <th>Atuação</th>
                 <th>Administrador</th>
@@ -56,7 +60,9 @@
             @foreach ($objs as $obj)
             <tr>
                 <td class="text-wrap">{{$obj->nome}}</td>
+                @can('create', App\Agente::class)
                 <td data-toggle="modal" data-target="#modal{{$loop->iteration}}">{{$obj->cpf}}</td>
+                @endcan
                 <td data-toggle="modal" data-target="#modal{{$loop->iteration}}">{{$obj->email}}</td>
                 <td data-toggle="modal" data-target="#modal{{$loop->iteration}}" class="text-wrap">{{$obj->cidade}}-{{$obj->uf}}</td>
                 <td data-toggle="modal" data-target="#modal{{$loop->iteration}}">{{$obj->admin? 'Sim' : 'Não'}}</td>
@@ -104,8 +110,10 @@
                             <dl class="row mt-3 pt-3 pl-2 ">
                                 <dt class="h4 col-sm-3">Nome:</dt>
                                 <dd class="h4 col-sm-9">{{$obj->nome}}</dd>
+                                @can('create', App\Agente::class)
                                 <dt class="h4 col-sm-3">CPF:</dt>
                                 <dd class="h4 col-sm-9">{{$obj->cpf}}</dd>
+                                @endcan
                                 <dt class="h4 col-sm-3">Administrador:</dt>
                                 <dd class="h4 col-sm-9">{{$obj->admin? 'Sim' : 'Não'}}</dd>
                                 <dt class="h4 col-sm-3">Atuação:</dt>

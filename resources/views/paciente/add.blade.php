@@ -40,7 +40,7 @@
             <div class="form-group">
                 <div class="form-row">
                     <label for="cns">CNS *</label>
-                    <input data-mask="000 0000 0000 0000" data-mask-reverse="true" type="text" class="form-control mask @error('cns') is-invalid @enderror" id="cns" placeholder="___ ____ ____ ____" name="cns" value="{{ old('cns') }}" required autocomplete="cns" autofocus>
+                    <input data-mask="000 0000 0000 0000" data-mask-reverse="false" type="text" class="form-control mask @error('cns') is-invalid @enderror" id="cns" placeholder="___ ____ ____ ____" name="cns" value="{{ old('cns') }}" required autocomplete="cns" autofocus>
                     @error('cns')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
@@ -58,7 +58,7 @@
                 <div class="form-row">
                     <div class="form-group col-md-2">
                         <label for="cep">CEP *</label>
-                        <input data-mask="00000-000" data-mask-reverse="true" type="text" class="form-control mask" id="cep" placeholder="_____-___" name="cep" value="{{ old('cep') }}" required autocomplete="cep" autofocus>
+                        <input data-mask="00000-000" data-mask-reverse="false" type="text" class="form-control mask" id="cep" placeholder="_____-___" name="cep" value="{{ old('cep') }}" required autocomplete="cep" autofocus>
                     </div>
                     <div class="form-group col-md-4">
                         <label for="bairro">Bairro *</label>

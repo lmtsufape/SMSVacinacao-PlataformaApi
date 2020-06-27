@@ -48,7 +48,7 @@
                             '<tr> 
                                 <td>${item.id}</td> 
                                 <td>${item.grupo}</td> 
-                                <td> De ${item.idade_ini} à ${item.idade_end}</td>
+                                <td> De ${item.idade_ini} à ${item.idade_end} ${item.mes?'meses':'anos'}</td>
                                 <td>
                                     <form class="form-soft" action="{{action('SegmentoController@delete')}}?campanha_id={{$campanha->id}}&publico_id=${selectedPublico}&idade_id=${item.id}&urlReturn={{ URL::full()}}" method="post">
                                         @method('delete')

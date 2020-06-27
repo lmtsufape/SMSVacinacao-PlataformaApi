@@ -38,9 +38,11 @@
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">Segmentações de Campanhas</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
+            @can('create', App\CampanhaIdadePublico::class)
             <a id="add" href="{{action('SegmentoController@addCampanha')}}?urlReturn={{URL::full()}}" class="btn btn-sm btn-outline-primary pt-2 ml-2">
                 <span data-feather="plus"></span> Cadastrar
             </a>
+            @endcan
             <a href="{{action('SegmentoController@listFull')}}" class="btn btn-sm btn-outline-primary pt-2 ml-2">
                 <span data-feather="rotate-ccw"></span> Atualizar
             </a>
